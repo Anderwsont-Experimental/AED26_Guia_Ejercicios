@@ -1,0 +1,16 @@
+/* Ejercicio_6.08_1.1.5.7
+    Escriba un algoritmo que halle la media geométrica de tres valores X, Y, Z.
+    Este debe emitir los tres valores por separado y luego el valor medio.
+    La media geométrica es igual a (X×Y×Z)^(1/3)
+*/
+
+ACCION media_geometrica ES
+    Ambiente
+        x,y,z:entero
+        media_geo:real
+    Proceso
+        ESCRIBIR("Ingrese 3 enteros para calcular la media geometrica:")
+        LEER(x,y,z)
+        media_geo := (x+y+z)^(1/3)
+        ESCRIBIR("La media geometrica es:", media_geo)
+FIN_ACCION

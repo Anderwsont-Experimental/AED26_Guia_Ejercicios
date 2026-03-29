@@ -1,0 +1,20 @@
+/* Ejercicio_6.05_1.1.5.5
+    Se desea calcular el valor de la sección (S) de un conductor, la cual
+    se determina en función de la corriente eléctrica I y de la 
+    conductividad C del material (C=I/S). Además, a la sección
+    así obtenida se le incrementa un 25% por razones de seguridad.
+*/
+ACCION seccion_conductor ES
+    Ambiente
+        seccion,corriente,conductividad:real
+        coef_seg = 0,25
+    Proceso
+        ESCRIBIR("Se calculará la seccion de un conductor para la corriente
+                dada, con un coeficiente de seguridad del",coef_seg,"%")
+        ESCRIBIR("ingrese la corriente que soportará el conductor:")
+        LEER(corriente)
+        ESCRIBIR("ingrese la conductividad del conductor:")
+        LEER(conductividad)
+        seccion := (corriente/conductividad) * (1+coef_seg)
+        ESCRIBIR("La seccion necesaria es:",seccion)
+FIN_ACCION

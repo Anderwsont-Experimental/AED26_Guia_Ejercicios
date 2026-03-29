@@ -1,0 +1,17 @@
+/* Ejercicio_X_1.1.5.2
+    Las raíces de una ecuación de segundo grado "a.x^2 + b.x + c = 0" son reales si y sólo
+    si el discriminante dado por "b^2 - 4.a.c" no es negativo. Se desea leer el valor de
+    los coeficientes "a,b,c"  e imprimir el resultado del discriminante.
+    Realizar prueba de escritorio.
+*/
+
+ACCION discriminante ES
+    Ambiente
+        a,b,c,disc: real
+    Proceso
+        ESCRIBIR("Calculo del discriminante de una ecuacion cuadratica.")
+        ESCRIBIR("Ingrese los coeficientes a,b y c:")
+        LEER(a,b,c)
+        disc := b^2 - 4*a*c
+        ESCRIBIR("El discriminante es:", disc)
+FIN_ACCION

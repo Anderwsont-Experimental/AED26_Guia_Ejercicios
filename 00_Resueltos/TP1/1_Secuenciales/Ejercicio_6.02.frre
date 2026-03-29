@@ -1,0 +1,23 @@
+/* Ejercicio_6.02
+    Dado un número entero de tres cifras ingresado por el usuario, escriba un
+    algoritmo que determine el valor de la centena, la decena y la unidad.
+    Finalmente, muestre por pantalla los tres componentes por separado y el
+    resultado de la suma de sus dígitos.
+*/
+
+ACCION componentes_sum ES
+    Ambiente
+        num,sum: entero
+    Proceso
+        ESCRIBIR("Ingrese un numero de 3 cifras")
+        LEER(num)               //num=123
+        ESCRIBIR("El numero se compone de la siguiente manera:")
+        sum := num mod 10         //num=123|sum:=3
+        ESCRIBIR("Unidades:",sum)
+        num := num div 10           //num=12
+        sum := sum + num div 10     //sum=3+2=5
+        ESCRIBIR("Decenas:", num mod 10)
+        sum := num div 10           //sum=5+1=6
+        ESCRIBIR("Centenas:", num div 10)
+        ESCRIBIR("Suma de componentes:",sum)
+FIN_ACCION

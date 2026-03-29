@@ -1,0 +1,18 @@
+/* Ejercicio_X_1.1.5.6
+    Realizar un programa que lea dos número complejos, (a,b) y (c,d),
+    y calcule su producto: (a,b)∗(c,d)=(ac−db,ad+bc)
+*/
+
+ACCION producto_complejo ES
+    Ambiente
+        a,b,c,prod_r,prod_i:real
+    Proceso
+        ESCRIBIR("Suma de complejos.")
+        ESCRIBIR("ingrese las componentes del primer sumando (a,b)")
+        LEER(a,b)
+        ESCRIBIR("ingrese las componentes del segundo sumando (c,d)")
+        LEER(c,d)
+        prod_r := a*c - d*b
+        prod_i := a*d - b*c
+        ESCRIBIR("El producto complejo es: (",prod_r,",",prod_i,").")
+FIN_ACCION

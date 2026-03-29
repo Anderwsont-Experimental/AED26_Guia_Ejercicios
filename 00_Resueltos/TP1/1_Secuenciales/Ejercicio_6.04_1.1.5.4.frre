@@ -1,0 +1,22 @@
+/* Ejercicio_6.04_1.1.5.4
+    Se desea calcular la superficie de un trapecio, para
+    la cual se ingresa la longitud de ambas bases y la altura.
+    En base a la fórmula:
+        S = ( (Bmay + Bmen) * H ) / 2
+    Finalizando el proceso, emitir dicha superficie y los valores ingresados.
+*/
+
+ACCION sup_trapecio ES
+    Ambiente
+        base1,base2,altura,sup:real
+
+    Proceso
+        ESCRIBIR("ingrese las 2 bases del trapecio:");LEER(base1,base2)
+        ESCRIBIR("ingrese la altura del trapecio:");LEER(altura)
+        sup := ( (base1+base2)*altura )/2
+        ESCRIBIR("La superficie del trapecio es:",sup)
+        ESCRIBIR("Datos del trapecio:")
+        ESCRIBIR("base 1:",base1)
+        ESCRIBIR("base 2:",base2)
+        ESCRIBIR("altura:",altura)
+FIN_ACCION

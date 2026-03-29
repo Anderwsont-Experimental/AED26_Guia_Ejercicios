@@ -1,0 +1,18 @@
+/* Ejercicio_6.07
+    Debido a los frecuentes aumentos de combustible, el propietario de una estación
+    de servicio le pide a usted que escriba un algoritmo para una “calculadora de
+    precios”. El mismo debe recibir el precio actual, el porcentaje de aumento,
+    calcular el nuevo precio y al final mostrar todo
+*/
+
+ACCION aumento_combustible ES
+    Ambiente
+        precio_base,precio_act,porc_aum:real
+    Proceso
+        ESCRIBIR("Ingrese el precio base de combustible")
+        LEER(precio_base)
+        ESCRIBIR("Ingrese el porcentaje de aumento como decimal (Ej 23% como 0,23)")
+        LEER(porc_aum)
+        precio_act := precio_base * (1+porc_aum)
+        ESCRIBIR("El precio actualizado del combustible es:",precio_act)
+FIN_ACCION

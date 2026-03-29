@@ -1,0 +1,21 @@
+/* Ejercicio_6.03_1.1.5.3
+    Se desea comprar una PC y una impresora. Calcular el precio total: el cual está
+    dado por la suma de los precios de costos, los porcentajes de ganancia del vendedor
+    y un 21% de IVA. Supóngase una ganancia del vendedor del 12% por la PC y 7% por la
+    impresora. Se leen los costos y se imprimen el precio total de ventas.
+*/
+
+ACCION costo_final ES
+    Ambiente
+        pc_gan=0,12
+        imp_gan=0,07
+        iva=0,21
+        pc_costo,imp_costo,precio_total:real
+    Proceso
+        ESCRIBIR("ingrese el costo de la PC e impresora:")
+        LEER(pc_costo,imp_costo)
+        precio_total := (pc_costo*(1+pc_gan) + imp_costo*(1+imp_gan))*(1+iva)
+        ESCRIBIR("El precio final de la pc es:", pc_costo*(1+pc_gan))
+        ESCRIBIR("El precio final de la impresora es:", imp_costo*(1+imp_gan))
+        ESCRIBIR("El precio final total es:", precio_total)
+FIN_ACCION

@@ -1,0 +1,20 @@
+/* Ejercicio_6.06
+    En una concesionaria de autos oficial de una marca venden 3 modelos diferentes,
+    el gerente desea saber qué porcentaje del total disponible de cada modelo
+    se vendió este mes. Escriba un algoritmo que ingrese los datos necesarios
+    y muestre por pantalla el porcentaje vendido para cada modelo. 
+*/
+
+ACCION vtas_modelos ES
+    Ambiente
+        mod1,mod2,mod3,total_mod:real
+    Proceso
+        ESCRIBIR("Calculo de porcentajes de ventas por modelo.")
+        ESCRIBIR("Ingrese el precio del modelo 1");LEER(mod1)
+        ESCRIBIR("Ingrese el precio del modelo 2");LEER(mod2)
+        ESCRIBIR("Ingrese el precio del modelo 3");LEER(mod3)
+        total_mod := mod1 + mod2 + mod3
+        ESCRIBIR("Porcentaje vtas modelo 1", mod1 / total_mod *100)
+        ESCRIBIR("Porcentaje vtas modelo 2", mod2 / total_mod *100)
+        ESCRIBIR("Porcentaje vtas modelo 3", mod3 / total_mod *100)
+FIN_ACCION
