@@ -1,0 +1,10 @@
+/* Ejercicio_
+*/
+
+ACCION nombre ES
+    Ambiente
+        
+    Proceso
+        ESCRIBIR("Este programa...")
+        
+FIN_ACCION

@@ -1,0 +1,8 @@
+/* Ejercicio_32.06.
+Escribir una función que lea desde el teclado las unidades y el precio de
+un producto que se quiere comprar, y en función de las unidades introducidas
+calcule un descuento o no, según corresponda: cuando las unidades excedan
+media docena se aplicará 4% y el 10% cuando excedan la docena.
+La función debe devolver como resultado el valor del descuento o cero, en
+caso de que no corresponda. 
+*/

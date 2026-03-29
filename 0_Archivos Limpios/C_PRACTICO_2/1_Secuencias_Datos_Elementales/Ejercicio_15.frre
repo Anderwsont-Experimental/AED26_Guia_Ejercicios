@@ -1,0 +1,9 @@
+/* Ejercicio_1.15.
+    Se desea saber la cantidad promedio de palabras que contienen las
+    oraciones de una secuencia de caracteres. Supóngase que los puntos
+    son siempre contiguos al último caracter de la palabra. La
+    secuencia finaliza con una marca.
+
+     NTJF FJRI FTJN. FJNT IEFR WEW FF. WER QWE VRE.WER.#
+     --------------  ----------------  ----------- ---
+*/

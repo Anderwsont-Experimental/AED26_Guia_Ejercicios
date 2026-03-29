@@ -1,0 +1,7 @@
+/* Ejercicio_16
+    a) Diseñe un algoritmo que obtenga el porcentaje de alumnos de ISI, IQ
+    e IEM, sobre el total de egresados de la UTN-FRRe de un año.
+    b) Modifique el algoritmo del punto a) para que permita obtener e
+    informar los mismos porcentajes, pero para varias Facultades y al
+    final emitir el total de alumnos por carrera y total general.
+*/

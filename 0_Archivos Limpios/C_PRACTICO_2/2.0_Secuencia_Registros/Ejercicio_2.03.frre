@@ -1,0 +1,7 @@
+/* Ejercicio_2.03.
+    Dada la siguiente secuencia de datos con el siguiente formato:
+  N° de socio | N° de teléfono | Apellido y Nombre | Carrera (ISI - IEM - IQ - LAR)
+  Domicilio | Cantidad de unidades prestadas
+    Correspondiente a los alumnos socios de la Biblioteca, generar la secuencia
+    de los alumnos de “ISI” que tengan prestadas más de 4 unidades bibliográficas.
+*/

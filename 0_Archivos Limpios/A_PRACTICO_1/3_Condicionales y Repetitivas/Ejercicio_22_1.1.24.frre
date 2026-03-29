@@ -1,0 +1,11 @@
+/* Ejercicio_22.
+    Escribir un algoritmo que, dado un importe dinero, permita calcular
+    e informar cuánto corresponde pagar por un impuesto, en cuántas cuotas
+    y el valor de las mismas. Tener en cuenta los siguientes datos:
+        - IMPUESTO = 10% del importe dado.
+        - Los importes mayores que $ 10.000 y menor o igual que $ 50.000
+        se pagan en dos cuotas.
+        - Los mayores de $ 50.000 en tres cuotas.
+    El algoritmo debe permitir tratar varios importes, finalizando
+    cuando se ingresa 9999 como importe.
+*/

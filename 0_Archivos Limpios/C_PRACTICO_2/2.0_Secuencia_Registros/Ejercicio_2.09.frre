@@ -1,0 +1,18 @@
+/* Ejercicio_2.09.
+    Una casa deportiva dispone de un archivo de productos, ordenado por código
+    de producto, que contiene los siguientes datos:
+
+  Cod_prod | Tipo (1,2,3) | Marca | Modelo | Descripción | Cant_existente | Precio_Unitario
+
+    Se ha registrado en el mercado un aumento de precios, el cual no es uniforme para
+    todos los artículos, sino que varía según el tipo de los mismos de la siguiente
+    manera:
+    tipo 1- Calzados: 10%,
+    tipo 2 – Indumentaria: 25%,
+    tipo 3 - Accesorios (pelotas, raquetas, etc.): 50%.
+    Por este motivo el gerente de la empresa solicitó al Departamento de Informática que
+    modifique los precios de acuerdo a los porcentajes antes mencionados.
+    Generar un nuevo fichero de productos para cumplir con la solicitud del gerente.
+    Al terminar el proceso informar cantidad total de artículos de cada tipo hay y
+    total general.
+*/

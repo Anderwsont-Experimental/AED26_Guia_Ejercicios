@@ -1,0 +1,15 @@
+/* Ejercicio_2.07.
+    Se dispone de un archivo con los datos de un padrón electoral con la siguiente información:
+      Nombre y apellido | DNI | No de Mesa | No de Circuito | Clase | Dirección
+      Observaciones | Partido
+    Detalle de Partidos:
+        0= independiente
+        1=‘A’
+        2=‘B’
+        3=‘C’
+    Generar:
+        a) Una secuencia de salida con nombre y apellido, DNI, y dirección de todas las personas
+        afiliadas al partido “C”.
+        b) Una secuencia de salida con nombre y apellido, DNI, y dirección de todas las personas
+        no afiliadas a ningún partido y de clase posterior a 1940.
+*/

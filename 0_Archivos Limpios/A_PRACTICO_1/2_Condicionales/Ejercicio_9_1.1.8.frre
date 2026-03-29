@@ -1,0 +1,4 @@
+/* Ejercicio_9
+    Escriba un algoritmo que permita conocer la edad de una persona, con solo ingresar la
+    fecha de nacimiento y la fecha actual, ambas en el formato: DIA, MES, AÑO.
+*/

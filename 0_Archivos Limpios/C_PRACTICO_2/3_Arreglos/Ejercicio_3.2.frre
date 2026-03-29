@@ -1,0 +1,11 @@
+/* Ejercicio_3.2
+    Genere un único algoritmo que resuelva las 3 consignas usando un arreglo de 100 números enteros:
+    1-Almacenar 100 números.
+    2-Localizar el número de mayor valor y el de menor valor, informar sus valores y sus posiciones.
+    3-Contar y sumar todos los números pares.
+    Matriz Aux:
+             indice   entero
+    a Mayor   xxx     xxx
+    b Menor   xxx     xxx
+    c Par     cant    suma
+*/

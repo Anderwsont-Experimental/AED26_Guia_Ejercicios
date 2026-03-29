@@ -1,0 +1,6 @@
+/* Ejercicio_1.17.
+    Se desea calcular el costo de un telegrama, que sedetermina en
+    función del número de palabras (que vale V1 cada una), salvo que
+    el promedio de letras por palabra supere las cinco letras, caso
+    en que cada palabra vale V2.
+*/

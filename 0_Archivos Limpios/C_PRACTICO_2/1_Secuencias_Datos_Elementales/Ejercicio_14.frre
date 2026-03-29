@@ -1,0 +1,8 @@
+/* Ejercicio_1.14.
+    Se dispone de una secuencia de caracteres y se desea saber la
+    cantidad de caracteres (incluidos los espacios) que existen entre
+    una coma y la siguiente. Se debe considerar que puede haber más
+    de un par de comas, y que las subsecuencias inicial y final deben
+    descartarse por no cumplir la condición enunciada. Supóngase que
+    las comas son siempre contiguas al último caracter de la palabra.
+*/

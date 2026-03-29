@@ -1,0 +1,8 @@
+/* Ejercicio_1.07.
+    Se tiene una secuencia de enteros que contiene todos los CUIT de
+    los empleados de una empresa, la misma termina con el CUIT 0.
+    Para evitar largas esperas en los días de pago, la empresa
+    necesita organizarlos de acuerdo al último dígito de su documento,
+    generar una secuencia con los CUIT de las personas que su número
+    de documento termine con 0, 1, 2 o 3.
+*/

@@ -1,0 +1,10 @@
+/* Ejercicio_15
+    a) Hacer un algoritmo que calcule la altura aproximada de un edificio en
+    pies, ingresando como dato la cantidad de pisos del mismo y la altura
+    promedio de cada piso, en metros. (1 m = 3.28 pies)
+    b) Modifique el algoritmo del punto a) para que permita calcular la
+    altura de 50 edificios.
+    c) Modifique el algoritmo del punto a) para que permita calcular la
+    altura de una cantidad indeterminada de edificios. Prevea una
+    condición de fin.
+*/

@@ -1,0 +1,16 @@
+/* Ejercicio_
+    Texto
+*/
+
+ACCION ejemplo_Algo ES
+    Ambiente:
+        
+    Proceso:
+        Escribir ("Este programa...")
+        //introduccion de datos
+
+        //cálculo
+
+        //Entrega de Datos
+        
+FIN_ACCION

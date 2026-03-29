@@ -1,0 +1,9 @@
+/* Ejercicio_32.04
+    Ejercicio de numeracion de Nueva Guia, version especial que se trabajo en clase.
+    Elaborar *el proceso* que reciba un número entero y retorne -1 si el número es negativo.
+    Si el número es positivo debe devolver una clave calculada de la siguiente manera: Se suma cada dígito que
+    compone el número y a esa suma se le calcula el módulo 7.
+    Por ejemplo: para la cifra 513, la clave será 5+1+3 =9; 9 mod 7 =2.
+    Utilice *el proceso* para diseñar un algoritmo que permita leer varios valores y determine, para cada uno, si el número
+    leído fue negativo o, si fue positivo, que clave le corresponde.    
+*/

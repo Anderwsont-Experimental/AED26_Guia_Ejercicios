@@ -1,0 +1,8 @@
+/* Ejercicio_1.06.
+    Dada una secuencia de enteros que almacena la cantidad de
+    habitantes de las ciudades capitales de las 23 provincias de la
+    República Argentina, discriminados 4 categorías: menores de 18
+    años (varones y mujeres) y mayores de 18 años (varones y mujeres).
+    Se pide determinar la población total y los siguientes
+    porcentajes: masculinos, femeninos, mayores de 18 y menores de 18.
+*/

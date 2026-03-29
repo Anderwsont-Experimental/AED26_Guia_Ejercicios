@@ -1,0 +1,41 @@
+/* Ejercicio_3.07
+    Crear un algoritmo que imprima un reporte como el que se indica,
+    incluyendo totales por Obra Social y Clínica de liquidaciones a médicos.
+    Los archivos que intervienen son:
+
+        LIQUIDACIONES Ordenado por O.S. y Clinica
+            O.S. Clínica
+            NroLeg
+            Mes
+            Año
+            Bruto
+            Desc AFIP
+            Desc DGR
+        Donde: Neto = Bruto – (Desc_AFIP + Desc_DGR)
+
+        OBRAS SOCIALES (indexado por CodOs)
+            CodOs
+            Nombre
+        
+        CLÍNICAS (indexado por CodCli)
+            CodCli
+            Nombre
+        
+        MÉDICOS (indexado por NroLeg)
+            NroLeg
+            ApyNom
+            Especialidad
+            DNI
+
+    El reporte debe ser:
+
+    Obra Social: xxxxxxxxxx
+        Clinica: xxxxxxxxxx
+            Médicos	
+            Nro Legajo      Nombre      Neto
+            12345           xxxx xxxx   0000000
+            12345           xxxx xxxx   0000000
+            12345           xxxx xxxx   0000000
+        Total Clínica                   0000000
+    Total Obra Social                   0000000
+*/

@@ -1,0 +1,9 @@
+/* Ejercicio_14
+    Escriba un algoritmo que lea el monto total de una compra en un supermercado y
+    determine el total a pagar según los siguientes criterios: Si el monto de la
+    compra supera los $ 200.000, se aplica un 15% de descuento.
+    Luego, se consulta el tipo de entrega (el usuario ingresa el número de opción):
+    - Opción 1 → retiro en sucursal, no se suma ningún cargo adicional.
+    - Opción 2 → envío a domicilio dentro de Resistencia, se suma un 5% sobre el monto final.
+    - Opción 3 → envío a domicilio fuera de Resistencia, se suma un 10% sobre el monto final. 
+*/

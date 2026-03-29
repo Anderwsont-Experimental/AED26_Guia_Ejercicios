@@ -1,0 +1,8 @@
+/* Ejercicio_3.4
+    Considerando un arreglo de 50 números enteros, confeccione un algoritmo para resolver las siguientes consignas:
+    1-Modificar el arreglo dado, de modo que todos sus elementos sean múltiplos de 3.
+    2-Crear otro arreglo que contenga los números que no cumplieron la condición.
+    3-Informar cuántos números cumplieron la condición.
+
+    Nota de Guido: N′=N−(Nmod3) asegura que N′ es múltiplo de 3.
+*/

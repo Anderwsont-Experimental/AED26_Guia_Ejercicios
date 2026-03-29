@@ -1,0 +1,5 @@
+/* Ejercicio_32.03.
+    Diseñe una función que permita ingresar 3 números y devuelva el mínimo
+    valor. El programa principal debe permitir que este proceso se repita
+    la cantidad de veces que el usuario desee.
+*/

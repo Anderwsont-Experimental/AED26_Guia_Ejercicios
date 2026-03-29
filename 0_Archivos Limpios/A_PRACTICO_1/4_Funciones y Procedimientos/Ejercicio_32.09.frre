@@ -1,0 +1,11 @@
+/* Ejercicio_32.09.
+    Desarrollar los procedimientos mostrar_0, mostrar_1,..., mostrar_9
+    que visualicen por pantalla, respectivamente, los números 0,1,...,9 en
+    tamaño grande, tal y como se muestra a continuación:
+
+    ****       *    ****    ****    *  *    ****    ****    ****    ****    ****
+    *  *       *       *       *    *  *    *       *          *    *  *    *  *
+    *  *       *    ****    ****    ****    ****    ****       *    ****    ****
+    *  *       *    *          *       *       *    *  *       *    *  *       *
+    ****       *    ****    ****       *    ****    ****       *    ****    ****
+*/

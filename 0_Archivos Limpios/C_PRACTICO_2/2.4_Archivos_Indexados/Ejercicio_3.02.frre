@@ -1,0 +1,17 @@
+/* Ejercicio_3.02.
+    Una empresa dispone de un fichero secuencial con datos de sus 
+    empleados, ordenado por número de sucursal, y categoría, con los
+    siguientes datos:
+        | NRO_SUCURSAL | CATEGORÍA (A-B-C) | NOMBRE_EMPLEADO | COD_CURSO | TÉCNICO (SI-NO) |
+    y un fichero con datos de cursos, indexado por código de curso:
+        | COD_CURSO | NOMBRE | FECHA | CANT_HORAS |
+    Emitir un listado informando:
+        - para cada empleado: sucursal, categoría, nombre del empleado 
+        y nombre del curso que debe realizar.
+        - por sucursal, categoría y toda la empresa:
+            - total empleados técnicos
+            - total empleados no técnicos
+            - total empleados
+
+    Asumo:
+*/

@@ -1,0 +1,6 @@
+/* Ejercicio_1.05.
+    La secuencia de socios del problema anterior tiene el
+    inconveniente de que los números están ordenados pero no son
+    correlativos. Se desea generar una secuencia que contenga los
+    números de socios que no figuran en la secuencia de socios.
+*/

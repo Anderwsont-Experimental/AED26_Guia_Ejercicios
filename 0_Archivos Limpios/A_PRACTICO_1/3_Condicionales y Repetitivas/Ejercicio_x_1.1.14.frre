@@ -1,0 +1,8 @@
+/* Ejercicio_1.1.14
+    En un experimento se obtuvieron un conjunto de pares de valores (S, V) y se
+    requiere que desarrolle un programa que determine e imprima:
+        1) Cuantos pares (S, V) tienen el mismo valor de S que el primer par (S, V) de la lista.
+        2) Primer valor de S mayor que V
+        3) En cuantos pares (S, V) se cumple que S es el doble de V
+        4) Productoria de los valores se S no nulos, donde V es nulo
+*/

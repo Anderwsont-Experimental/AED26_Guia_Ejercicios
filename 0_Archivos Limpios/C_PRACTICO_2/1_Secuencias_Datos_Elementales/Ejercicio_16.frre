@@ -1,0 +1,5 @@
+/* Ejercicio_1.16
+    Se dispone de una secuencia de números de DNI asignados a un
+    circuito electoral, generar otra secuencia de números que
+    contenga los DNI múltiplos de 3.
+*/

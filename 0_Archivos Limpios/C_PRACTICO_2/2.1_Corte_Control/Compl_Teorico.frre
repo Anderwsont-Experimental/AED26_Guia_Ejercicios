@@ -1,0 +1,17 @@
+/* Ejercicios de Complementos teoricos.
+    https://aed-frre.github.io/teoria/corte/
+
+    Manteniendo el mismo archivo pero cambiando un poco el enunciado:
+
+    1) Se pide mostrar cuantas entradas que tengan el campo1 = "Si" existen en el archivo,
+        discriminando por la clave1, clave2, clave3 y total general.
+    2) Se pide mostrar cuantas entradas que tengan existen en el archivo,
+        discriminando por la clave1, clave2 y clave3.
+    3) Se pide mostrar cuantas entradas que tengan existen en el archivo,
+        discriminando por la clave2, clave3 y total general.
+    4) Se pide mostrar cuantas entradas poseen un numero mayores o iguales a 50 en el
+        campo2 y cuantas entradas (en el campo2) se tienen menores a 50 del archivo,
+        discriminando por la clave1, clave2, clave3 y total general.
+    5) Generar un archivo con el siguiente formato: Clave3, clave2, total de Si y total de No,
+        para el archivo anterior explicado.
+*/

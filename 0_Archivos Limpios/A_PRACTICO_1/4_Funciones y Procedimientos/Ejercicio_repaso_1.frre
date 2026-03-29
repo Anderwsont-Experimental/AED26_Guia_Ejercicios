@@ -1,0 +1,6 @@
+/* Ejercicio_repaso_1
+    Cuando la suma de los digitos alternos de un numero son iguales, ese numero es exactamente divisible por once.
+    Por Ejemplo 5841 : 5 + 4 = 8 + 1, por lo tanto 5841 es divisible por once.
+    Escriba un algoritmo que encuentre y muestre todos los numeros de 4 cifras que sean multiplos de 11 y al final
+    informe cuantos multiplos de 11 encontro.
+*/

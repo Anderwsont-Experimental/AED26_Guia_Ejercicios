@@ -1,0 +1,6 @@
+/* Ejercicio_32.12.
+    Escribir una función que lea desde el teclado las unidades y el
+    precio que quiere comprar, y en función de las unidades introducidas
+    le haga un descuento o no (cuando las unidades excedan media docena
+    se aplicará 4% y el 10% cuando excedan la docena). 
+*/
