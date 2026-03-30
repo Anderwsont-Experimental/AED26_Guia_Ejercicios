@@ -1,4 +1,45 @@
-/* Ejercicio_7
+/* Ejercicio_7_1.1.6
     Escriba un algoritmo que permita ingresar 3 valores numéricos
     y determine cuál es el mayor, el medio y el menor.
+        #Logica de ordenamiento:
+            si a > b entonces
+                aux ← a
+                a ← b
+                b ← aux
+            si a > c entonces
+                aux ← a
+                a ← c
+                c ← aux
+            si b > c entonces
+                aux ← b
+                b ← c
+                c ← aux
+            Quedando a<=b<=c
 */
+ACCION ordenamiento_3 ES
+    Ambiente
+        a,b,c,x:entero
+    Proceso
+        ESCRIBIR("Este programa ordena 3 enteros cualesquiera")
+        ESCRIBIR("ingrese los 3 numeros:")
+        LEER(a,b,c)
+        //compara a y b, y los intercambia para ordenarlos
+        SI ( a>b ) ENTONCES
+            x:=a
+            a:=b
+            b:=x
+        FIN_SI
+        //compara a y c, y los intercambia para ordenarlos
+        SI ( a<c ) ENTONCES
+            x:=a
+            a:=c
+            c:=x
+        FIN_SI
+        //compara b y c, y los intercambia para ordenarlos
+        SI ( b>c ) ENTONCES
+            x:=b
+            b:=c
+            c:=x
+        FIN_SI
+        ESCRIBIR("Menor:",a,"Medio:",b,"Menor:",c)
+FIN_ACCION
