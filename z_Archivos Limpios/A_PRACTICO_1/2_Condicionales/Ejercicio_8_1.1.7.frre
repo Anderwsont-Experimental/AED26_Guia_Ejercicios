@@ -1,7 +1,0 @@
-/* Ejercicio_8
-    Escriba un algoritmo que acepte dos números, calcule la suma e imprima el mensaje de acuerdo al resultado obtenido.
-    suma <= 50
-    suma  > 50 y <= 100
-    suma  > 100 y <= 200
-    suma  > 200 
-*/

@@ -1,0 +1,22 @@
+/* Ejercicio_8_1.1.7
+    Escriba un algoritmo que acepte dos números, calcule la suma e imprima
+    el mensaje de acuerdo al resultado obtenido.
+    suma <= 50
+    suma  > 50 y <= 100
+    suma  > 100 y <= 200
+    suma  > 200 
+*/
+ACCION sumador_dos ES
+    Ambiente
+        a,b,x:real
+    Proceso
+        ESCRIBIR("Ingrese dos numeros para ser sumados:")
+        LEER(a,b)
+        x:=a+b
+        SEGUN x HACER
+            <=50 : ESCRIBIR("La suma es menor a 50")
+            <=100 : ESCRIBIR("La suma es mayor a 50 y menor a 100")
+            <=200 : ESCRIBIR("La suma es mayor a 100 y menor a 200")
+            otros : ESCRIBIR("La suma es mayor a 200")
+        FIN_SEGUN
+FIN_ACCION
