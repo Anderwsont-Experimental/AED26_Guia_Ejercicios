@@ -1,4 +1,29 @@
-/* Ejercicio_9
+/* Ejercicio_9_1.1.8
     Escriba un algoritmo que permita conocer la edad de una persona, con solo ingresar la
     fecha de nacimiento y la fecha actual, ambas en el formato: DIA, MES, AÑO.
+    Tecnica: Restar años y calcular edad. Luego comparar mes,
+        y luego si el mes es el actual, comparar el dia, y si cada uno es menor al actual, restar 1 año.
 */
+ACCION edad ES
+    Ambiente
+        nac_d,def_d: 1..31
+        nac_m,def_m: 1..12
+        nac_a,def_a,edad: 1900..2050
+    Proceso
+        ESCRIBIR("Calculo de edad de una persona, para una fecha dada.")
+        ESCRIBIR("Ingrese la fecha de nacimiento en formato 'DD','MM','AAAA':")
+        LEER(nac_d,nac_m,nac_a)
+        ESCRIBIR("Ingrese fecha actual o fecha a calcular edad, en formato 'DD','MM','AAAA':")
+        LEER(def_d,def_m,def_a)
+        edad := def_a - nac_a //calculo de edad inicial
+        SI ( def_m < nac_m ) ENTONCES //evalua si no llego al mes de nacimiento
+            edad := edad -1
+        SINO
+            SI ( (def_m = nac_m) Y (def_d < nac_d)) ENTONCES //ev. si no llego al dia de nac
+                edad := edad -1
+            FIN_SI
+        FIN_SI
+        SI (edad >= 0) ENTONCES //control de edad positiva.
+            ESCRIBIR("La edad es",edad)
+        FIN_SI
+FIN_ACCION
