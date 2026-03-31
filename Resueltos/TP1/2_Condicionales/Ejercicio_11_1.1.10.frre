@@ -1,0 +1,38 @@
+/* Ejercicio_11_1.1.10
+    Dados dos números enteros A y B generar un algoritmo que permita determinar
+    si A es divisor de B o B es divisor de A.
+    #Contemplo: (0,0),(0,n),(n,0),(n,n)
+*/
+ACCION divisores_AB ES
+    Ambiente
+        a,b:enteros
+    Proceso
+        ESCRIBIR("Ingrese dos numeros enteros para saber si son divisores entre ellos:")
+        LEER(a,b)
+        SI (a=b) ENTONCES
+            SI (a=0) ENTONCES
+                ESCRIBIR("Cero no puede ser divisor de si mismo")
+            SINO
+                ESCRIBIR("Ambos numeros son iguales, por lo que son divisibles entre si")
+            FIN_SI
+        SINO
+            SI ( a<>0 ) ENTONCES
+                SI ( b mod a = 0) ENTONCES
+                    ESCRIBIR(a,"es divisor de",b)
+                SINO
+                    ESCRIBIR(a,"NO es divisor de",b)
+                FIN_SI
+            SINO
+                ESCRIBIR("Cero no puede ser divisor")
+            FIN_SI
+            SI ( b<>0 ) ENTONCES
+                SI ( a mod b = 0) ENTONCES
+                    ESCRIBIR(b,"es divisor de",a)
+                SINO
+                    ESCRIBIR(b,"NO es divisor de",a)
+                FIN_SI
+            SINO
+                ESCRIBIR("Cero no puede ser divisor")
+            FIN_SI
+        FIN_SI
+FIN_ACCION
