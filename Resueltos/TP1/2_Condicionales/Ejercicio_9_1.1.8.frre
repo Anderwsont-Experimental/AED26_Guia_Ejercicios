@@ -25,5 +25,7 @@ ACCION edad ES
         FIN_SI
         SI (edad >= 0) ENTONCES //control de edad positiva.
             ESCRIBIR("La edad es",edad)
+        SINO
+            ESCRIBIR("Error, la edad da negativa, verifique los datos ingresados.")
         FIN_SI
 FIN_ACCION
