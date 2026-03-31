@@ -1,0 +1,29 @@
+/* Ejercicio_10_1.1.9
+    Una persona decide realizar un viaje a Europa, para lo cual necesita una determinada cantidad de euros.
+    La persona tiene ahorrada una cierta suma en dólares y desea saber si es suficiente y, en caso de haber
+    diferencia (de más o de menos) a cuántos pesos equivale. Realice un algoritmo que solucione el problema,
+    para lo cual deberá prever que se ingresen las equivalencias de monedas que considere necesarias (por ejemplo
+    la cotización en pesos de  dólar y/o del euro, o a cuantos euros equivale un dólar).
+*/
+
+ACCION viaje_europa ES
+    Ambiente
+        obj_euro,obj_peso,ahorro_dolar,ahorro_peso,cot_dolar,cot_euro:real
+    Proceso
+        ESCRIBIR("Calcularemos si te alcanza para el viaje a Europa...")
+        ESCRIBIR("ingrese la conversion de euros a pesos:")
+        LEER(cot_euro)
+        ESCRIBIR("ingrese la conversion de dolar a pesos:")
+        LEER(cot_dolar)
+        ESCRIBIR("ingrese el objetivo en euros:")
+        LEER(obj_euro)
+        obj_peso := obj_euro * cot_euro
+        ESCRIBIR("ingrese lo ahorrado en dolares:")
+        LEER(ahorro_dolar)
+        ahorro_peso := ahorro_dolar * cot_dolar
+        SI (ahorro_peso < obj_peso) ENTONCES
+            ESCRIBIR("Felicidades, puede cubrir los gastos del viaje!")
+        SINO
+            ESCRIBIR("Ahorro insuficiente para viajar... Le faltan ",obj_peso-ahorro_peso,"pesos")
+        FIN_SI
+FIN_ACCION
