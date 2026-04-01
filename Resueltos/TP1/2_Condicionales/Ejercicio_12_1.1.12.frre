@@ -1,0 +1,20 @@
+/* Ejercicio_12_1.1.12
+    Escriba un algoritmo que acepte un número entero mayor a 100 y menor a 1000,
+    y muestre cómo está compuesto (unidades, decenas y centenas) y si es
+    múltiplo de 3.
+*/
+
+ACCION componentes_mult_3 ES
+    Ambiente
+        num: 101..999
+    Proceso
+        ESCRIBIR("Ingrese un numero para descomponer.")
+        LEER(num)   //num:123
+        SI ( num mod 3 = 0) ENTONCES
+            ESCRIBIR("El numero es divisible por 3")
+        FIN_SI
+        ESCRIBIR("Unidades:", num mod 10)
+        num := num div 10 //num:12
+        ESCRIBIR("Decenas:", num mod 10)
+        ESCRIBIR("Centenas:", num div 10)
+FIN_ACCION
