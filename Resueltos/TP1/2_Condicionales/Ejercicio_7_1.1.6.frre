@@ -30,7 +30,7 @@ ACCION ordenamiento_3 ES
             b:=x
         FIN_SI
         //compara a y c, y los intercambia para ordenarlos
-        SI ( a<c ) ENTONCES
+        SI ( a>c ) ENTONCES
             x:=a
             a:=c
             c:=x
@@ -41,5 +41,5 @@ ACCION ordenamiento_3 ES
             b:=c
             c:=x
         FIN_SI
-        ESCRIBIR("Menor:",a,"Medio:",b,"Menor:",c)
+        ESCRIBIR("Menor:",a,"Medio:",b,"Mayor:",c)
 FIN_ACCION
