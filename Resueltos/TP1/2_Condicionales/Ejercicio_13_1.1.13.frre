@@ -1,0 +1,16 @@
+/* Ejercicio_13_1.1.13
+    Escriba un algoritmo que acepte un número entero mayor a 100 y menor a 1000
+    que representa una suma de dinero e indique cuántos billetes de cada
+    denominación necesita, suponiendo que solo existen billetes de 100, 10 y 1 peso.
+*/
+ACCION billetes ES
+    Ambiente
+        dinero:entero
+    Proceso
+        ESCRIBIR("Ingrese un monto de dinero para saber cuantos billetes necesita:")
+        LEER(dinero)
+        ESCRIBIR("Billetes de $1",dinero mod 10)
+        dinero := dinero div 10
+        ESCRIBIR("Billetes de $10:", dinero mod 10)
+        ESCRIBIR("Billetes de $100:", dinero div 10)
+FIN_ACCION
