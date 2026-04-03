@@ -1,0 +1,41 @@
+/* Ejercicio_14
+    Escriba un algoritmo que lea el monto total de una compra en un supermercado y
+    determine el total a pagar según los siguientes criterios: Si el monto de la
+    compra supera los $ 200.000, se aplica un 15% de descuento.
+    Luego, se consulta el tipo de entrega (el usuario ingresa el número de opción):
+    - Opción 1 → retiro en sucursal, no se suma ningún cargo adicional.
+    - Opción 2 → envío a domicilio dentro de Resistencia, se suma un 5% sobre el monto final.
+    - Opción 3 → envío a domicilio fuera de Resistencia, se suma un 10% sobre el monto final. 
+*/
+ACCION compra_super ES
+    Ambiente
+        monto : real
+        opcion : 1..2
+        lim_descuento = 200000
+        descuento = 0.15
+        envio_IN_Rcia = 0.05
+        envio_OUT_Rcia = 0.1
+    Proceso
+        ESCRIBIR("Cálculo de total a pagar segun importe y tipo de envío")
+        ESCRIBIR("Ingrese el monto de la compra:")
+        LEER(monto)
+        SI ( monto > lim_descuento) ENTONCES
+            monto := monto * (1-descuento)
+            ESCRIBIR("Se aplica un descuento de",monto * descuento,"(",descuento*100,"%")
+        FIN_SI
+        ESCRIBIR("Seleccione el tipo de envío, ingresando 1,2 o 3:")
+        ESCRIBIR("Opcion 1: Retiro de sucursal (Sin cargo)")
+        ESCRIBIR("Opcion 2: Envio a domicilio dentro de Rcia.(Costo",envio_IN_Rcia*100,"%).")
+        ESCRIBIR("Opcion 3: Envio a domicilio fuera de Rcia.(Costo",envio_OUT_Rcia*100,"%).")
+        LEER(Opcion)
+        ESCRIBIR("Monto a pagar:",monto)
+        SEGUN Opcion HACER
+            1:  ESCRIBIR("Envio: $0")
+                ESCRIBIR("Total Final:",monto)
+            2:  ESCRIBIR("Envio: $",monto * envio_IN_Rcia)
+                ESCRIBIR("Total Final:",monto * (1+envio_IN_Rcia))
+            3:  ESCRIBIR("Envio: $",monto * envio_OUT_Rcia)
+                ESCRIBIR("Total Final:",monto * (1+envio_OUT_Rcia))
+            otros : ESCRIBIR("ERROR")
+        FIN_SEGUN
+FIN_ACCION
