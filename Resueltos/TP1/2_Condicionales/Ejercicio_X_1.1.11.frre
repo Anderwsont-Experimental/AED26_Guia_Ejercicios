@@ -1,0 +1,24 @@
+/* Ejercicio_X_1.1.11
+    Dado un año ingresado por el usuario, emitir el mensaje 'ACTUAL' si corresponde
+    al año en curso, 'PASADO' si es menor y 'FUTURO' si es mayor.
+*/
+
+ACCION año_descripcion ES
+    Ambiente
+        consulta_año,act_año: 1900..2050
+    Proceso
+        ESCRIBIR("Determinacion de tipo de año dado.")
+        ESCRIBIR("Ingrese el año de consulta, en formato 'AAAA':")
+        LEER(consulta_año)
+        ESCRIBIR("Ingrese el año actual, en formato 'AAAA':")
+        LEER(act_año)
+        SI (consulta_año=act_año) ENTONCES
+            ESCRIBIR("ACTUAL")
+        SINO
+            SI (consulta_año < act_año) ENTONCES
+                ESCRIBIR("PASADO")
+            SINO
+                ESCRIBIR("FUTURO")
+            FIN_SI
+        FIN_SI
+FIN_ACCION
