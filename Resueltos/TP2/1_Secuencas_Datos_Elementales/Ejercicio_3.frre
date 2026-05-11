@@ -1,0 +1,23 @@
+/* Ejercicio_1.03
+    Se dispone de una secuencia de caracteres y se desea obtener
+    una secuencia de salida que resulte de copiar la
+    secuencia de entrada, descartando el caracter "$".
+*/
+//secuenca indefinida, impura.
+
+ACCION extractor_$ ES
+    Ambiente
+        sec,sal : secuencia de caracter
+        v : caracter
+    Proceso
+        ESCRIBIR("Se genera secuenca de salida sin simbolo '$'")
+        ARR(sec); AVZ(sec, v)
+        CREAR(sec)
+        MIENTRAS (NFS(sec)) HACER
+            SI (v<>"$") ENTONCES
+                ESCRIBIR(sal,v)
+            FIN_SI
+            AVZ(sec, v)
+        FIN_MIENTRAS
+        ESCRIBIR("Proceso Finalizado")
+FIN_ACCION
