@@ -1,0 +1,21 @@
+/* Ejercicio_1.04.
+    Se dispone de una secuencia de números de socios, y se desea
+    saber la cantidad de socios que están registrados.
+*/
+//secuencia de enteros indeterminada e impura.
+
+ACCION socios_registrados ES
+    Ambiente
+        sec_soc: secuencia de entero
+        soc,cant_soc: entero
+
+    Proceso
+        ESCRIBIR("Se contaran los socios en la secuencia.")
+        ARR(sec_soc);AVZ(sec_soc, soc)
+        cant_soc := 0
+        MIENTRAS (NoFDS(sec_soc)) HACER
+            cant_soc := cant_soc + 1
+            AVZ(sec_soc, soc)
+        FIN_MIENTRAS
+        ESCRIBIR("Socios registrados:",cant_soc)
+FIN_ACCION
