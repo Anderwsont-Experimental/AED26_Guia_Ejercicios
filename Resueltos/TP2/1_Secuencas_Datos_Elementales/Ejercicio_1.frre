@@ -9,6 +9,7 @@ ACCION letras_A ES
         cant_a: entero
 
     Proceso
+        ESCRIBIR("Se contaran las letras 'A' de una secuencia")
         ARR(sec);AVZ(sec, v)
         cant_a := 0
         MIENTRAS (v<>"*") HACER
