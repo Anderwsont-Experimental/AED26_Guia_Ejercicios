@@ -1,0 +1,34 @@
+/* Ejercicio_1.10.
+    Se dispone de una secuencia de caracteres. Se desea permita contar
+    la cantidad de palabras que comienzan con una letra dada.
+*/
+//secuencia indeterminada e impura
+
+ACCION cant_pal_xletra ES
+    Ambiente
+        sec: secuencia de caracter
+        v,letra: caracter
+        cant_pal: entero
+    Proceso
+        ESCRIBIR("Contaremos la cant de palabras en la secuencia con la letra dada...")
+        ESCRIBIR("Ingrese la letra:")
+        LEER(letra)
+        ARR(sec)
+        AVZ(sec, v)
+        cant_pal := 0
+        MIENTRAS (NoFDS(sec)) HACER
+            //barrido de blancos:
+            MIENTRAS (v=" ") HACER
+                AVZ(sec, v)
+            FIN_MIENTRAS
+            //v posicionado en 1er letra de palabra:
+            SI (v=letra) ENTONCES
+                cant_pal := cant_pal + 1
+            FIN_SI
+            //barrido palabra:
+            MIENTRAS (v<>" " Y NoFDS(sec)) HACER
+                AVZ(sec, v)
+            FIN_MIENTRAS
+        FIN_MIENTRAS
+        ESCRIBIR("Cantidad de palabras que inician con",letra,"es:",cant_pal)
+FIN_ACCION

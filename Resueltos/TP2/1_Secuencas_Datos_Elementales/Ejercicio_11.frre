@@ -1,0 +1,37 @@
+/* Ejercicio_1.11.
+    Dada una secuencia de caracteres, determinar la cantidad de
+    palabras de 4 caracteres (letras)
+*/
+//secuencia indeterminada e impura
+
+ACCION pal_4letras ES
+    Ambiente
+        sec: secuencia de caracter
+        v: caracter
+        cant_car,cant_pal: entero
+    Proceso
+        ESCRIBIR("Se contaran las palabras de 4 caracteres en la secuencia")
+        ARR(sec)
+        AVZ(sec, v)
+        cant_pal := 0
+        
+        MIENTRAS (NoFDS(sec)) HACER
+            //barrido de blancos:
+            MIENTRAS (v=" ") HACER
+                AVZ(sec, v)
+            FIN_MIENTRAS
+            //inicio tratamiento palabra
+            cant_car := 0
+            MIENTRAS (v<>" " Y NoFDS(sec)) HACER
+                //recorrido de caracteres EN 1 palabra
+                cant_car := cant_car + 1
+                AVZ(sec, v)
+            FIN_MIENTRAS
+            SI (cant_car = 4) ENTONCES
+                cant_pal := cant_pal + 1
+            FIN_SI
+            //fin tratamiento palabra
+        FIN_MIENTRAS
+        //fin tratamiento secuencia
+        ESCRIBIR("Las palabras con 4 caracteres son:", cant_pal)
+FIN_ACCION
