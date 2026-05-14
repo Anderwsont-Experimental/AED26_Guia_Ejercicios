@@ -1,0 +1,48 @@
+/* Ejercicio_1.12.
+    Se dispone de una secuencia de caracteres. Se desea listar las
+    palabras que comiencen con "ALG".
+*/
+//secuencia indefinida e impura
+
+ACCION sec_ALG ES
+    Ambiente
+        sec:secuencia de caracter
+        v:caracter
+        PROCEDIMIENTO Barredora_NO_ALG ES
+            MIENTRAS (v<>" " Y NoFDS(sec)) HACER
+                AVZ(sec, v)
+            FIN_MIENTRAS   
+        FIN_PROCEDIMIENTO
+
+    Proceso
+        ARR(sec)
+        AVZ(sec, v)
+        MIENTRAS (NoFDS(sec)) HACER
+            //barrido blancos:
+            MIENTRAS (v=" ") HACER
+                AVZ(sec, v)
+            FIN_MIENTRAS
+            //Tratamiento palabra:
+            SI (v="A") ENTONCES
+                AVZ(sec, v)
+                SI (v="L") ENTONCES
+                    AVZ(sec, v)
+                    SI (v="G") ENTONCES
+                        AVZ(sec, v)
+                        ESCRIBIR("ALG")
+                        MIENTRAS (v<>" " Y NoFDS(sec)) HACER
+                            ESCRIBIR(v)
+                            AVZ(sec, v)
+                        FIN_MIENTRAS
+                    SINO
+                        Barredora_NO_ALG
+                    FIN_SI
+                SINO
+                    Barredora_NO_ALG
+                FIN_SI
+            SINO
+                Barredora_NO_ALG
+            FIN_SI
+        FIN_MIENTRAS
+        CERRAR(sec)
+FIN_ACCION
