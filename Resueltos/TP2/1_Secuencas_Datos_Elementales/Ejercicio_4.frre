@@ -18,4 +18,5 @@ ACCION socios_registrados ES
             AVZ(sec_soc, soc)
         FIN_MIENTRAS
         ESCRIBIR("Socios registrados:",cant_soc)
+        CERRAR(sec_soc)
 FIN_ACCION

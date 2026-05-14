@@ -19,4 +19,5 @@ ACCION letras_A ES
             AVZ(sec, v)
         FIN_MIENTRAS
         ESCRIBIR("Cantidad de 'A' en secuencia:",cant_a)
+        CERRAR(sec)
 FIN_ACCION

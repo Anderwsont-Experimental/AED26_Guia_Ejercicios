@@ -31,4 +31,5 @@ ACCION cant_pal_xletra ES
             FIN_MIENTRAS
         FIN_MIENTRAS
         ESCRIBIR("Cantidad de palabras que inician con",letra,"es:",cant_pal)
+        CERRAR(sec)
 FIN_ACCION

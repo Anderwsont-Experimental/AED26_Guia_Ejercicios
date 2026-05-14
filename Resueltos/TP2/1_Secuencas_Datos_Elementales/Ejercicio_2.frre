@@ -21,4 +21,5 @@ ACCION cont_consonantes ES
             AVZ(sec, v)
         HASTA QUE (v="z")
         ESCRIBIR("Cantidad de consonantes:", cant_cons)
+        CERRAR(sec)
 FIN_ACCION

@@ -34,4 +34,5 @@ ACCION pal_4letras ES
         FIN_MIENTRAS
         //fin tratamiento secuencia
         ESCRIBIR("Las palabras con 4 caracteres son:", cant_pal)
+        CERRAR(sec)
 FIN_ACCION
