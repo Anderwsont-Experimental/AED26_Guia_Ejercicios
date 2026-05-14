@@ -1,0 +1,55 @@
+/* Ejercicio_1.13.
+    A partir del ejercicio anterior, determinar el porcentaje que
+    representan las palabras que comienzan con “ALG” sobre todas las
+    palabras de la secuencia
+*/
+//secuencia indefinida impura
+
+ACCION sec_ALG ES
+    Ambiente
+        sec:secuencia de caracter
+        v:caracter
+        cont_alg, cont_pal: entero
+        PROCEDIMIENTO Barredora_NO_ALG ES
+            MIENTRAS (v<>" " Y NoFDS(sec)) HACER
+                AVZ(sec, v)
+            FIN_MIENTRAS   
+        FIN_PROCEDIMIENTO
+
+    Proceso
+        ARR(sec)
+        AVZ(sec, v)
+        cont_alg := 0
+        cont_pal := 0
+        MIENTRAS (NoFDS(sec)) HACER
+            //barrido blancos:
+            MIENTRAS (v=" ") HACER
+                AVZ(sec, v)
+            FIN_MIENTRAS
+            //Tratamiento palabra:
+            cont_pal := cont_pal + 1
+            SI (v="A") ENTONCES
+                AVZ(sec, v)
+                SI (v="L") ENTONCES
+                    AVZ(sec, v)
+                    SI (v="G") ENTONCES
+                        AVZ(sec, v)
+                        cont_alg := cont_alg + 1
+                        ESCRIBIR("ALG")
+                        MIENTRAS (v<>" " Y NoFDS(sec)) HACER
+                            ESCRIBIR(v)
+                            AVZ(sec, v)
+                        FIN_MIENTRAS
+                    SINO
+                        Barredora_NO_ALG
+                    FIN_SI
+                SINO
+                    Barredora_NO_ALG
+                FIN_SI
+            SINO
+                Barredora_NO_ALG
+            FIN_SI
+        FIN_MIENTRAS
+        ESCRIBIR("Porcentaje de palabras que inician con 'ALG' es:",cant_alg/cant_pal*100)
+        CERRAR(sec)
+FIN_ACCION
