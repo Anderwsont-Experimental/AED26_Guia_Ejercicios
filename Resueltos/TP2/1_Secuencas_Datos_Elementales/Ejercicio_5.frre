@@ -26,4 +26,6 @@ ACCION soc_NO_reg ES
                 FIN_SI
             FIN_SI
         FIN_MIENTRAS
+        CERRAR(sec_NOsoc)
+        CERRAR(sec_soc)
 FIN_ACCION
