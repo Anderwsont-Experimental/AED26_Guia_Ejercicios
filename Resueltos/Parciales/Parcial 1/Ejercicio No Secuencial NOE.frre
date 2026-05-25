@@ -1,0 +1,29 @@
+/* Ejercicio de NO secuencias - Modelo de Profe NOELIA
+En una empresa de monitoreo ambiental se utilizan sensores automáticos que envían datos codificados para registrar
+el estado del clima en distintas regiones.
+Por cuestiones de seguridad y almacenamiento, la información llega encriptada dentro de una secuencia de caracteres.
+
+Cada reporte se compone por:
+    Un número que puede tomar valores entre 1 y 5
+    Una descripción de longitud desconocida que finaliza con el símbolo &
+    Un carácter de estado que puede ser:
+        A → reporte analizado
+        P → reporte pendiente
+La secuencia completa finaliza con el carácter *.
+
+Para obtener la información legible deberá generarse una nueva secuencia aplicando las siguientes reglas de decodificación:
+    Los números del 1 al 5 deben reemplazarse por las siguientes vocales:
+        1 → a
+        2 → e
+        3 → i
+        4 → o
+        5 → u
+    Para desencriptar consonantes deberá utilizarse la función DECODI, que recibe un carácter y devuelve otro.
+    El símbolo $ representa un espacio en blanco.
+    Cualquier otro carácter debe ignorarse por considerarse un error de transmisión.
+
+Además, informar:
+    Porcentaje de reportes analizados sobre el total de reportes recibidos.
+    Cantidad de palabras del reporte más corto.
+    Total de caracteres erróneos encontrados en toda la secuencia.
+*/

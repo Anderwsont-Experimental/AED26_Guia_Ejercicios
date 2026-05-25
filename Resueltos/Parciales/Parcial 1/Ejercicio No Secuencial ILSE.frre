@@ -1,0 +1,26 @@
+/* Ejercicio de NO secuencias - Modelo de Profe ILSE
+Desarrollar un algoritmo que permita analizar varias funciones cuadráticas de la forma:
+    Y = aX^2 + bX + c
+Para cada función, ingresar los valores de a, b y c, y generar las coordenadas (X,Y)
+haciendo variar X en el intervalo [20,-20] con decrementos de 2.
+
+Resolver considerando estas 2 opciones:
+Opción 1: El algoritmo deberá solicitar inicialmente la cantidad de funciones a procesar.
+Opción 2: cantidad indeterminada de funciones, el usuario indica cuando terminar.
+
+Para cada valor calculado de Y:
+    1. Mostrar por pantalla la coordenada correspondiente (X,Y).
+    2. Determinar si el valor de Y es múltiplo de 11 aplicando la siguiente propiedad:
+        Un número es divisible por 11 cuando la suma de sus dígitos alternos es igual.
+        Ej: Para el número 5841 --> 5 + 4 = 8 + 1
+    3. Informar junto a cada coordenada si el valor de Y es o no múltiplo de 11.
+
+Al finalizar el procesamiento de cada función, informar:
+    • Cantidad de valores de Y múltiplos de 11.
+    • Cantidad de valores de Y no múltiplos de 11.
+
+Requisitos
+    • Implementar una función que reciba un número y retorne verdadero o falso según sea múltiplo de 11.
+    • Implementar al menos un procedimiento para mostrar resultados en pantalla.
+    • Considerar valores negativos de Y trabajando con su valor absoluto para verificar divisibilidad.
+*/
