@@ -19,8 +19,14 @@ Al finalizar el procesamiento de cada función, informar:
     • Cantidad de valores de Y múltiplos de 11.
     • Cantidad de valores de Y no múltiplos de 11.
 
+Al final de todo el proceso:
+    • Informar el mayor valor de "a" cargado.
+
 Requisitos
     • Implementar una función que reciba un número y retorne verdadero o falso según sea múltiplo de 11.
     • Implementar al menos un procedimiento para mostrar resultados en pantalla.
     • Considerar valores negativos de Y trabajando con su valor absoluto para verificar divisibilidad.
+
+Variante:
+    Que el usuario ingrese la variacion de X (inicialmente de 20 a -20) y el paso a calcular (inicialmente en 2)
 */
