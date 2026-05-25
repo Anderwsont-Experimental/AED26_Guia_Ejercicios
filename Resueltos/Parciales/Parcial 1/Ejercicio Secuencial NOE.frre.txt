@@ -1,4 +1,4 @@
-/* Ejercicio de NO secuencias - Modelo de Profe NOELIA
+/* Ejercicio de secuencias - Modelo de Profe NOELIA
 En una empresa de monitoreo ambiental se utilizan sensores automáticos que envían datos codificados para registrar
 el estado del clima en distintas regiones.
 Por cuestiones de seguridad y almacenamiento, la información llega encriptada dentro de una secuencia de caracteres.
