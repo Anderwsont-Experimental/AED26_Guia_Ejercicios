@@ -1,0 +1,156 @@
+Accion P2025B es
+    Ambiente
+        secEditoriales, secLibros, secSalida : Secuencia de Caracter
+
+        edNombre, edProvincia : Alfanumerico(50)
+        liNombre, cantidadPalabras, existeAutoayuda : Alfanumerico(50)
+
+        carEd, carLi, liTema : Caracter
+        c1, c2, c3, c4 : Caracter
+
+        numero, contadorPalabras : Entero
+        mil, centena, decena, unidad : Entero
+        i : Entero
+
+        existeAutoayudaBoolean : Booleano
+
+        Funcion caracterNumero(car : Caracter) : Entero
+        Proceso
+            Segun car hacer
+                '0' : caracterNumero := 0
+                '1' : caracterNumero := 1
+                '2' : caracterNumero := 2
+                '3' : caracterNumero := 3
+                '4' : caracterNumero := 4
+                '5' : caracterNumero := 5
+                '6' : caracterNumero := 6
+                '7' : caracterNumero := 7
+                '8' : caracterNumero := 8
+                '9' : caracterNumero := 9
+            Fin Segun
+        Fin Funcion
+
+        Funcion numeroCaracter(num : Entero) : Caracter
+        Proceso
+            Segun num hacer
+                0 : numeroCaracter := '0'
+                1 : numeroCaracter := '1'
+                2 : numeroCaracter := '2'
+                3 : numeroCaracter := '3'
+                4 : numeroCaracter := '4'
+                5 : numeroCaracter := '5'
+                6 : numeroCaracter := '6'
+                7 : numeroCaracter := '7'
+                8 : numeroCaracter := '8'
+                9 : numeroCaracter := '9'
+            Fin Segun
+        Fin Funcion
+
+    Proceso
+
+        ARR(secEditoriales)
+        ARR(secLibros)
+        CREAR(secSalida)
+
+        AVZ(secEditoriales, carEd)
+        AVZ(secLibros, carLi)
+
+        Mientras NO FDS(secEditoriales) hacer
+
+            edNombre := ""
+            edProvincia := ""
+            existeAutoayudaBoolean := Falso
+
+            Mientras carEd <> '&' hacer
+                edNombre := edNombre + carEd
+                AVZ(secEditoriales, carEd)
+            Fin Mientras
+
+            AVZ(secEditoriales, carEd)
+
+            Para i := 1 hasta 2 hacer
+                edProvincia := edProvincia + carEd
+                AVZ(secEditoriales, carEd)
+            Fin Para
+
+            ESCRIBIR(secSalida, edNombre)
+            ESCRIBIR(secSalida, edProvincia)
+
+            Mientras NO FDS(secLibros) hacer
+
+                liNombre := ""
+                numero := 0
+                contadorPalabras := 0
+
+                liTema := carLi
+                AVZ(secLibros, carLi)
+
+                Mientras carLi <> '&' hacer
+                    liNombre := liNombre	 + carLi
+                    AVZ(secLibros, carLi)
+                Fin Mientras
+
+                AVZ(secLibros, carLi)
+
+                Para i := 1 hasta 3 hacer
+                    numero := numero * 10 + caracterNumero(carLi)
+                    AVZ(secLibros, carLi)
+                Fin Para
+
+                Mientras carLi <> '#' hacer
+
+                    Mientras carLi = ' ' hacer
+                        AVZ(secLibros, carLi)
+                    Fin Mientras
+
+                    Si carLi <> '#' entonces
+                        contadorPalabras := contadorPalabras + 1
+
+                        Mientras carLi <> ' ' y carLi <> '#' hacer
+                            AVZ(secLibros, carLi)
+                        Fin Mientras
+                    Fin Si
+
+                Fin Mientras
+
+                AVZ(secLibros, carLi)
+
+                Si carLi = '@' entonces
+                    AVZ(secLibros, carLi)
+                Fin Si
+
+                mil := contadorPalabras DIV 1000
+                centena := (contadorPalabras DIV 100) MOD 10
+                decena := (contadorPalabras DIV 10) MOD 10
+                unidad := contadorPalabras MOD 10
+
+                c1 := numeroCaracter(mil)
+                c2 := numeroCaracter(centena)
+                c3 := numeroCaracter(decena)
+                c4 := numeroCaracter(unidad)
+
+                cantidadPalabras := c1 + c2 + c3 + c4
+
+                Si liTema = 'I' y numero < 150 entonces
+                    ESCRIBIR(secSalida, liNombre)
+                    ESCRIBIR(secSalida, cantidadPalabras)
+                Fin Si
+
+                Si liTema = 'A' entonces
+                    existeAutoayudaBoolean := Verdadero
+                Fin Si
+
+            Fin Mientras
+
+            Si existeAutoayudaBoolean entonces
+                existeAutoayuda := "Tiene Autoayuda"
+            Sino
+                existeAutoayuda := "No tiene Autoayuda"
+            Fin Si
+
+            ESCRIBIR(secSalida, existeAutoayuda)
+
+        Fin Mientras
+
+    Fin Proceso
+Fin Accion
