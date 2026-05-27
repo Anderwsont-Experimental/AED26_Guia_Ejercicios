@@ -1,0 +1,115 @@
+/*
+Consigna, esquemas y desarrollo a mano:
+https://notes.myscript.com/page/7a1663ff-c5cf-4ef5-a0fb-f0d534376f3c
+*/
+ACCION Feria_del_Libro ES
+    Ambiente
+        sec_edit,sec_lib,sec_literatura : secuencia de caracter
+        edit, lib : caracter //ventanas de secuencias
+        tema,prov1,prov2: caracter //resguardos de caracteres de secuencia
+        resumen_pal, lib_cant, mayor_cant_lib, cant_pag, i: entero //acumuladores y contadores
+
+        FUNCION car_ent(c:caracter):entero ES
+            SEGUN c HACER
+                "0": car_ent := 0
+                "1": car_ent := 1
+                "2": car_ent := 2
+                "3": car_ent := 3
+                "4": car_ent := 4
+                "5": car_ent := 5
+                "6": car_ent := 6
+                "7": car_ent := 7
+                "8": car_ent := 8
+                "9": car_ent := 9
+            FIN_SEGUN
+                
+        FIN_FUNCION
+
+    Proceso
+        ARR(sec_edit); AVZ(sec_edit, edit)
+        ARR(sec_lib); AVZ(sec_lib, lib)
+        CREAR(sec_literatura)
+
+        mayor_cant_lib := 0
+        resumen_pal := 0
+
+        MIENTRAS (NoFDS(sec_edit) O NoFDS(sec_lib)) HACER
+            lib_cant := 0
+            MIENTRAS (lib <> "@") HACER
+                //parado en "Tema" del libro "n"
+                tema := lib
+                AVZ(sec_lib, lib)
+
+                //parado en 1er digito de "Paginas" del libro "n"
+                cant_pag := 0
+                PARA i := 1 HASTA 3 HACER
+                    cant_pag := cant_pag * 10 + car_ent(lib)
+                    AVZ(sec_lib, lib)
+                FIN_PARA
+
+                //parado en 1er letroa del titulo del libro "n"
+                MIENTRAS (lib <> "&") HACER
+                    SI ((tema = "L") Y (200 < cant_pag) Y (cant_pag <= 300)) ENTONCES
+                        ESCRIBIR(sec_literatura,lib)
+                    FIN_SI
+                    AVZ(sec_lib, lib)
+                FIN_MIENTRAS
+                ESCRIBIR(sec_literatura,"$") //marca de separacion de titulos en secuencia de salida
+                AVZ(sec_lib, lib) //avanza marca "&"
+
+                //parado en 1er letra de resumen de libro "n"
+                MIENTRAS (lib <> "#") HACER
+                    //barrido de blancos:
+                    MIENTRAS (lib <> " ") HACER
+                        AVZ(sec_lib, lib)
+                    FIN_MIENTRAS
+
+                    //barrido de palabra:
+                    MIENTRAS ((lib <> " ") O (lib <> "#")) HACER
+                        AVZ(sec_lib, lib)
+                    FIN_MIENTRAS
+                    resumen_pal := resumen_pal + 1
+
+                FIN_MIENTRAS
+                lib_cant := lib_cant + 1
+                AVZ(sec_lib, lib) //avanza marca "#"
+                //termina libro "n"
+                //parado en "tema" de libro "n+1"
+
+            FIN_MIENTRAS
+            //termina todos los libros de una editioral
+            AVZ(sec_lib, lib) //avanza marca "@"
+
+            //inicio tratamiento secuencia Editoriales
+            //parado en 1er letra del nombre de editorial
+            ESCRIBIR("Editorial:")
+            MIENTRAS (edit <> "&") HACER
+                ESCRIBIR(edit)
+                AVZ(sec_edit, edit)
+            FIN_MIENTRAS
+            AVZ(sec_edit, edit) //avanza "&"
+
+            ESCRIBIR("Promedio de palabras por resumen en editorial: ", resumen_pal / lib_cant)
+
+            //parado en 1er num de provincia
+            SI (lib_cant>mayor_cant_lib) ENTONCES
+                mayor_cant_lib := lib_cant
+                prov1 := edit
+                AVZ(sec_edit, edit)
+                prov2 := edit
+            SINO
+                AVZ(sec_edit, edit)
+            FIN_SI
+            //parado en 2do num de provincia
+            AVZ(sec_edit, edit)
+            //parado en 1er letra de siguiente editorial.
+
+        FIN_MIENTRAS
+
+        ESCRIBIR("Provincia con mayor cantidad de libros presentados: ",prov1,prov2)
+
+        CERRAR(sec_edit)
+        CERRAR(sec_lib)
+        CERRAR(sec_literatura)
+        
+FIN_ACCION
