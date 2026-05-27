@@ -30,3 +30,106 @@ Requisitos
 Variante:
     Que el usuario ingrese la variacion de X (inicialmente de 20 a -20) y el paso a calcular (inicialmente en 2)
 */
+
+ACCION funcion_cuadratica_multi11 ES
+    Ambiente
+        a,b,c,x,y: entero
+        i, cant_YM11, cant_YnoM11, max_a, num_funcion: entero
+        op: (0,1,2)
+        continuar: ("s","n")
+
+        FUNCION multi_11_alt(n:entero):logico ES //alternativa usando la suma con signo alternado de sus digitos.
+            Ambiente
+                operacion,sum: entero
+            Proceso
+                n:= ABSO(n)
+                operacion := 1
+                REPETIR
+                    sum := sum + n MOD 10 * operacion
+                    operacion := operacion * (-1) // en cada iteracion cambia el signo de operacion
+                    n := n DIV 10
+                HASTA QUE (N=0)
+                SI (sum = 0) ENTONCES
+                    multi_11 := verdadero
+                SINO
+                    multi_11 := falso
+                FIN_SI
+        FIN_FUNCION
+
+        FUNCION multi_11(n:entero):logico ES
+            Ambiente
+                par,impar:= entero
+            Proceso
+                impar := 0
+                par := 0
+                REPETIR
+                    impar := impar + n MOD 10
+                    n := n DIV 10
+                    par := par + n MOD 10
+                    n := n DIV 10
+                HASTA QUE (n=0)
+                SI (par = impar) ENTONCES
+                    multi_11 := verdadero
+                SINO
+                    multi_11 := falso
+                FIN_SI
+        FIN_FUNCION
+
+        PROCEDIMIENTO imp_X_Y ES
+            ESCRIBIR("X=",x,"Y=",y)
+            SI (multi_11(y)) ENTONCES
+                ESCRIBIR("Y es multiplo de 11.")
+                cant_YM11 := cant_YM11 + 1
+            SINO
+                ESCRIBIR("Y NO ES multiplo de 11.")
+                cant_YnoM11 := cant_YnoM11 + 1
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO recorridoFuncion ES
+            cant_YM11 := 0
+            cant_YnoM11 := 0
+            ESCRIBIR("Ingrese los coeficientes a,b y c de la forma 'aX^2+bX+C=0'")
+            LEER(a,b,c)
+            PARA X := 20 HASTA -20, -2 HACER
+                y := a * (x **2) + b * x + c
+                imp_X_Y
+            FIN_PARA
+            SI (a>max_a) ENTONCES
+                max_a := a
+            FIN_SI
+            ESCRIBIR("Cantidad de Y multiplos de 11:",cant_YM11)
+            ESCRIBIR("Cantidad de Y NO multiplos de 11:",cant_YnoM11)
+        FIN_PROCEDIMIENTO
+    Proceso
+        ESCRIBIR("Se generarán las coordenadas 'x,y' para las funciones cuadráticas ingresadas.")
+        //menu opciones:
+        ESCRIBIR("Ingrese el nº de opcion deseada:")
+        ESCRIBIR("1: Cantidad definida de funciones a ingresar")
+        ESCRIBIR("2: Cantidad indetermindada de funciones a ingresar")
+        ESCRIBIR("0: Salir")
+        LEER(op)
+        //tratamiento opciones
+        max_a := 0
+        SEGUN op HACER
+            0:  ESCRIBIR("Cerrando el programa sin ejecuciones")
+
+            1:  ESCRIBIR("Ingrese cuantas funciones desea operar:")
+                LEER(num_funcion)
+                PARA i := 1 HASTA num_funcion HACER
+                    ESCRIBIR("Trabajando funcion ",i," de ",num_funcion)
+                    recorridoFuncion
+                FIN_PARA
+                ESCRIBIR("El mayor numero 'a' ingresado es: ", max_a)
+
+            2:  REPETIR
+                    recorridoFuncion
+                    ESCRIBIR("Ingresar otra función? [s/n]")
+                    LEER(continuar)
+                HASTA QUE (continuar = "n")
+                ESCRIBIR("El mayor numero 'a' ingresado es: ", max_a)
+
+            otros : ESCRIBIR("Opcion incorrecta")
+        FIN_SEGUN
+        ESCRIBIR("Vuelva pronto!")
+FIN_ACCION
