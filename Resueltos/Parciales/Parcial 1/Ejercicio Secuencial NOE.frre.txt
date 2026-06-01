@@ -27,3 +27,99 @@ Además, informar:
     Cantidad de palabras del reporte más corto.
     Total de caracteres erróneos encontrados en toda la secuencia.
 */
+
+/*Desarrollo en Anotador:
+
+https://notes.myscript.com/page/c2822ee2-ad6a-415b-9e88-4e672572800a
+
+*/
+
+ACCION decodificador_clima ES
+    Ambiente
+        sec_cod, sec_decod : secuencia de caracter
+        v: caracter
+        cont_rep_A, cont_rep_rec, cant_pal_rep, cant_pal_menor, cant_error: entero
+        consonantes = ("b","c","d","f",..,"x","y","z")
+        num_vocal = (1..5)
+
+        FUNCION decodi(c:caracter):caracter ES
+            //segun consigna
+        FIN_FUNCION
+
+        FUNCION deco_vocal(c: caracter):caracter ES
+            SEGUN c HACER
+                "1": deco_vocal := "a"
+                "2": deco_vocal := "e"
+                "3": deco_vocal := "i"
+                "4": deco_vocal := "o"
+                "5": deco_vocal := "u"
+            FIN_SEGUN
+        FIN_FUNCION
+
+    Proceso
+        ARR(sec_cod)
+        AVZ(sec_cod, v)
+        CREAR(sec_decod)
+
+        cont_rep_A := 0
+        cont_rep_rec := 0
+        cant_pal_menor := 0
+        cant_error := 0
+
+        
+        MIENTRAS (v<>"*") HACER //inicio recorrido de secuencia
+            //parado en num del 1 al 5
+            AVZ(sec_cod, v)
+
+            //parado 1er letra de Descripcion del msj
+            cant_pal_rep := 0
+
+            MIENTRAS (v<>"&") HACER //recorrido de letras de Descripcion
+
+                SI (v="$") ENTONCES
+                    ESCRIBIR(sec_decod," ")
+                SINO
+                    SI (v EN num_vocal) ENTONCES
+                        ESCRIBIR(sec_decod,deco_vocal(v))
+                    SINO
+                        SI (v EN consonantes) ENTONCES
+                            ESCRIBIR(sec_decod,decodi(v))
+                        SINO
+                            cant_error := cant_error + 1
+                        FIN_SI
+                    FIN_SI
+                FIN_SI
+
+                AVZ(sec_cod, v) //avanzo a sig letra, signo $ o &
+
+                SI ((v="$") O (v="&")) ENTONCES
+                    cant_pal_rep := cant_pal_rep + 1 //cuento 1 palabra en el reporte
+                FIN_SI
+
+            FIN_MIENTRAS
+            //parado en "&"
+            AVZ(sec_cod, v)
+
+            //parado en "estado"
+            SI (v="A") ENTONCES
+                cont_rep_A := cont_rep_A + 1 //cuento reportes analizados
+            FIN_SI
+
+            cont_rep_rec := cont_rep_rec + 1 //cuento reporte recibido
+
+            SI ((cant_pal_rep < cant_pal_menor) O (cant_pal_menor = 0)) ENTONCES
+                cant_pal_menor := cant_pal_rep //reservo menor valor de palabras en reporte.
+            FIN_SI
+            
+            AVZ(sec_cod, v) //avanzo del estado, al siguiente reporte o marca de fin.
+
+        FIN_MIENTRAS
+        //fin tratamiento de secuencia
+
+        ESCRIBIR("Secuencia decodificada")
+        ESCRIBIR("Porcentaje de reportes analizados vs recibidos:",cont_rep_A/cont_rep_rec*100,"%")
+        ESCRIBIR("Cantidad de palabras del reporte mas corto:", cant_pal_menor)
+        ESCRIBIR("Se encontraron ",cant_error," error/es en la secuencia codificada")
+        CERRAR(sec_cod)
+        CERRAR(sec_decod)
+FIN_ACCION
