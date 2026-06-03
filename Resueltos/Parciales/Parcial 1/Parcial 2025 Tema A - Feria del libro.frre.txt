@@ -2,12 +2,15 @@
 Consigna, esquemas y desarrollo a mano:
 https://notes.myscript.com/page/7a1663ff-c5cf-4ef5-a0fb-f0d534376f3c
 */
+//correcciones de Profe Ilse y Nicolas Flores
+
 ACCION Feria_del_Libro ES
     Ambiente
         sec_edit,sec_lib,sec_literatura : secuencia de caracter
         edit, lib : caracter //ventanas de secuencias
         tema,prov1,prov2: caracter //resguardos de caracteres de secuencia
         resumen_pal, lib_cant, mayor_cant_lib, cant_pag, i: entero //acumuladores y contadores
+        flag : logico
 
         FUNCION car_ent(c:caracter):entero ES
             SEGUN c HACER
@@ -31,10 +34,11 @@ ACCION Feria_del_Libro ES
         CREAR(sec_literatura)
 
         mayor_cant_lib := 0
-        resumen_pal := 0
 
-        MIENTRAS (NoFDS(sec_edit) O NoFDS(sec_lib)) HACER
+        MIENTRAS (NoFDS(sec_edit)) HACER
             lib_cant := 0
+            resumen_pal := 0
+
             MIENTRAS (lib <> "@") HACER
                 //parado en "Tema" del libro "n"
                 tema := lib
@@ -47,14 +51,18 @@ ACCION Feria_del_Libro ES
                     AVZ(sec_lib, lib)
                 FIN_PARA
 
-                //parado en 1er letroa del titulo del libro "n"
+                //parado en 1er letra del titulo del libro "n"
+                flag := Falso
                 MIENTRAS (lib <> "&") HACER
                     SI ((tema = "L") Y (200 < cant_pag) Y (cant_pag <= 300)) ENTONCES
                         ESCRIBIR(sec_literatura,lib)
+                        flag := Verdadero
                     FIN_SI
                     AVZ(sec_lib, lib)
                 FIN_MIENTRAS
-                ESCRIBIR(sec_literatura,"$") //marca de separacion de titulos en secuencia de salida
+                SI (flag) ENTONCES
+                    ESCRIBIR(sec_literatura,"$") //marca de separacion de titulos en secuencia de salida
+                FIN_SI
                 AVZ(sec_lib, lib) //avanza marca "&"
 
                 //parado en 1er letra de resumen de libro "n"
