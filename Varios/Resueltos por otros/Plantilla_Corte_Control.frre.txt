@@ -1,0 +1,105 @@
+/* Modelo Ejemplo Base de Corte de Control.
+*/
+
+Accion ejemplo es
+    Ambiente
+        //definicion del registro.
+        reg = Registro
+            clave3: N(8)
+            clave2: N(4)
+            clave1: N(2)
+            clave0: N(2)
+            campo1: ("Si", "No")
+            campo2: N(2)
+            campo3: AN(50)
+        fin_Registro
+        //definicion del archivo
+        Arch : archivo de reg ordenado por clave3, clave2, clave1 y clave0
+        r : reg
+        //definicion de resguardos para cortes
+        Resg3: N(8)
+        Resg2: N(4)
+        Resg1: N(2)
+        //definicion de contadores
+        contt, cont3, cont2, cont1: entero
+
+        //Definicion de Procedimientos ADAPTABLES al enunciado
+
+        PROCEDIMIENTO inicializar es
+            //Inicializar los archivos.
+            Abrir E/(Arch)
+            leer(Arch, r)
+            //Inicializar los totalizadores.
+            contt := 0
+            cont3 := 0
+            cont2 := 0
+            cont1 := 0
+            //Inicializar los Resguardos
+            Resg3 := r.clave3
+            Resg2 := r.clave2
+            Resg1 := r.clave1
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO tratar_registro es
+            cont1 := cont1 + 1
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO emitir_totales es
+            Esc("El total general de entradas es: ", contt)
+        FIN_PROCEDIMIENTO
+
+        //Definicion de procedimientos estandarizados.
+
+        PROCEDIMIENTO corte_1 es
+            Esc("Para el ", Resg1, " existen: ", cont1) //Emitir resultados del nivel
+            cont2 := cont2 + cont1 //Acumular totales al nivel superior
+            //Escribir archivo de salida.
+            cont1 := 0 //Reiniciar totales de este nivel
+            Resg1 := r.clave1 //Resguardar la nueva clave
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO corte_2 es
+            corte_1 //llamada al corte_n-1
+            Esc("Para el ", Resg2, " existen: ", cont2) //Emitir resultados del nivel
+            cont3 := cont3 + cont2 //Acumular totales al nivel superior
+            //Escribir archivo de salida.
+            cont2 := 0 //Reiniciar totales de este nivel
+            Resg2 := r.clave2 //Resguardar la nueva clave
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO corte_3 es
+            corte_2 //llamada al corte_n-1
+            Esc("Para el ", Resg3, " existen: ", cont3) //Emitir resultados del nivel
+            contt := contt + cont3 //Acumular totales al nivel superior
+            //Escribir archivo de salida.
+            cont3 := 0 //Reiniciar totales de este nivel
+            Resg3 := r.clave3 //Resguardar la nueva clave
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO tratar_corte es
+            Si r.clave3 <> Resg3 entonces
+                corte_3
+            sino
+                si r.clave2 <> Resg2 entonces
+                    corte_2
+                sino
+                    si r.clave1 <> Resg1 entonces
+                        corte_1
+                    FIN_SI
+                FIN_SI
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+    Proceso
+        Inicializar
+
+        Mientras NFDA(Arch) hacer //recorre el archivo
+            tratar_corte
+            tratar_registro
+            leer(Arch, r)
+        FIN_MIENTRAS
+
+        corte_3 //llamado al maximo nivel de corte.
+        emitir_totales
+        cerrar(arch)
+FIN_ACCION
