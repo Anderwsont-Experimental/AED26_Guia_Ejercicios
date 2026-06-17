@@ -41,6 +41,7 @@ Accion ejemplo es
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO tratar_registro es
+            //Acciones del nivel de registro. Condicionales reg a reg.
             cont1 := cont1 + 1
         FIN_PROCEDIMIENTO
 
