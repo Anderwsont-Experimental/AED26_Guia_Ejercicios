@@ -21,7 +21,7 @@ Accion ejemplo es
         Resg2: N(4)
         Resg1: N(2)
         //definicion de contadores
-        contt, cont3, cont2, cont1: entero
+        contT, cont3, cont2, cont1: entero
 
         //Definicion de Procedimientos ADAPTABLES al enunciado
 
@@ -30,7 +30,7 @@ Accion ejemplo es
             Abrir E/(Arch)
             leer(Arch, r)
             //Inicializar los totalizadores.
-            contt := 0
+            contT := 0
             cont3 := 0
             cont2 := 0
             cont1 := 0
@@ -45,7 +45,7 @@ Accion ejemplo es
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO emitir_totales es
-            Esc("El total general de entradas es: ", contt)
+            Esc("El total general de entradas es: ", contT)
         FIN_PROCEDIMIENTO
 
         //Definicion de procedimientos estandarizados.
@@ -70,7 +70,7 @@ Accion ejemplo es
         PROCEDIMIENTO corte_3 es
             corte_2 //llamada al corte_n-1
             Esc("Para el ", Resg3, " existen: ", cont3) //Emitir resultados del nivel
-            contt := contt + cont3 //Acumular totales al nivel superior
+            conT := contT + cont3 //Acumular totales al nivel superior
             //Escribir archivo de salida.
             cont3 := 0 //Reiniciar totales de este nivel
             Resg3 := r.clave3 //Resguardar la nueva clave
