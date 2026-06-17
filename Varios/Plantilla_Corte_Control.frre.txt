@@ -21,7 +21,10 @@ Accion ejemplo es
         Resg2: N(4)
         Resg1: N(2)
         //definicion de contadores
+        //Set "base":
         contT, cont3, cont2, cont1: entero
+        /*Se agrega un "set" de estos por cada necesidad de la consigna.
+        El "set" puede ser de contadores o acumuladores, segun necesidad.*/
 
         //Definicion de Procedimientos ADAPTABLES al enunciado
 
@@ -41,7 +44,7 @@ Accion ejemplo es
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO tratar_registro es
-            //Acciones del nivel de registro. Condicionales reg a reg.
+            //Acciones del nivel de registro. Condicionales para 1 registro.
             cont1 := cont1 + 1
         FIN_PROCEDIMIENTO
 
@@ -49,7 +52,7 @@ Accion ejemplo es
             Esc("El total general de entradas es: ", contT)
         FIN_PROCEDIMIENTO
 
-        //Definicion de procedimientos estandarizados.
+        //Definicion de procedimientos estandarizados. Ajustar a cada consigna.
 
         PROCEDIMIENTO corte_1 es
             Esc("Para el ", Resg1, " existen: ", cont1) //Emitir resultados del nivel
@@ -89,18 +92,27 @@ Accion ejemplo es
                     FIN_SI
                 FIN_SI
             FIN_SI
+            //Si no hubo cambios, no se ejecuta nada y se sigue recorriendo el archivo.
         FIN_PROCEDIMIENTO
 
     Proceso
+
         Inicializar
 
         Mientras NFDA(Arch) hacer //recorre el archivo
+
             tratar_corte
+
             tratar_registro
-            leer(Arch, r)
+
+            leer(Arch, r) //MUY IMPORTANTE
+
         FIN_MIENTRAS
 
-        corte_3 //llamado al maximo nivel de corte.
-        emitir_totales
+        corte_3 //llamado al corte de mayor jerarquia.
+
+        emitir_totales //Totales acumulados por encima del corte de mayor jerarquia
+
         cerrar(arch)
+
 FIN_ACCION
