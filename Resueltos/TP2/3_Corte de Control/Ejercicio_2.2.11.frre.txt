@@ -1,0 +1,122 @@
+/*Ejercicio 2.2.11
+Se dispone de un archivo con datos de los alumnos de la U.T.N. con la siguiente información para cada alumno:
+
+PRODUCTOS Ordenado por Sexo, Carrera, Nro_Legajo
+
+    Sexo | Carrera | Nro_Legajo | Fecha_Ingreso | Total_Materias_Aprobadas
+
+Se desea un listado con el siguiente detalle por sexo, carrera y total general
+
+    Total de alumnos que ingresaron en el año 2009 con más de 20 materias aprobadas.
+    Total de alumnos que ingresaron en el año 2009 con menos de 20 materias aprobadas.
+
+*/
+
+ACCION materias_2009_alumnos ES
+    Ambiente
+        //definicion registro y archivo
+        reg_alu = Registro
+            gen : ("M","F","X")
+            carr : ("ISI","IQ","IEM","LAR","TSP","MEC")
+            Nro_Leg : n(5)
+            fecha_ing = Registro
+                anio : (1900..2050)
+                mes : (1..12)
+                dia : (1..31)
+            Fin_Registro
+            mat_aprob : N(2)
+        Fin_Registro
+        arch_alu : archivo de reg_alu ordenado por gen,carr y Nro_Leg
+        alu: reg_alu
+
+        //resguardo
+        resg_gen : ("M","F","X")
+        resg_carr : ("ISI","IQ","IEM","LAR","TSP","MEC")
+
+        //acumuladores x corte
+        //c1            c2              total
+        carr_al_mas20,  gen_al_mas20,   tot_al_mas20    : entero
+        carr_al_men20,  gen_al_men20,   tot_al_men20    : entero
+
+        PROCEDIMIENTO inicializar ES
+            //archivos
+            ABRIR E/(arch_alu)
+            LEER(arch_alu,alu)
+            //totalizadores
+            tot_al_mas20 := 0
+            tot_al_men20 := 0
+            gen_al_mas20 := 0
+            gen_al_men20 := 0
+            carr_al_mas20 := 0
+            carr_al_men20 := 0
+            //resguardo registro
+            resg_gen := alu.gen
+            resg_carr := alu.carr
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO tratar_registro ES
+            SI (alu.fecha_ing.anio <> 2009) ENTONCES
+                SI (alu.mat_aprob > 20) ENTONCES
+                    carr_al_mas20 := carr_al_mas20 + 1
+                SINO
+                    carr_al_men20 := carr_al_men20 + 1
+                FIN_SI
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO emitir_totales ES
+            ESCRIBIR("Total gral de alumnos 2009 con mas de 20 materias aprobadas:", tot_al_mas20)
+            ESCRIBIR("Total gral de alumnos 2009 con menos de 20 materias aprobadas:", tot_al_men20)
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO corte_carr ES
+            //emitir resultados nivel
+            ESCRIBIR("Cantidad alumnos 2009 con mas de 20 materias en",resg_carr,"es: ",carr_al_mas20)
+            ESCRIBIR("Cantidad alumnos 2009 con menos de 20 materias en",resg_carr,"es: ",carr_al_men20)
+            //acumulacion totales nivel superior
+            gen_al_mas20 := gen_al_mas20 + carr_al_mas20
+            gen_al_men20 := gen_al_men20 + carr_al_men20
+            //reinicio totales del nivel
+            carr_al_mas20 := 0
+            carr_al_men20 := 0
+            //resguardo clave del nivel
+            resg_carr := alu.carr
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO corte_gen ES
+            //llamada a corte menor
+            corte_carr
+            //emitir resultados nivel
+            ESCRIBIR("Cantidad alumnos 2009 del género ",resg_gen,"con mas de 20 materias aprobadas",gen_al_mas20)
+            ESCRIBIR("Cantidad alumnos 2009 del género ",resg_gen,"con menos de 20 materias aprobadas",gen_al_men20)
+            //acumular totales del nivel
+            tot_al_mas20 := tot_al_mas20 + gen_al_mas20
+            tot_al_men20 := tot_al_men20 + gen_al_men20
+            //reinicializacion de total del nivel
+            gen_al_mas20 := 0
+            gen_al_men20 := 0
+            //resguardo de clave del nivel
+            resg_gen := alu.gen
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO tratar_corte ES
+            SI (alu.gen <> resg_gen) ENTONCES
+                corte_gen
+            SINO
+                SI (alu.carr <> resg_carr) ENTONCES
+                    corte_carr
+                FIN_SI
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+    Proceso
+        inicializar
+        MIENTRAS (NFDA(arch_alu)) HACER
+            tratar_corte
+            tratar_registro
+            LEER(arch_alu,alu)
+        FIN_MIENTRAS
+        corte_carr
+        emitir_totales
+        CERRAR(arch_alu)
+FIN_ACCION

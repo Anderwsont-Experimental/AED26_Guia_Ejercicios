@@ -1,0 +1,112 @@
+/* Modelo Ejemplo Base de Corte de Control.*/
+
+Accion ejemplo es
+    Ambiente
+        //definicion del registro.
+        reg = Registro
+            clave3: N(8)
+            clave2: N(4)
+            clave1: N(2)
+            clave0: N(2)
+            campo1: ("Si", "No")
+            campo2: N(2)
+            campo3: AN(50)
+        fin_Registro
+        //definicion del archivo
+        Arch : archivo de reg ordenado por clave3, clave2, clave1 y clave0
+        r : reg
+        //definicion de resguardos para cortes
+        Resg3: N(8)
+        Resg2: N(4)
+        Resg1: N(2)
+        //definicion de contadores
+        //Set "base":
+        contT, cont3, cont2, cont1: entero
+        /*Se agrega un "set" de estos por cada necesidad de la consigna.
+        El "set" puede ser de contadores o acumuladores, segun necesidad.*/
+
+        //Definicion de Procedimientos ADAPTABLES al enunciado
+
+        //Definicion de procedimientos estandarizados. Ajustar a cada consigna.
+            /*NOTA: Para escribir archivos de salida, usamos el nivel de
+                jerarquia de corte menor EQUIVALENTE al menor campo en el
+                archivo de salida que se pide.
+                En los cortes de nivel jerarquia mayor no se vuelve a escribir el archivo de salida
+                Utilizar variables de RESGUARDO para la carga
+                Si arch_sal tiene acumulacion por cont2, Esc(arch_sal,x) se hace en corte_2*/
+
+        //Jerarquia MENOR
+        PROCEDIMIENTO corte_1 es
+            Esc("Para el ", Resg1, " existen: ", cont1) //Emitir resultados del nivel
+            cont2 := cont2 + cont1 //Acumular totales al nivel superior
+            //Escribir archivo de salida (Ver NOTA)
+            cont1 := 0 //Reiniciar totales de este nivel
+            Resg1 := r.clave1 //Resguardar la nueva clave de este nivel
+        FIN_PROCEDIMIENTO
+
+        //Jerarquia INTERMEDIA
+        PROCEDIMIENTO corte_2 es
+            corte_1 //llamada al corte_n-1
+            Esc("Para el ", Resg2, " existen: ", cont2) //Emitir resultados del nivel
+            cont3 := cont3 + cont2 //Acumular totales al nivel superior
+            //Escribir archivo de salida (Ver NOTA)
+            cont2 := 0 //Reiniciar totales de este nivel
+            Resg2 := r.clave2 //Resguardar la nueva clave de este nivel
+        FIN_PROCEDIMIENTO
+
+        //Jerarquia MAYOR
+        PROCEDIMIENTO corte_3 es
+            corte_2 //llamada al corte_n-1
+            Esc("Para el ", Resg3, " existen: ", cont3) //Emitir resultados del nivel
+            conT := contT + cont3 //Acumular totales al nivel superior
+            //Escribir archivo de salida (Ver NOTA)
+            cont3 := 0 //Reiniciar totales de este nivel
+            Resg3 := r.clave3 //Resguardar la nueva clave de este nivel
+        FIN_PROCEDIMIENTO
+
+    Proceso
+
+            //Inicializar los archivos.
+            Abrir E/(Arch)
+            leer(Arch, r)
+            //Inicializar los totalizadores.
+            contT := 0
+            cont3 := 0
+            cont2 := 0
+            cont1 := 0
+            //Resguardos de registro
+            Resg3 := r.clave3
+            Resg2 := r.clave2
+            Resg1 := r.clave1
+
+        Mientras NFDA(Arch) hacer //recorre el archivo
+
+            //Tratar corte. determinar si hubo cambios en el registro actual
+            Si r.clave3 <> Resg3 entonces
+                corte_3
+            sino
+                si r.clave2 <> Resg2 entonces
+                    corte_2
+                sino
+                    si r.clave1 <> Resg1 entonces
+                        corte_1
+                    FIN_SI
+                FIN_SI
+            FIN_SI
+
+            //Tratar registro. Acciones del nivel de registro. Condicionales para 1 registro.
+            cont1 := cont1 + 1
+
+            leer(Arch, r) //MUY IMPORTANTE
+
+        FIN_MIENTRAS
+
+        //llamado al corte de mayor jerarquia.
+        corte_3 
+
+        //Emitir Totales. Totales acumulados por encima del corte de mayor jerarquia
+        Esc("El total general de entradas es: ", contT)
+
+        cerrar(arch)
+
+FIN_ACCION
