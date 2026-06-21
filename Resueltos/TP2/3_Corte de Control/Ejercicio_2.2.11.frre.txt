@@ -38,6 +38,7 @@ ACCION materias_2009_alumnos ES
         carr_al_mas20,  gen_al_mas20,   tot_al_mas20    : entero
         carr_al_men20,  gen_al_men20,   tot_al_men20    : entero
 
+        //procedimientos del proceso de corte
         PROCEDIMIENTO inicializar ES
             //archivos
             ABRIR E/(arch_alu)
@@ -69,6 +70,7 @@ ACCION materias_2009_alumnos ES
             ESCRIBIR("Total gral de alumnos 2009 con menos de 20 materias aprobadas:", tot_al_men20)
         FIN_PROCEDIMIENTO
 
+        //Corte nivel 1
         PROCEDIMIENTO corte_carr ES
             //emitir resultados nivel
             ESCRIBIR("Cantidad alumnos 2009 con mas de 20 materias en",resg_carr,"es: ",carr_al_mas20)
@@ -83,6 +85,7 @@ ACCION materias_2009_alumnos ES
             resg_carr := alu.carr
         FIN_PROCEDIMIENTO
 
+        //corte nivel 2
         PROCEDIMIENTO corte_gen ES
             //llamada a corte menor
             corte_carr
@@ -99,6 +102,7 @@ ACCION materias_2009_alumnos ES
             resg_gen := alu.gen
         FIN_PROCEDIMIENTO
 
+        //eleccion de corte
         PROCEDIMIENTO tratar_corte ES
             SI (alu.gen <> resg_gen) ENTONCES
                 corte_gen
