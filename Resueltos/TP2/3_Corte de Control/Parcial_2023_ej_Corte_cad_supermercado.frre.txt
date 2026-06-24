@@ -1,0 +1,136 @@
+/* Ejercicio Corte de Control
+Parcial 2023
+Cadena Supermercados.*/
+
+Accion Informe_Stock_reponer es
+    Ambiente
+        //definicion del registro entrada
+        reg_sup = Registro
+            Cl2_Cod_Suc: N(2) //Clave Corte 2
+            Cl1_Rubro: AN(20) //Clave Corte 1
+            Cl0_Cod_Art: N(5) //Clave 0
+            Fecha_Ult_rep : fecha //falta definir
+            Stock_Seguridad: N(10)
+            Stock_Actual: N(10)
+        fin_Registro
+        //definicion del archivo
+        Arch_suc : archivo de reg_sup ordenado por Cl2_Cod_Suc, Cl1_Rubro y Cl0_Cod_Art
+        sup : reg_sup
+
+        //def registro salida
+        reg_art_repo = Registro
+            cod_suc : N(2)
+            cod_rub : N(20)
+            cant_Art : N(10)
+        Fin_Registro
+        Arch_total_repo : archivo de reg_art_repo
+        art_repo : reg_art_repo
+
+        //definicion de resguardos para cortes
+        Resg2_suc: N(2)  //resguardo Corte 2
+        Resg1_rub: N(20) //resguardo Corte 1
+
+        //definicion de contadores
+        cantT_art, cant2_art, cant1_art: entero //cantidad de articulos que necesitan reposicion.
+
+        //Definicion de Procedimientos ADAPTABLES al enunciado
+
+        PROCEDIMIENTO inicializar es
+            //Inicializar los archivos.
+            Abrir E/(Arch_suc)
+            leer(Arch_suc, suc)
+            //Inicializar los totalizadores.
+            cantT_art := 0
+            cant2_art := 0
+            cant1_art := 0
+            //Resguardos de registro
+            Resg2_suc := suc.Cl2_Cod_Suc
+            Resg1_rub := suc.Cl1_Rubro
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO tratar_registro es
+            //Acciones del nivel de registro. Condicionales para 1 registro.
+            SI (suc.Stock_Actual < suc.Stock_Seguridad) ENTONCES
+                //este articulo no tiene stock suficiente.
+                ESCRIBIR("Sucursal:",Cl2_Cod_Suc,"Rubro:",Cl1_Rubro,"Codigo Articulo:",Cl0_Cod_Art)
+                cant1_art := cant1_art + 1 //cuento el articulo con faltante de stock
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO emitir_totales es
+            ESCRIBIR("Cantidad total de articulos que requieren reposicion:", cantT_art)
+        FIN_PROCEDIMIENTO
+
+        //Procedimientos de corte.
+
+        //Jerarquia MENOR
+        PROCEDIMIENTO C1_rubro es
+            //Emitir resultados del nivel
+            ESCRIBIR("Cant Articulos a reponer en rubro",Resg1_rub,"es",cant1_art)
+            cant2_art := cant2_art + cant1_art //Acumular totales al nivel superior
+            //Escribir archivo de salida (Ver NOTA)
+            art_repo.cod_suc := Resg2_suc
+            art_repo.cod_rub := Resg1_rub
+            art_repo.cant_Art := cant1_art
+            ESCRIBIR(Arch_total_repo,art_repo)
+            //Reiniciar totales de este nivel
+            cont1 := 0
+            Resg1 := r.clave1 //Resguardar la nueva clave de este nivel
+        FIN_PROCEDIMIENTO
+
+        //Jerarquia INTERMEDIA
+        PROCEDIMIENTO C2_Sucursal es
+            corte_1 //llamada al corte_n-1
+            Esc("Para el ", Resg2, " existen: ", cont2) //Emitir resultados del nivel
+            cont3 := cont3 + cont2 //Acumular totales al nivel superior
+            //Escribir archivo de salida (Ver NOTA)
+            cont2 := 0 //Reiniciar totales de este nivel
+            Resg2 := r.clave2 //Resguardar la nueva clave de este nivel
+        FIN_PROCEDIMIENTO
+
+        //Jerarquia MAYOR
+        PROCEDIMIENTO corte_3 es
+            corte_2 //llamada al corte_n-1
+            Esc("Para el ", Resg3, " existen: ", cont3) //Emitir resultados del nivel
+            conT := contT + cont3 //Acumular totales al nivel superior
+            //Escribir archivo de salida (Ver NOTA)
+            cont3 := 0 //Reiniciar totales de este nivel
+            Resg3 := r.clave3 //Resguardar la nueva clave de este nivel
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO tratar_corte es
+            Si r.clave3 <> Resg3 entonces
+                corte_3
+            sino
+                si r.clave2 <> Resg2 entonces
+                    corte_2
+                sino
+                    si r.clave1 <> Resg1 entonces
+                        corte_1
+                    FIN_SI
+                FIN_SI
+            FIN_SI
+            //Si no hubo cambios, no se ejecuta nada y se sigue recorriendo el archivo.
+        FIN_PROCEDIMIENTO
+
+    Proceso
+
+        Inicializar
+
+        Mientras NFDA(Arch) hacer //recorre el archivo
+
+            tratar_corte
+
+            tratar_registro
+
+            leer(Arch, r) //MUY IMPORTANTE
+
+        FIN_MIENTRAS
+
+        corte_3 //llamado al corte de mayor jerarquia.
+
+        emitir_totales //Totales acumulados por encima del corte de mayor jerarquia
+
+        cerrar(arch)
+
+FIN_ACCION
