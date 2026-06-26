@@ -4,8 +4,9 @@ Bookmarks
 Live Share
 VSCode Color Picker
 
-## UTN:
+## Pseudocódigo:
 Pseudocódigo UTN de Anderwsont
+PSeInt - Pseudocódigo en Español
 
 ## Git:
 Git Graph
