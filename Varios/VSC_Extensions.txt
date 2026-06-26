@@ -1,0 +1,33 @@
+## Calidad de vida:
+indent-rainbow
+Bookmarks
+Live Share
+VSCode Color Picker
+
+## UTN:
+Pseudocódigo UTN de Anderwsont
+
+## Git:
+Git Graph
+GitLens — Git supercharged
+
+## Archivos CSV:
+CSV Grid Editor: CSV & TSV Viewer
+Rainbow CSV
+
+## Python:
+Pylance
+Python
+Python Debugger
+Python Environments
+
+## C/C++:
+C/C++ Extension Pack
+
+## Esteticos:
+VSCode Animations
+vscode-pokemon
+
+## Misceláneos:
+vscode-random
+Ridiculous Coding
