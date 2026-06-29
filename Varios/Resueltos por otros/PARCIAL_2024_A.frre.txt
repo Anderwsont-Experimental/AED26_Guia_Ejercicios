@@ -1,0 +1,105 @@
+/*by Lucio
+luciotbinaghi
+*/
+
+ACCION EJERCICIO_HOTELES ES
+AMBIENTE
+    FECHA = REGISTRO
+        AA: N(4);
+        MM: 1..12;
+        DD: 1..31; 
+    FIN_REGISTRO
+
+    RESERVA = REGISTRO
+        NRO_HOTEL: N(4);
+        TIPO_Noches: ("IND", "DOB", "SUITE");
+        NRO_RESERVA: N(6);
+        FECHA_INGRESO: FECHA;
+        CANT_NOCHES: N(3);
+        IMPORTE: N(5,2);
+    FIN_REGISTRO
+
+    ARCH_RESERVAS: Archivo de RESERVA ordenado por NRO_HOTEL, TIPO_Noches, NRO_RESERVA;
+    REG_RESERVA: RESERVA;
+
+    SALIDA = REGISTRO
+        NRO_HOTEL: N(4);
+        TOTAL_DOB: N(5); 
+        TOTAL_SUITE: N(5);
+    FIN_REGISTRO
+
+    ARCH_SAL: Archivo de SALIDA;
+    REG_SAL: SALIDA;
+
+    Tot_Noches: entero;   
+    Tot_Hotel_DOB: entero;    
+    Tot_Hotel_SUITE: entero; 
+
+    RESG_NRO_HOTEL: N(4);
+    RESG_TIPO_HAB: ("IND", "DOB", "SUITE");
+
+    PROCEDIMIENTO INICIALIZAR() ES
+        Tot_Noches := 0;
+        Tot_Hotel_DOB := 0;
+        Tot_Hotel_SUITE := 0;
+
+        RESG_NRO_HOTEL := REG_RESERVA.NRO_HOTEL;
+        RESG_TIPO_HAB := REG_RESERVA.TIPO_Noches;
+    FIN_PROCEDIMIENTO
+
+    PROCEDIMIENTO CORTE_HABITACION() ES
+        ESC("Tipo de Habitalacion: ", RESG_TIPO_HAB, " - Total noches: ", Tot_Noches);
+
+        SI RESG_TIPO_HAB = "DOB" ENTONCES
+            Tot_Hotel_DOB := Tot_Hotel_DOB + Tot_Noches;
+        SINO
+            SI RESG_TIPO_HAB = "SUITE" ENTONCES
+                Tot_Hotel_SUITE := Tot_Hotel_SUITE + Tot_Noches;
+            FIN_SI
+        FIN_SI
+
+        Tot_Noches := 0;
+        RESG_TIPO_HAB := REG_RESERVA.TIPO_Noches;
+    FIN_PROCEDIMIENTO
+
+    PROCEDIMIENTO CORTE_HOTEL() ES
+        CORTE_HABITACION();
+        ESC("HOTEL: ", RESG_NRO_HOTEL);
+        
+        REG_SAL.NRO_HOTEL := RESG_NRO_HOTEL;
+        REG_SAL.TOTAL_DOB := Tot_Hotel_DOB;
+        REG_SAL.TOTAL_SUITE := Tot_Hotel_SUITE;
+        ESC(ARCH_SAL, REG_SAL);
+
+        SI Tot_Hotel_DOB > Tot_Hotel_SUITE ENTONCES
+            ESC("El hotel ", RESG_NRO_HOTEL, " tuvo mayor cantidad de noches reservadas en_Nocheses DOBLES que en SUITES.");
+        FIN_SI
+
+        Tot_Hotel_DOB := 0;
+        Tot_Hotel_SUITE := 0;
+        RESG_NRO_HOTEL := REG_RESERVA.NRO_HOTEL;
+    FIN_PROCEDIMIENTO
+
+PROCESO
+    ABRIR E/(ARCH_RESERVAS); ABRIR /S(ARCH_SAL);
+    LEER(ARCH_RESERVAS, REG_RESERVA);
+
+    INICIALIZAR();
+
+    MIENTRAS NFDA(ARCH_RESERVAS) HACER
+        SI RESG_NRO_HOTEL <> REG_RESERVA.NRO_HOTEL ENTONCES
+            CORTE_HOTEL();
+        SINO 
+            SI RESG_TIPO_HAB <> REG_RESERVA.TIPO_Noches ENTONCES
+                CORTE_HABITACION();
+            FIN_SI
+        FIN_SI
+
+        Tot_Noches := Tot_Noches + REG_RESERVA.CANT_NOCHES;
+
+        LEER(ARCH_RESERVAS, REG_RESERVA);
+    FIN_MIENTRAS
+    CORTE_HOTEL();
+
+    CERRAR(ARCH_RESERVAS); CERRAR(ARCH_SAL);
+FINACCION.
