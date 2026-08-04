@@ -1,0 +1,88 @@
+/* Proceso realizado por ciclo EXCLUYENTE*/
+
+ACCION actualizacion_unitaria ES
+    Ambiente
+        PROCEDIMIENTO Leer_Movimiento ES
+            LEER(Arch_mov, Reg_Mov)
+            SI FDA(Arch_mov) ENTONCES
+                Clave_Mov := HV
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO Leer_Maestro ES
+            LEER(Arch_mae, Reg_mae)
+            SI FDA(Arch_mae) ENTONCES
+                Clave_Mae := HV
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO Proceso_Iguales ES
+            SI (Reg_Mov.Cod_Mov = "alta") ENTONCES
+                ESCRIBIR("Error alta no existe")
+                Reg_sal := Reg_mae
+                ESCRIBIR(Arch_sal, Reg_sal)
+            SINO //eliminacion logica
+                Marcar_Registro
+                Reg_sal := Reg_mae
+                ESCRIBIR(Arch_sal, Reg_sal)
+            FIN_SI
+            Leer_Maestro
+            Leer_Movimiento
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO Proceso_Distintos ES
+            SI (Reg_Mov.Cod_Mov = "baja") ENTONCES
+                ESCRIBIR("Error baja no existe")
+            SINO
+                SI (Reg_Mov.Cod_Mov = "modificar") ENTONCES
+                    ESCRIBIR("Error modificacion no existe")
+                SINO// Asigna campo por campo, porque Reg_sal y Reg_mov tienen distinto formato
+                    Reg_sal.clave  := Reg_Mov.clave
+                    Reg_sal.campo1 := Reg_Mov.campo1
+                    Reg_sal.campo2 := Reg_Mov.campo2
+                    ...
+                    Reg_sal.campoN := Reg_Mov.campoN
+                    Reg_sal.Marca_baja := ""
+                    ESCRIBIR(Arch_sal, Reg_sal)
+                FIN_SI
+            FIN_SI
+            Leer_Movimiento
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO Proceso_Mod_Maestro ES
+            SI (Reg_Mov.campo1 <> "") ENTONCES
+                Reg_mae.campo1 := Reg_Mov.campo2
+            FIN_SI
+            SI (Reg_Mov.campo2 <> "") ENTONCES
+                Reg_mae.campo2 := Reg_Mov.campo2
+            FIN_SI
+            SI (Reg_Mov.campo3 <> "") ENTONCES
+                Reg_mae.campo3 := Reg_Mov.campo3
+            FIN_SI
+            //repetir para todos los campos del registro.
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO Marcar_Registro ES
+            Reg_mae.Marca_baja:= '*'
+            //en vez de asterisco se puede asignar la fecha del dia, o cualquier dato segun problema.
+        FIN_PROCEDIMIENTO
+
+    Proceso
+        Abrir_Archivos
+        Leer_Maestro
+        Leer_Movimiento
+        MIENTRAS (Clave_Mae <> HV) o (Clave_Mov <> HV) HACER
+            SI (Clave_Mae < Clave_Mov) ENTONCES //maestro sin modificacion
+                Reg_sal := Reg_mae
+                ESCRIBIR(Arch_sal, Reg_sal)
+                Leer_Maestro
+            SINO
+                SI (Clave_Mae = Clave_Mov) ENTONCES //modificacion o baja
+                    Proceso_Iguales
+                SINO //alta
+                    Proceso_Distintos
+                FIN_SI
+            FIN_SI
+        FIN_MIENTRAS
+        Cerrar_Archivos
+FIN_ACCION
