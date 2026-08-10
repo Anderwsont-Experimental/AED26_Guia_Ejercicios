@@ -1,0 +1,124 @@
+ACCION actualizacion_lotes ES
+    Ambiente
+        formato_clave = Registro
+            clave1: ...
+            clave2: ...
+            ...
+            claveN: ...
+        Fin_Registro
+
+        formato_maestro = Registro
+            clave: formato_clave
+            campo1: ...
+            campo2: ...
+            ...
+            campoN: ...
+            marca_baja: ...
+        Fin_Registro
+
+        formato_movimiento = Registro
+            clave: formato_clave
+            campo1: ...
+            campo2: ...
+            ...
+            campoN: ...
+            cod_mov: ("A","M","B")
+        Fin_Registro
+
+        mae, mae_sal: archivo de formato_maestro ordenado por clave
+        reg_sal, reg_mae, aux: formato_maestro
+
+        mov: archivo de formato_movimiento ordenado por clave
+        reg_mov: formato_movimiento
+
+        //subacciones
+
+        PROCEDIMIENTO leer_movimiento ES
+                LEER(mov, reg_mov)
+                SI (FDA(mov)) ENTONCES
+                    reg_mov.clave := high_value
+                FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO leer_maestro ES
+            LEER(mae, reg_mae)
+            SI (FDA(mae)) ENTONCES
+                reg_mae.clave := high_value
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO proceso_modif_maestro ES
+            //no se actualizan los campos claves.
+            SI (reg_mov.campo1 <> "") ENTONCES
+                aux.campo1 := reg_mov.campo1
+            FIN_SI
+            SI (reg_mov.campo2 <> "") ENTONCES
+                aux.campo2 := reg_mov.campo2
+            FIN_SI
+            ...
+            SI (reg_mov.campoN <> "") ENTONCES
+                aux.campoN := reg_mov.campoN
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO marcar_registro ES
+            //En vez de asterisco, se puede asignar la fecha del dia, o cualquier otro dato, segun el problema.
+            aux.marca_baja := "*"
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO proceso_movim ES
+            //comparar la informacion del registro de movimientos y, de acuedo a los valores que tengan, y alternar los contenidos del registro auxiliar (aux).
+            SI (reg_mov.cod_mov = "M") ENTONCES
+                //modificacion
+                proceso_modif_maestro
+            SINO
+                SI (reg_mov.cod_mov = "B") ENTONCES
+                    //eliminacion logica
+                    marcar_registro
+                FIN_SI
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+    Proceso
+        abrir_archivos
+        leer_maestro
+        leer_movimiento
+        MIENTRAS (reg_mov.clave <> high_value) O (reg_mae.clave <> high_value) HACER
+            SI (reg_mae.clave < reg_mov.clave) ENTONCES //maestro sin movimiento
+                reg_sal := reg_mae
+                ESCRIBIR(mae_sal, reg_sal)
+                leer_maestro
+            SINO //maestro con movimiento
+                SI (reg_mae.clave = reg_mov.clave) ENTONCES // ?????
+                    aux := reg_mae
+                    MIENTRAS (reg_mae.clave = reg_mov.clave) HACER
+                        proceso_movim
+                        leer_movimiento
+                    FIN_MIENTRAS
+                    reg_sal := aux
+                    ESCRIBIR(mae_sal, reg_sal)
+                    leer_maestro
+                SINO
+                    //movimiento sin maestro ~ 1 alta y 0-1 modific. y/o bajas
+                    //asigna campo por campo, porque aux y reg_mov tienen distinto formato
+                    aux.clave := reg_mov.clave
+                    aux.campo1 := reg_mov.campo1
+                    aux.campo2 := reg_mov.campo2
+                    ...
+                    aux.campoN := reg_mov.campoN
+                    aux.marca_baja := ""
+                    leer_movimiento
+                    MIENTRAS (clave_aux = clave_mov) HACER
+                        proceso_movim
+                        leer_movimiento
+                    FIN_MIENTRAS
+                    reg_sal := aux
+                    ESCRIBIR(mae_sal, reg_sal)
+                FIN_SI
+            FIN_SI
+        FIN_MIENTRAS
+
+        CERRAR(mae)
+        CERRAR(mae_sal)
+        CERRAR(mov)
+FIN_ACCION
