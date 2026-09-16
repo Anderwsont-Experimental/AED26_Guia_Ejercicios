@@ -5,15 +5,20 @@ ACCION actualizacion_unitaria ES
         PROCEDIMIENTO Leer_Movimiento ES
             LEER(Arch_mov, Reg_Mov)
             SI FDA(Arch_mov) ENTONCES
-                Clave_Mov := HV
+                Clave_Mov := high_value
             FIN_SI
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO Leer_Maestro ES
             LEER(Arch_mae, Reg_mae)
             SI FDA(Arch_mae) ENTONCES
-                Clave_Mae := HV
+                Clave_Mae := high_value
             FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO Marcar_Registro ES
+            Reg_mae.Marca_baja:= '*'
+            //en vez de asterisco se puede asignar la fecha del dia, o cualquier dato segun problema.
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO Proceso_Iguales ES
@@ -28,6 +33,13 @@ ACCION actualizacion_unitaria ES
             FIN_SI
             Leer_Maestro
             Leer_Movimiento
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO baja_registro ES //dejar la opcion de logica o fisica segun ejercicio
+            //baja logica
+
+            //baja fisica
+
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO Proceso_Distintos ES
@@ -62,16 +74,13 @@ ACCION actualizacion_unitaria ES
             //repetir para todos los campos del registro.
         FIN_PROCEDIMIENTO
 
-        PROCEDIMIENTO Marcar_Registro ES
-            Reg_mae.Marca_baja:= '*'
-            //en vez de asterisco se puede asignar la fecha del dia, o cualquier dato segun problema.
-        FIN_PROCEDIMIENTO
+
 
     Proceso
         Abrir_Archivos
         Leer_Maestro
         Leer_Movimiento
-        MIENTRAS (Clave_Mae <> HV) o (Clave_Mov <> HV) HACER
+        MIENTRAS (Clave_Mae <> high_value) o (Clave_Mov <> high_value) HACER
             SI (Clave_Mae < Clave_Mov) ENTONCES //maestro sin modificacion
                 Reg_sal := Reg_mae
                 ESCRIBIR(Arch_sal, Reg_sal)
