@@ -90,7 +90,7 @@ ACCION actualizacion_lotes ES
                 CARGA_modif_maestro
             SINO
                 SI (reg_mov.cod_mov = "B") ENTONCES
-                    Baja_Registro("L/F") //baja logica o fisica. el argumento puede ser una variable definida por usuario para cada caso.
+                    Baja_Registro("L/F") //baja logica o fisica. el argumento puede ser una variable definida por usuario.
                 FIN_SI
             FIN_SI
         FIN_PROCEDIMIENTO
