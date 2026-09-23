@@ -147,7 +147,6 @@ ACCION Nombre_Accion ES
                     SI (EXISTE) ENTONCES
                         CARGA_alta_cuentas
                         leer_arch_movimientos
-                        aux_cuenta:= cuenta
                         MIENTRAS (cuenta.nro_usuario = mov.nro_usuario) HACER
                             PROCESO_evalua_movimiento
                             leer_arch_movimientos
