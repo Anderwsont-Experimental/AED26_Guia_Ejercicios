@@ -27,7 +27,7 @@ ACCION actualizacion_lotes ES
         Fin_Registro
 
         mae, mae_act: archivo de formato_maestro ordenado por clave
-        reg_act, reg_mae, aux: formato_maestro
+        reg_mae, reg_act, reg_aux: formato_maestro
 
         mov: archivo de formato_movimiento ordenado por clave y cod_mov
         reg_mov: formato_movimiento
@@ -36,45 +36,45 @@ ACCION actualizacion_lotes ES
 
         PROCEDIMIENTO leer_maestro ES
             LEER(mae, reg_mae)
-            SI (FDA(mae)) ENTONCES
+            SI FDA(mae) ENTONCES
                 reg_mae.clave := high_value
             FIN_SI
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO leer_movimiento ES
                 LEER(mov, reg_mov)
-                SI (FDA(mov)) ENTONCES
+                SI FDA(mov) ENTONCES
                     reg_mov.clave := high_value
                 FIN_SI
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO CARGA_alta_maestro ES
-                aux.clave := reg_mov.clave
-                aux.campo1 := reg_mov.campo1
-                aux.campo2 := reg_mov.campo2
+                reg_aux.clave := reg_mov.clave
+                reg_aux.campo1 := reg_mov.campo1
+                reg_aux.campo2 := reg_mov.campo2
                 ...
-                aux.campoN := reg_mov.campoN
-                aux.marca_baja := "" //estado inicial "activo"
+                reg_aux.campoN := reg_mov.campoN
+                reg_aux.marca_baja := "" //estado inicial "activo"
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO CARGA_modif_maestro ES
             //no se actualizan los campos claves.
             SI (reg_mov.campo1 <> "") ENTONCES
-                aux.campo1 := reg_mov.campo1
+                reg_aux.campo1 := reg_mov.campo1
             FIN_SI
             SI (reg_mov.campo2 <> "") ENTONCES
-                aux.campo2 := reg_mov.campo2
+                reg_aux.campo2 := reg_mov.campo2
             FIN_SI
-            ...
+
             SI (reg_mov.campoN <> "") ENTONCES
-                aux.campoN := reg_mov.campoN
+                reg_aux.campoN := reg_mov.campoN
             FIN_SI
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO Baja_Registro(tipo:("F","L")) ES //F: baja fisica - L: Baja logica
             SI (tipo = 'L') ENTONCES // ## baja LOGICA
                 //En vez de *, se puede asignar la fecha del dia, o cualquier otro dato, segun el problema.
-                aux.marca_baja := "*"
+                reg_aux.marca_baja := "*"
             SINO
                 SI (tipo = 'F') ENTONCES // ## baja FISICA
                     //acciones a realizar durante baja fisica, segun consigna.(Resguardos, lista de autores, etc)
@@ -83,8 +83,8 @@ ACCION actualizacion_lotes ES
             FIN_SI
         FIN_PROCEDIMIENTO
 
-        PROCEDIMIENTO proceso_movim ES
-            //comparar la informacion de movimientos y alternar los contenidos del registro auxiliar (aux).
+        PROCEDIMIENTO PROCESO_evalua_movimiento ES
+            //comparar la informacion de movimientos y modificar reg_aux
             SI (reg_mov.cod_mov = "M") ENTONCES
                 //modificacion
                 CARGA_modif_maestro
@@ -97,7 +97,7 @@ ACCION actualizacion_lotes ES
 
     Proceso
         //INICIALIZACION DE ARCHIVOS
-        ABRIR E/(mae), ABRIR E/(mov)
+        ABRIR E/(mae); ABRIR E/(mov)
         leer_maestro
         leer_movimiento
         ABRIR /S(mae_act)
@@ -110,13 +110,13 @@ ACCION actualizacion_lotes ES
                 leer_maestro
             SINO
                 SI (reg_mae.clave = reg_mov.clave) ENTONCES // ## MAESTRO CON Movimiento
-                    aux := reg_mae
+                    reg_aux := reg_mae
                     //barrido de lote de movimientos:
                     MIENTRAS (reg_mae.clave = reg_mov.clave) HACER
-                        proceso_movim
+                        PROCESO_evalua_movimiento
                         leer_movimiento
                     FIN_MIENTRAS
-                    reg_act := aux
+                    reg_act := reg_aux
                     ESCRIBIR(mae_act, reg_act)
                     leer_maestro
                 SINO // ## Movimiento SIN MAESTRO
@@ -127,12 +127,12 @@ ACCION actualizacion_lotes ES
                     CARGA_alta_maestro
                     leer_movimiento
                     //barrido de lotes de movimientos restantes, si existen
-                    MIENTRAS (clave_aux = clave_mov) HACER
-                        proceso_movim
+                    MIENTRAS (clave_reg_aux = clave_mov) HACER
+                        PROCESO_evalua_movimiento
                         leer_movimiento
                     FIN_MIENTRAS
                     //escritura maestro actualizado con movimientos
-                    reg_act := aux
+                    reg_act := reg_aux
                     ESCRIBIR(mae_act, reg_act)
                 FIN_SI
             FIN_SI
@@ -142,4 +142,5 @@ ACCION actualizacion_lotes ES
         CERRAR(mae)
         CERRAR(mae_act)
         CERRAR(mov)
+
 FIN_ACCION

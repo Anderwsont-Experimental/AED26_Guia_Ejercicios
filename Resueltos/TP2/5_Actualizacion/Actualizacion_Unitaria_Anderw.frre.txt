@@ -1,0 +1,145 @@
+ACCION actualizacion_unitaria ES
+    Ambiente
+        //definicion de registros y archivos
+        formato_clave = Registro
+            clave1: ...
+            clave2: ...
+            ...
+            claveN: ...
+        Fin_Registro
+
+        formato_maestro = Registro
+            clave: formato_clave
+            campo1: ...
+            campo2: ...
+            ...
+            campoN: ...
+            marca_baja: ... //Reg especial de MAESTRO
+        Fin_Registro
+
+        formato_movimiento = Registro
+            clave: formato_clave
+            campo1: ...
+            campo2: ...
+            ...
+            campoN: ...
+            cod_mov: ("A","M","B") //Reg especial de MOVIMIENTO
+        Fin_Registro
+
+        arch_mae, arch_sal: archivo de formato_maestro ordenado por clave
+        reg_mae, reg_sal: formato_maestro
+
+        arch_mov: archivo de formato_movimiento ordenado por clave y cod_mov
+        reg_mov: formato_movimiento
+
+        //definicion de subacciones
+
+        PROCEDIMIENTO Leer_Maestro ES
+            LEER(Arch_mae, Reg_mae)
+            SI FDA(Arch_mae) ENTONCES
+                reg_mae.clave := high_value
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO Leer_Movimiento ES
+            LEER(Arch_mov, Reg_Mov)
+            SI FDA(Arch_mov) ENTONCES
+                reg_mov.clave := high_value
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+//------------------------------------------
+
+        PROCEDIMIENTO Marcar_Registro ES
+            Reg_mae.Marca_baja:= '*'
+            //en vez de asterisco se puede asignar la fecha del dia, o cualquier dato segun problema.
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO PROCESO_evalua_movimiento ES //modificacion o baja
+            SI (Reg_Mov.Cod_Mov = "A") ENTONCES
+                ESCRIBIR("Error alta no existe")
+                Reg_sal := Reg_mae
+                ESCRIBIR(Arch_sal, Reg_sal)
+            SINO
+                SI (Reg_mov.Cod_Mov = "M") entonces 
+                    Proceso_Mod_Maestro
+                    Reg_sal : = Reg_mae
+                    Escribir(Arch_sal, Reg_sal)
+                SINO // eliminación lógica
+                    Marcar_Registro
+                    Reg_sal:= Reg_mae
+                    Escribir(Arch_sal, Reg_sal)
+                FIN_SI
+            FIN_SI
+            Leer_Maestro
+            Leer_Movimiento
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO baja_registro ES //dejar la opcion de logica o fisica segun ejercicio
+            //baja logica
+
+            //baja fisica
+
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO CARGA_alta_maestro ES
+            SI (Reg_Mov.Cod_Mov = "B") ENTONCES
+                ESCRIBIR("Error baja no existe")
+            SINO
+                SI (Reg_Mov.Cod_Mov = "M") ENTONCES
+                    ESCRIBIR("Error modificacion no existe")
+                SINO// Asigna campo por campo, porque Reg_sal y Reg_mov tienen distinto formato
+                    Reg_sal.clave  := Reg_Mov.clave
+                    Reg_sal.campo1 := Reg_Mov.campo1
+                    Reg_sal.campo2 := Reg_Mov.campo2
+                    ...
+                    Reg_sal.campoN := Reg_Mov.campoN
+                    Reg_sal.Marca_baja := ""
+                    ESCRIBIR(Arch_sal, Reg_sal)
+                FIN_SI
+            FIN_SI
+            Leer_Movimiento
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO Proceso_Mod_Maestro ES
+            SI (Reg_Mov.campo1 <> "") ENTONCES
+                Reg_mae.campo1 := Reg_Mov.campo2
+            FIN_SI
+            SI (Reg_Mov.campo2 <> "") ENTONCES
+                Reg_mae.campo2 := Reg_Mov.campo2
+            FIN_SI
+
+            SI (Reg_Mov.campo3 <> "") ENTONCES
+                Reg_mae.campo3 := Reg_Mov.campo3
+            FIN_SI
+            //repetir para todos los campos del registro.
+        FIN_PROCEDIMIENTO
+
+    Proceso
+        //INICIALIZACION DE ARCHIVOS
+        ABRIR E/(arch_mae); ABRIR E/(arch_mov)
+        Leer_Maestro
+        Leer_Movimiento
+        ABRIR /S(Arch_sal)
+
+        //PROCESAMIENTO ARCHIVOS
+        MIENTRAS (reg_mae.clave <> high_value) o (reg_mov.clave <> high_value) HACER
+            SI (reg_mae.clave < reg_mov.clave) ENTONCES // ## MAESTRO SIN Movimiento
+                Reg_sal := Reg_mae
+                ESCRIBIR(Arch_sal, Reg_sal)
+                Leer_Maestro
+            SINO
+                SI (reg_mae.clave = reg_mov.clave) ENTONCES // ## MAESTRO CON Movimiento
+                    PROCESO_evalua_movimiento
+                SINO // ## Movimiento SIN MAESTRO (alta)
+                    CARGA_alta_maestro
+                FIN_SI
+            FIN_SI
+        FIN_MIENTRAS
+        
+        //cierre de archivos
+        cerrar(arch_mae)
+        cerrar(arch_mov)
+        cerrar(arch_sal)
+
+FIN_ACCION
