@@ -108,7 +108,7 @@ ACCION Nombre_Accion ES
             aux_cuenta.cuil:= mov.cuil
             aux_cuenta.monto:= mov.importe
             aux_cuenta.fecha_nacimiento:= dato_renaper.fecha_nacimiento
-            aux_cuenta.fecha_alta:= ################ //fecha del movimiento, pedir?
+            aux_cuenta.fecha_alta:= HOY()
             aux_cuenta.estado:= VERDADERO
         FIN_PROCEDIMIENTO
 
