@@ -65,7 +65,6 @@ ACCION actualizacion_lotes ES
             SI (reg_mov.campo2 <> "") ENTONCES
                 reg_aux.campo2 := reg_mov.campo2
             FIN_SI
-
             SI (reg_mov.campoN <> "") ENTONCES
                 reg_aux.campoN := reg_mov.campoN
             FIN_SI
@@ -126,6 +125,7 @@ ACCION actualizacion_lotes ES
                         >0 a 1 baja */
                     CARGA_alta_maestro
                     leer_movimiento
+                    //CORREGIR TEMA DE CARGA DE AUX
                     //barrido de lotes de movimientos restantes, si existen
                     MIENTRAS (clave_reg_aux = clave_mov) HACER
                         PROCESO_evalua_movimiento

@@ -65,10 +65,10 @@ ACCION Nombre_Accion ES
         cuenta, aux_cuenta: reg_cuentas 
 
         reg_movimientos = Registro
-            nro_usuario: N(12)
-            cuil: N(11)
+            nro_usuario
+            cuil
             cod_movimiento: (1,2,3,4) //1:alta|2:transf|3:ingreso|4:baja logica
-            importe: N(10,2)
+            importe
         Fin_Registro
         arch_movimientos: archivo de reg_movimientos ordenado por nro_usuario y cod_mov
         mov: reg_movimientos
@@ -98,65 +98,18 @@ ACCION Nombre_Accion ES
                     mov.clave := high_value
                 FIN_SI
         FIN_PROCEDIMIENTO
-
+        
         PROCEDIMIENTO CARGA_alta_cuentas ES
-            aux_cuenta.nro_usuario:= mov.nro_usuario
-            aux_cuenta.apellido:= dato_renaper.apellido
-            aux_cuenta.nombre:= dato_renaper.nombre
-            aux_cuenta.cvu:= NULL
-            aux_cuenta.cuil:= mov.cuil
-            aux_cuenta.monto:= mov.importe
-            aux_cuenta.fecha_nacimiento:= dato_renaper.fecha_nacimiento
-            aux_cuenta.fecha_alta:= ################ //fecha del movimiento, pedir?
+            aux_cuenta.nro_usuario:= 
+            aux_cuenta.apellido:= 
+            aux_cuenta.nombre:= 
+            aux_cuenta.cvu:= 
+            aux_cuenta.cuil:= 
+            aux_cuenta.monto:= 
+            aux_cuenta.fecha_nacimiento:= 
+            aux_cuenta.fecha_alta:= 
             aux_cuenta.estado:= VERDADERO
         FIN_PROCEDIMIENTO
 
-        PROCEDIMIENTO PROCESO_evalua_movimiento ES
-            SEGUN mov.cod_movimiento HACER
-                2:  //transferencia (se resta importe)
-                    aux_cuenta.monto := aux_cuenta.monto + mov.importe
-                3: //ingreso (se suma importe)
-                    aux_cuenta.monto := aux_cuenta.monto - mov.importe
-                4: //baja
-                    aux_cuenta.estado := FALSO
-                otros : ESCRIBIR("error en codigo de movimiento")
-            FIN_SEGUN
-        FIN_PROCEDIMIENTO
-
-    Proceso
-        //INICIALIZACION DE ARCHIVOS
-        ABRIR E/(arch_cuentas);ABRIR E/(arch_movimientos);ABRIR E/(arch_renaper)
-        leer_arch_cuentas
-        leer_arch_movimientos
-        ABRIR /S(arch_act_cuentas)
-
-        MIENTRAS (cuenta.nro_usuario <> HV) O (mov.nro_usuario <> HV) HACER
-            SI (cuenta.nro_usuario < mov.nro_usuario) ENTONCES //maestro sin movimiento
-                ESCRIBIR(arch_act_cuentas,cuenta)
-                leer_arch_cuentas
-            SINO
-                SI (cuenta.nro_usuario = mov.nro_usuario) ENTONCES //maestro con mov
-                    aux_cuenta:= cuenta
-                    MIENTRAS (cuenta.nro_usuario = mov.nro_usuario) HACER
-                        PROCESO_evalua_movimiento
-                        leer_arch_movimientos
-                    FIN_MIENTRAS
-                SINO //alta
-                    dato_renaper.cuil := mov.cuil
-                    LEER(arch_renaper,dato_renaper)
-                    SI (EXISTE) ENTONCES
-                        CARGA_alta_cuentas
-                        leer_arch_movimientos
-                        aux_cuenta:= cuenta
-                        MIENTRAS (cuenta.nro_usuario = mov.nro_usuario) HACER
-                            PROCESO_evalua_movimiento
-                            leer_arch_movimientos
-                        FIN_MIENTRAS
-                    SINO
-                        ESCRIBIR("ALTA DE CUIL NO EXISTENTE EN RENAPER")
-                    FIN_SI
-                FIN_SI
-            FIN_SI
-        FIN_MIENTRAS
-
+        
 FIN_ACCION
