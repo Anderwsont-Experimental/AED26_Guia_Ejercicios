@@ -43,6 +43,7 @@ mantenga actualizado el archivo indexado de USUARIOS, con los nuevos datos ingre
 
 ACCION Nombre_Accion ES
     Ambiente
+        ctas_tot,ctas_new,ctas_baja:entero
         //definicion de registros y archivos
         reg_fecha = Registro
             aa: 1900..2050
@@ -118,6 +119,7 @@ ACCION Nombre_Accion ES
                 3: //ingreso (se suma importe)
                     aux_cuenta.monto := aux_cuenta.monto - mov.importe
                 4: //baja
+                    ctas_baja:= ctas_baja+1 //si se dio de alta y baja en el mismo mov, cuenta en alta tmb
                     aux_cuenta.estado := FALSO
                 otros : ESCRIBIR("error en codigo de movimiento")
             FIN_SEGUN
@@ -129,8 +131,12 @@ ACCION Nombre_Accion ES
         leer_arch_cuentas
         leer_arch_movimientos
         ABRIR /S(arch_act_cuentas)
+        ctas_tot:= 0
+        ctas_new:= 0
+        ctas_baja:= 0
 
         MIENTRAS (cuenta.nro_usuario <> HV) O (mov.nro_usuario <> HV) HACER
+            ctas_tot:= ctas_tot+1
             SI (cuenta.nro_usuario < mov.nro_usuario) ENTONCES //maestro sin movimiento
                 ESCRIBIR(arch_act_cuentas,cuenta)
                 leer_arch_cuentas
@@ -142,6 +148,7 @@ ACCION Nombre_Accion ES
                         leer_arch_movimientos
                     FIN_MIENTRAS
                 SINO //alta
+                    ctas_new:= ctas_new+1
                     dato_renaper.cuil := mov.cuil
                     LEER(arch_renaper,dato_renaper)
                     SI (EXISTE) ENTONCES
@@ -158,5 +165,6 @@ ACCION Nombre_Accion ES
                 FIN_SI
             FIN_SI
         FIN_MIENTRAS
+        ESCRIBIR("altas:",ctas_new,"% bajas:",ctas_baja/ctas_tot*100)
 
 FIN_ACCION
