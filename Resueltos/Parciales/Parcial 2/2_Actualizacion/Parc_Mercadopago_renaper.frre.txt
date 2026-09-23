@@ -1,0 +1,42 @@
+/*
+Por su gran desempeño en la cátedra de Algoritmos y Estructuras de Datos, MercadoPago lo
+ha contratado como pasante para desempeñar una importante tarea dentro de la empresa.
+
+Como primera actividad, se le ha solicitado desarrollar un algoritmo para actualizar los
+saldos de las cuentas de los usuarios. Para esto, se cuenta con los siguientes archivos:
+
+    CUENTAS, archivo secuencial, ordenado por nro_usuario
+    nro_usuario | apellido | nombre | cvu | cuil | monto | fecha_nacimiento | fecha_alta  | estado(V o F)
+
+y un archivo de movimientos
+
+    MOVIMIENTOS
+    nro_usuario | cuil | cod_movimiento | importe
+
+Donde el cod_movimiento puede ser:
+    1 – Alta de un nuevo usuario
+    2 – Transferencia, el usuario ha realizado una transferencia de dinero
+    3 – Ingreso, el usuario ha recibido un ingreso de dinero
+    4 – Baja de la cuenta, la cuenta del usuario será desactivada (cambia el estado a Falso)
+
+En caso de que se trate del alta de un nuevo usuario, los datos personales del usuario serán
+capturados de una archivo del RENAPER, el cual se encuentra indexado por el campo cuil
+
+    RENAPER, indexado por cuil
+    cuil | nombre | apellido | fecha_nacimiento | direccion
+
+Se le solicita además, que al finalizar, se informe:
+    • Número de nuevas cuentas
+    • Porcentaje de cuentas que se dieron de baja
+
+
+Para generar la fecha_alta, considerar la existencia de una funcion HOY() que devuelve como
+dato un registro con la fecha actual.
+
+Como segunda actividad, además de lo anterior, se le ha solicitado que, durante el proceso,
+mantenga actualizado el archivo indexado de USUARIOS, con los nuevos datos ingresados:
+
+    USUARIOS, indexado por cuil
+    cuil  | nro_usuario  | nombre | apellido | fecha_nacimiento | direccion
+
+*/
