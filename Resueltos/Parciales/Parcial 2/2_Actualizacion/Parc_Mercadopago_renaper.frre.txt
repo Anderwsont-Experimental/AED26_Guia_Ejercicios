@@ -121,8 +121,13 @@ ACCION Nombre_Accion ES
                 4: //baja
                     ctas_baja:= ctas_baja+1 //si se dio de alta y baja en el mismo mov, cuenta en alta tmb
                     aux_cuenta.estado := FALSO
+                    ACTUALIZAR_USUARIO
                 otros : ESCRIBIR("error en codigo de movimiento")
             FIN_SEGUN
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO ACTUALIZAR_USUARIO ES
+            
         FIN_PROCEDIMIENTO
 
     Proceso
@@ -153,6 +158,7 @@ ACCION Nombre_Accion ES
                     LEER(arch_renaper,dato_renaper)
                     SI (EXISTE) ENTONCES
                         CARGA_alta_cuentas
+                        ACTUALIZAR_USUARIO
                         leer_arch_movimientos
                         MIENTRAS (cuenta.nro_usuario = mov.nro_usuario) HACER
                             PROCESO_evalua_movimiento
