@@ -151,6 +151,7 @@ ACCION Nombre_Accion ES
                             PROCESO_evalua_movimiento
                             leer_arch_movimientos
                         FIN_MIENTRAS
+                        ESCRIBIR(arch_act_cuentas,aux_cuenta)
                     SINO
                         ESCRIBIR("ALTA DE CUIL NO EXISTENTE EN RENAPER")
                     FIN_SI
