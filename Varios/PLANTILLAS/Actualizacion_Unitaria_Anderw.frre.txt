@@ -26,7 +26,7 @@ ACCION actualizacion_unitaria ES
             cod_mov: ("A","M","B") //Reg especial de MOVIMIENTO
         Fin_Registro
 
-        arch_mae, arch_sal: archivo de formato_maestro ordenado por clave
+        arch_mae, arch_mae_act: archivo de formato_maestro ordenado por clave
         reg_mae, reg_sal: formato_maestro
 
         arch_mov: archivo de formato_movimiento ordenado por clave y cod_mov
@@ -34,55 +34,21 @@ ACCION actualizacion_unitaria ES
 
         //definicion de subacciones
 
-        PROCEDIMIENTO Leer_Maestro ES
+        PROCEDIMIENTO Leer_Maestro ES//
             LEER(Arch_mae, Reg_mae)
             SI FDA(Arch_mae) ENTONCES
                 reg_mae.clave := high_value
             FIN_SI
         FIN_PROCEDIMIENTO
 
-        PROCEDIMIENTO Leer_Movimiento ES
+        PROCEDIMIENTO Leer_Movimiento ES//
             LEER(Arch_mov, Reg_Mov)
             SI FDA(Arch_mov) ENTONCES
                 reg_mov.clave := high_value
             FIN_SI
         FIN_PROCEDIMIENTO
 
-//------------------------------------------
-
-        PROCEDIMIENTO Marcar_Registro ES
-            Reg_mae.Marca_baja:= '*'
-            //en vez de asterisco se puede asignar la fecha del dia, o cualquier dato segun problema.
-        FIN_PROCEDIMIENTO
-
-        PROCEDIMIENTO PROCESO_evalua_movimiento ES //modificacion o baja
-            SI (Reg_Mov.Cod_Mov = "A") ENTONCES
-                ESCRIBIR("Error alta no existe")
-                Reg_sal := Reg_mae
-                ESCRIBIR(Arch_sal, Reg_sal)
-            SINO
-                SI (Reg_mov.Cod_Mov = "M") entonces 
-                    Proceso_Mod_Maestro
-                    Reg_sal : = Reg_mae
-                    Escribir(Arch_sal, Reg_sal)
-                SINO // eliminación lógica
-                    Marcar_Registro
-                    Reg_sal:= Reg_mae
-                    Escribir(Arch_sal, Reg_sal)
-                FIN_SI
-            FIN_SI
-            Leer_Maestro
-            Leer_Movimiento
-        FIN_PROCEDIMIENTO
-
-        PROCEDIMIENTO baja_registro ES //dejar la opcion de logica o fisica segun ejercicio
-            //baja logica
-
-            //baja fisica
-
-        FIN_PROCEDIMIENTO
-
-        PROCEDIMIENTO CARGA_alta_maestro ES
+        PROCEDIMIENTO CARGA_alta_maestro ES //
             SI (Reg_Mov.Cod_Mov = "B") ENTONCES
                 ESCRIBIR("Error baja no existe")
             SINO
@@ -94,25 +60,56 @@ ACCION actualizacion_unitaria ES
                     Reg_sal.campo2 := Reg_Mov.campo2
                     ...
                     Reg_sal.campoN := Reg_Mov.campoN
-                    Reg_sal.Marca_baja := ""
-                    ESCRIBIR(Arch_sal, Reg_sal)
+                    Reg_sal.Marca_baja := ""  //valor inicial en blanco o NULL segun consigna
                 FIN_SI
             FIN_SI
-            Leer_Movimiento
         FIN_PROCEDIMIENTO
 
-        PROCEDIMIENTO Proceso_Mod_Maestro ES
+        PROCEDIMIENTO CARGA_modif_maestro ES //
+            //no se actualizan los campos claves.
             SI (Reg_Mov.campo1 <> "") ENTONCES
                 Reg_mae.campo1 := Reg_Mov.campo2
             FIN_SI
             SI (Reg_Mov.campo2 <> "") ENTONCES
                 Reg_mae.campo2 := Reg_Mov.campo2
             FIN_SI
-
             SI (Reg_Mov.campo3 <> "") ENTONCES
                 Reg_mae.campo3 := Reg_Mov.campo3
             FIN_SI
             //repetir para todos los campos del registro.
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO Baja_Registro(tipo:("F","L")) ES //F: baja fisica - L: Baja logica
+            SI (tipo = 'L') ENTONCES // ## baja LOGICA
+                //En vez de *, se puede asignar la fecha del dia, o alterar otro campo, segun el problema.
+                reg_aux.marca_baja := "*"
+                Reg_sal:= Reg_mae
+                Escribir(arch_mae_act, Reg_sal)
+            SINO
+                SI (tipo = 'F') ENTONCES // ## baja FISICA
+                    //acciones a realizar durante baja fisica, segun consigna.(Resguardos, lista de autores, etc)
+                    //Si no hay acciones, dejar en blanco, para saltar el registro.
+                FIN_SI
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO PROCESO_evalua_movimiento ES
+            //movimientos se cargan en Reg_sal
+            SI (Reg_Mov.Cod_Mov = "A") ENTONCES
+                ESCRIBIR("Error en alta. Clave ya existe")
+                Reg_sal := Reg_mae
+                ESCRIBIR(arch_mae_act, Reg_sal)
+            SINO
+                SI (Reg_mov.Cod_Mov = "M") entonces 
+                    CARGA_modif_maestro
+                    Reg_sal : = Reg_mae
+                    Escribir(arch_mae_act, Reg_sal)
+                SINO //baja logica o fisica
+                    SI (Reg_mov.Cod_Mov = "B") ENTONCES
+                        Baja_Registro("L/F") //El argumento puede ser también una variable definida por usuario.
+                    FIN_SI
+                FIN_SI
+            FIN_SI
         FIN_PROCEDIMIENTO
 
     Proceso
@@ -120,26 +117,34 @@ ACCION actualizacion_unitaria ES
         ABRIR E/(arch_mae); ABRIR E/(arch_mov)
         Leer_Maestro
         Leer_Movimiento
-        ABRIR /S(Arch_sal)
+        ABRIR /S(arch_mae_act)
 
         //PROCESAMIENTO ARCHIVOS
         MIENTRAS (reg_mae.clave <> high_value) o (reg_mov.clave <> high_value) HACER
             SI (reg_mae.clave < reg_mov.clave) ENTONCES // ## MAESTRO SIN Movimiento
                 Reg_sal := Reg_mae
-                ESCRIBIR(Arch_sal, Reg_sal)
-                Leer_Maestro
+                ESCRIBIR(arch_mae_act, Reg_sal)
+                Leer_Maestro //avance clave menor
+
             SINO
                 SI (reg_mae.clave = reg_mov.clave) ENTONCES // ## MAESTRO CON Movimiento
                     PROCESO_evalua_movimiento
+                    Leer_Maestro
+                    Leer_Movimiento
+
                 SINO // ## Movimiento SIN MAESTRO (alta)
                     CARGA_alta_maestro
+                    ESCRIBIR(arch_mae_act, Reg_sal)
+                    Leer_Movimiento //avance clave menor
                 FIN_SI
             FIN_SI
         FIN_MIENTRAS
-        
-        //cierre de archivos
+
+        //ENTREGA RESULTADOS
+
+        //CIERRE DE ARCHIVOS
         cerrar(arch_mae)
         cerrar(arch_mov)
-        cerrar(arch_sal)
+        cerrar(arch_mae_act)
 
 FIN_ACCION

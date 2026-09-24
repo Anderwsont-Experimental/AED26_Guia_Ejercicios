@@ -34,14 +34,14 @@ ACCION actualizacion_lotes ES
 
         //definicion de subacciones
 
-        PROCEDIMIENTO leer_maestro ES
+        PROCEDIMIENTO leer_maestro ES//
             LEER(mae, reg_mae)
             SI FDA(mae) ENTONCES
                 reg_mae.clave := high_value
             FIN_SI
         FIN_PROCEDIMIENTO
 
-        PROCEDIMIENTO leer_movimiento ES
+        PROCEDIMIENTO leer_movimiento ES//
                 LEER(mov, reg_mov)
                 SI FDA(mov) ENTONCES
                     reg_mov.clave := high_value
@@ -72,7 +72,7 @@ ACCION actualizacion_lotes ES
 
         PROCEDIMIENTO Baja_Registro(tipo:("F","L")) ES //F: baja fisica - L: Baja logica
             SI (tipo = 'L') ENTONCES // ## baja LOGICA
-                //En vez de *, se puede asignar la fecha del dia, o cualquier otro dato, segun el problema.
+                //En vez de *, se puede asignar la fecha del dia, o alterar otro campo, segun el problema.
                 reg_aux.marca_baja := "*"
             SINO
                 SI (tipo = 'F') ENTONCES // ## baja FISICA
@@ -83,13 +83,19 @@ ACCION actualizacion_lotes ES
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO PROCESO_evalua_movimiento ES
-            //comparar la informacion de movimientos y modificar reg_aux
-            SI (reg_mov.cod_mov = "M") ENTONCES
-                //modificacion
-                CARGA_modif_maestro
+            //movimientos se cargan en reg_aux
+            SI (reg_mov.cod_mov = "A") ENTONCES
+                ESCRIBIR("Error en alta. Clave ya existe")
+                reg_aux := reg_mae //se pasa maestro sin cambios.
             SINO
-                SI (reg_mov.cod_mov = "B") ENTONCES
-                    Baja_Registro("L/F") //baja logica o fisica. el argumento puede ser una variable definida por usuario.
+                SI (reg_mov.cod_mov = "M") ENTONCES
+                    //modificacion
+                    CARGA_modif_maestro
+                SINO
+                    SI (reg_mov.cod_mov = "B") ENTONCES
+                        //baja logica o fisica.
+                        Baja_Registro("L/F") //El argumento puede ser también una variable definida por usuario.
+                    FIN_SI
                 FIN_SI
             FIN_SI
         FIN_PROCEDIMIENTO
@@ -107,6 +113,7 @@ ACCION actualizacion_lotes ES
                 reg_act := reg_mae
                 ESCRIBIR(mae_act, reg_act)
                 leer_maestro
+
             SINO
                 SI (reg_mae.clave = reg_mov.clave) ENTONCES // ## MAESTRO CON Movimiento
                     reg_aux := reg_mae
@@ -118,11 +125,12 @@ ACCION actualizacion_lotes ES
                     reg_act := reg_aux
                     ESCRIBIR(mae_act, reg_act)
                     leer_maestro
+
                 SINO // ## Movimiento SIN MAESTRO
                     /*Movimienntos posibles:
-                        >1 alta (si o si)
-                        >0 a n modificaciones
-                        >0 a 1 baja */
+                        > 1 alta (si o si)
+                        > 0 a n modificaciones
+                        > 0 a 1 baja */
                     CARGA_alta_maestro
                     leer_movimiento
                     //CORREGIR TEMA DE CARGA DE AUX
@@ -138,7 +146,9 @@ ACCION actualizacion_lotes ES
             FIN_SI
         FIN_MIENTRAS
 
-        //cierre de archivos
+        //ENTREGA RESULTADOS
+
+        //CIERRE DE ARCHIVOS
         CERRAR(mae)
         CERRAR(mae_act)
         CERRAR(mov)
