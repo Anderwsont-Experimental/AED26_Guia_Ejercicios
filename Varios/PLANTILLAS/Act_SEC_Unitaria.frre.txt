@@ -1,5 +1,10 @@
-/* Proceso realizado por ciclo INCLUYENTE*/
-
+/*
+Plantilla actualizacion por lotes.
+Version cátedra.
+https://aed-frre.github.io/teoria/actualizacion/
+NOTA: En el procedimiento, se evalua primero "maestro sin movimiento" por recomendacion de profe axel.
+NOTA2: se actualizan nombres de subaccion a procedimiento, acorde al criterio actual de la cátedra.
+*/
 ACCION actualizacion_unitaria ES
     Ambiente
         PROCEDIMIENTO Leer_Movimiento ES
@@ -16,43 +21,37 @@ ACCION actualizacion_unitaria ES
             FIN_SI
         FIN_PROCEDIMIENTO
 
-        PROCEDIMIENTO Marcar_Registro ES
-            Reg_mae.Marca_baja:= '*'
-            //en vez de asterisco se puede asignar la fecha del dia, o cualquier dato segun problema.
-        FIN_PROCEDIMIENTO
-
         PROCEDIMIENTO Proceso_Iguales ES
-            SI (Reg_Mov.Cod_Mov = "alta") ENTONCES
+            SI (Reg_Mov.Cod_Mov = "ALTA") ENTONCES
                 ESCRIBIR("Error alta no existe")
                 Reg_sal := Reg_mae
                 ESCRIBIR(Arch_sal, Reg_sal)
-            SINO //eliminacion logica
-                Marcar_Registro
-                Reg_sal := Reg_mae
-                ESCRIBIR(Arch_sal, Reg_sal)
+            SINO
+                SI (Reg_mov.Cod_Mov = "MODIF") ENTONCES
+                    Proceso_Modif_Maestro
+                    Reg_sal : = Reg_mae
+                    ESCRIBIR(Arch_sal, Reg_sal)
+                SINO //eliminacion logica
+                    Marcar_Registro
+                    Reg_sal := Reg_mae
+                    ESCRIBIR(Arch_sal, Reg_sal)
+                FIN_SI
             FIN_SI
             Leer_Maestro
             Leer_Movimiento
         FIN_PROCEDIMIENTO
 
-        PROCEDIMIENTO baja_registro ES //dejar la opcion de logica o fisica segun ejercicio
-            //baja logica
-
-            //baja fisica
-
-        FIN_PROCEDIMIENTO
-
         PROCEDIMIENTO Proceso_Distintos ES
-            SI (Reg_Mov.Cod_Mov = "baja") ENTONCES
+            SI (Reg_Mov.Cod_Mov = "BAJA") ENTONCES
                 ESCRIBIR("Error baja no existe")
             SINO
-                SI (Reg_Mov.Cod_Mov = "modificar") ENTONCES
+                SI (Reg_Mov.Cod_Mov = "MODIF") ENTONCES
                     ESCRIBIR("Error modificacion no existe")
                 SINO// Asigna campo por campo, porque Reg_sal y Reg_mov tienen distinto formato
                     Reg_sal.clave  := Reg_Mov.clave
                     Reg_sal.campo1 := Reg_Mov.campo1
                     Reg_sal.campo2 := Reg_Mov.campo2
-                    ...
+                    //asi sucesivamente...
                     Reg_sal.campoN := Reg_Mov.campoN
                     Reg_sal.Marca_baja := ""
                     ESCRIBIR(Arch_sal, Reg_sal)
@@ -61,7 +60,7 @@ ACCION actualizacion_unitaria ES
             Leer_Movimiento
         FIN_PROCEDIMIENTO
 
-        PROCEDIMIENTO Proceso_Mod_Maestro ES
+        PROCEDIMIENTO Proceso_Modif_Maestro ES
             SI (Reg_Mov.campo1 <> "") ENTONCES
                 Reg_mae.campo1 := Reg_Mov.campo2
             FIN_SI
@@ -74,7 +73,11 @@ ACCION actualizacion_unitaria ES
             //repetir para todos los campos del registro.
         FIN_PROCEDIMIENTO
 
-
+        PROCEDIMIENTO Marcar_Registro ES
+            Reg_mae.Marca_baja:= '*'
+            /*en vez de asterisco se puede asignar la fecha del dia
+            o cualquier dato segun problema.*/
+        FIN_PROCEDIMIENTO
 
     Proceso
         Abrir_Archivos

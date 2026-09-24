@@ -1,5 +1,11 @@
+/*
+Plantilla actualizacion por lotes.
+Version cátedra.
+https://aed-frre.github.io/teoria/actualizacion/
+*/
 ACCION actualizacion_lotes ES
     Ambiente
+        //definiciones reg y archivos
         formato_clave = Registro
             clave1: ...
             clave2: ...
@@ -31,18 +37,16 @@ ACCION actualizacion_lotes ES
         mov: archivo de formato_movimiento ordenado por clave
         reg_mov: formato_movimiento
 
-        //subacciones
-
         PROCEDIMIENTO leer_movimiento ES
                 LEER(mov, reg_mov)
-                SI (FDA(mov)) ENTONCES
+                SI FDA(mov) ENTONCES
                     reg_mov.clave := high_value
                 FIN_SI
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO leer_maestro ES
             LEER(mae, reg_mae)
-            SI (FDA(mae)) ENTONCES
+            SI FDA(mae) ENTONCES
                 reg_mae.clave := high_value
             FIN_SI
         FIN_PROCEDIMIENTO
@@ -55,19 +59,22 @@ ACCION actualizacion_lotes ES
             SI (reg_mov.campo2 <> "") ENTONCES
                 aux.campo2 := reg_mov.campo2
             FIN_SI
-            ...
+            //y así sucesivamente para todos los campos del registro...
             SI (reg_mov.campoN <> "") ENTONCES
                 aux.campoN := reg_mov.campoN
             FIN_SI
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO marcar_registro ES
-            //En vez de asterisco, se puede asignar la fecha del dia, o cualquier otro dato, segun el problema.
+            /*En vez de asterisco, se puede asignar la fecha del dia,
+            o cualquier otro dato, segun el problema.*/
             aux.marca_baja := "*"
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO proceso_movim ES
-            //comparar la informacion del registro de movimientos y, de acuedo a los valores que tengan, y alternar los contenidos del registro auxiliar (aux).
+            /*comparar la informacion del registro de movimientos y,
+            de acuedo a los valores que tengan, y alternar los
+            contenidos del registro auxiliar (aux).*/
             SI (reg_mov.cod_mov = "M") ENTONCES
                 //modificacion
                 proceso_modif_maestro
@@ -88,8 +95,8 @@ ACCION actualizacion_lotes ES
                 reg_sal := reg_mae
                 ESCRIBIR(mae_sal, reg_sal)
                 leer_maestro
-            SINO //maestro con movimiento
-                SI (reg_mae.clave = reg_mov.clave) ENTONCES // ?????
+            SINO
+                SI (reg_mae.clave = reg_mov.clave) ENTONCES //maestro con movimiento
                     aux := reg_mae
                     MIENTRAS (reg_mae.clave = reg_mov.clave) HACER
                         proceso_movim
