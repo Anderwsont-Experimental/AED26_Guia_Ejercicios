@@ -1,4 +1,6 @@
-/* Modelo Ejemplo Base de Corte de Control.*/
+/* Modelo Ejemplo Base de Corte de Control.
+Se utilizan PROCEDIMIENTOS para todos los bloques de trabajo.
+*/
 
 Accion ejemplo es
     Ambiente

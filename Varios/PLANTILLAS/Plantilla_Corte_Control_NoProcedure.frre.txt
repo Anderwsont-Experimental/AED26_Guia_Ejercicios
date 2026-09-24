@@ -1,4 +1,6 @@
-/* Modelo Ejemplo Base de Corte de Control.*/
+/* Modelo Ejemplo Base de Corte de Control.
+Se usa solo los procedimientos minimos necesario, y el resto se arma en la estructura del proceso.
+*/
 
 Accion ejemplo es
     Ambiente
