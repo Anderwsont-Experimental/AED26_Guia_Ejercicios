@@ -26,24 +26,24 @@ ACCION actualizacion_lotes ES
             cod_mov: ("A","M","B") //Reg especial de MOVIMIENTO
         Fin_Registro
 
-        mae, mae_act: archivo de formato_maestro ordenado por clave
+        arch_mae, arch_mae_act: archivo de formato_maestro ordenado por clave
         reg_mae, reg_act, reg_aux: formato_maestro
 
-        mov: archivo de formato_movimiento ordenado por clave y cod_mov
+        arch_mov: archivo de formato_movimiento ordenado por clave y cod_mov
         reg_mov: formato_movimiento
 
         //definicion de subacciones
 
         PROCEDIMIENTO leer_maestro ES//
-            LEER(mae, reg_mae)
-            SI FDA(mae) ENTONCES
+            LEER(arch_mae, reg_mae)
+            SI FDA(arch_mae) ENTONCES
                 reg_mae.clave := high_value
             FIN_SI
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO leer_movimiento ES//
-                LEER(mov, reg_mov)
-                SI FDA(mov) ENTONCES
+                LEER(arch_mov, reg_mov)
+                SI FDA(arch_mov) ENTONCES
                     reg_mov.clave := high_value
                 FIN_SI
         FIN_PROCEDIMIENTO
@@ -102,16 +102,16 @@ ACCION actualizacion_lotes ES
 
     Proceso
         //INICIALIZACION DE ARCHIVOS
-        ABRIR E/(mae); ABRIR E/(mov)
+        ABRIR E/(arch_mae); ABRIR E/(arch_mov)
         leer_maestro
         leer_movimiento
-        ABRIR /S(mae_act)
+        ABRIR /S(arch_mae_act)
 
         //PROCESAMIENTO ARCHIVOS
         MIENTRAS (reg_mae.clave <> high_value) O (reg_mov.clave <> high_value) HACER
             SI (reg_mae.clave < reg_mov.clave) ENTONCES // ## MAESTRO SIN Movimiento
                 reg_act := reg_mae
-                ESCRIBIR(mae_act, reg_act)
+                ESCRIBIR(arch_mae_act, reg_act)
                 leer_maestro
 
             SINO
@@ -123,7 +123,7 @@ ACCION actualizacion_lotes ES
                         leer_movimiento
                     FIN_MIENTRAS
                     reg_act := reg_aux
-                    ESCRIBIR(mae_act, reg_act)
+                    ESCRIBIR(arch_mae_act, reg_act)
                     leer_maestro
 
                 SINO // ## Movimiento SIN MAESTRO
@@ -141,7 +141,7 @@ ACCION actualizacion_lotes ES
                     FIN_MIENTRAS
                     //escritura maestro actualizado con movimientos
                     reg_act := reg_aux
-                    ESCRIBIR(mae_act, reg_act)
+                    ESCRIBIR(arch_mae_act, reg_act)
                 FIN_SI
             FIN_SI
         FIN_MIENTRAS
@@ -149,8 +149,8 @@ ACCION actualizacion_lotes ES
         //ENTREGA RESULTADOS
 
         //CIERRE DE ARCHIVOS
-        CERRAR(mae)
-        CERRAR(mae_act)
-        CERRAR(mov)
+        CERRAR(arch_mae)
+        CERRAR(arch_mae_act)
+        CERRAR(arch_mov)
 
 FIN_ACCION

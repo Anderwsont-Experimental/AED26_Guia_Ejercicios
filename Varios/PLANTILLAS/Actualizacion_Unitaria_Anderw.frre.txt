@@ -27,7 +27,7 @@ ACCION actualizacion_unitaria ES
         Fin_Registro
 
         arch_mae, arch_mae_act: archivo de formato_maestro ordenado por clave
-        reg_mae, reg_sal: formato_maestro
+        reg_mae, reg_act: formato_maestro
 
         arch_mov: archivo de formato_movimiento ordenado por clave y cod_mov
         reg_mov: formato_movimiento
@@ -35,15 +35,15 @@ ACCION actualizacion_unitaria ES
         //definicion de subacciones
 
         PROCEDIMIENTO Leer_Maestro ES//
-            LEER(Arch_mae, Reg_mae)
-            SI FDA(Arch_mae) ENTONCES
+            LEER(arch_mae, Reg_mae)
+            SI FDA(arch_mae) ENTONCES
                 reg_mae.clave := high_value
             FIN_SI
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO Leer_Movimiento ES//
-            LEER(Arch_mov, Reg_Mov)
-            SI FDA(Arch_mov) ENTONCES
+            LEER(arch_mov, Reg_Mov)
+            SI FDA(arch_mov) ENTONCES
                 reg_mov.clave := high_value
             FIN_SI
         FIN_PROCEDIMIENTO
@@ -54,13 +54,13 @@ ACCION actualizacion_unitaria ES
             SINO
                 SI (Reg_Mov.Cod_Mov = "M") ENTONCES
                     ESCRIBIR("Error modificacion no existe")
-                SINO// Asigna campo por campo, porque Reg_sal y Reg_mov tienen distinto formato
-                    Reg_sal.clave  := Reg_Mov.clave
-                    Reg_sal.campo1 := Reg_Mov.campo1
-                    Reg_sal.campo2 := Reg_Mov.campo2
+                SINO// Asigna campo por campo, porque reg_act y Reg_mov tienen distinto formato
+                    reg_act.clave  := Reg_Mov.clave
+                    reg_act.campo1 := Reg_Mov.campo1
+                    reg_act.campo2 := Reg_Mov.campo2
                     ...
-                    Reg_sal.campoN := Reg_Mov.campoN
-                    Reg_sal.Marca_baja := ""  //valor inicial en blanco o NULL segun consigna
+                    reg_act.campoN := Reg_Mov.campoN
+                    reg_act.Marca_baja := ""  //valor inicial en blanco o NULL segun consigna
                 FIN_SI
             FIN_SI
         FIN_PROCEDIMIENTO
@@ -83,8 +83,8 @@ ACCION actualizacion_unitaria ES
             SI (tipo = 'L') ENTONCES // ## baja LOGICA
                 //En vez de *, se puede asignar la fecha del dia, o alterar otro campo, segun el problema.
                 reg_aux.marca_baja := "*"
-                Reg_sal:= Reg_mae
-                Escribir(arch_mae_act, Reg_sal)
+                reg_act:= Reg_mae
+                Escribir(arch_mae_act, reg_act)
             SINO
                 SI (tipo = 'F') ENTONCES // ## baja FISICA
                     //acciones a realizar durante baja fisica, segun consigna.(Resguardos, lista de autores, etc)
@@ -94,16 +94,16 @@ ACCION actualizacion_unitaria ES
         FIN_PROCEDIMIENTO
 
         PROCEDIMIENTO PROCESO_evalua_movimiento ES
-            //movimientos se cargan en Reg_sal
+            //movimientos se cargan en reg_act
             SI (Reg_Mov.Cod_Mov = "A") ENTONCES
                 ESCRIBIR("Error en alta. Clave ya existe")
-                Reg_sal := Reg_mae
-                ESCRIBIR(arch_mae_act, Reg_sal)
+                reg_act := Reg_mae
+                ESCRIBIR(arch_mae_act, reg_act)
             SINO
                 SI (Reg_mov.Cod_Mov = "M") entonces 
                     CARGA_modif_maestro
-                    Reg_sal : = Reg_mae
-                    Escribir(arch_mae_act, Reg_sal)
+                    reg_act : = Reg_mae
+                    Escribir(arch_mae_act, reg_act)
                 SINO //baja logica o fisica
                     SI (Reg_mov.Cod_Mov = "B") ENTONCES
                         Baja_Registro("L/F") //El argumento puede ser también una variable definida por usuario.
@@ -122,8 +122,8 @@ ACCION actualizacion_unitaria ES
         //PROCESAMIENTO ARCHIVOS
         MIENTRAS (reg_mae.clave <> high_value) o (reg_mov.clave <> high_value) HACER
             SI (reg_mae.clave < reg_mov.clave) ENTONCES // ## MAESTRO SIN Movimiento
-                Reg_sal := Reg_mae
-                ESCRIBIR(arch_mae_act, Reg_sal)
+                reg_act := Reg_mae
+                ESCRIBIR(arch_mae_act, reg_act)
                 Leer_Maestro //avance clave menor
 
             SINO
@@ -134,7 +134,7 @@ ACCION actualizacion_unitaria ES
 
                 SINO // ## Movimiento SIN MAESTRO (alta)
                     CARGA_alta_maestro
-                    ESCRIBIR(arch_mae_act, Reg_sal)
+                    ESCRIBIR(arch_mae_act, reg_act)
                     Leer_Movimiento //avance clave menor
                 FIN_SI
             FIN_SI
