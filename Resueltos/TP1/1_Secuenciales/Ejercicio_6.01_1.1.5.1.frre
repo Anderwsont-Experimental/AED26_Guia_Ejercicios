@@ -10,7 +10,7 @@
 
 ACCION inflación ES
     Ambiente
-        Precio_act, Precio_f: Real
+        Precio_act, Precio_fut: Real
         año_act, año_fut: Entero
         inf = 0.04
     Proceso
