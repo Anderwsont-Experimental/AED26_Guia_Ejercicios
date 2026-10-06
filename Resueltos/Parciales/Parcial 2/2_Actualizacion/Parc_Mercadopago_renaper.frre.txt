@@ -41,7 +41,7 @@ mantenga actualizado el archivo indexado de USUARIOS, con los nuevos datos ingre
 
 */
 
-ACCION Nombre_Accion ES
+ACCION Cuentas_MEPA ES
     Ambiente
         ctas_tot,ctas_new,ctas_baja:entero
         //definicion de registros y archivos
@@ -83,6 +83,17 @@ ACCION Nombre_Accion ES
         Fin_Registro
         arch_renaper: archivo de reg_renaper indexado por cuil
         dato_renaper: reg_renaper
+
+        reg_usuarios = Registro
+            cuil: N(11)
+            nro_usuario: N(12)
+            nombre: AN(35)
+            apellido: AN(35)
+            fecha_nacimiento: reg_fecha
+            direccion: AN(51)
+        Fin_Registro
+        arch_usuarios: archivo de reg_usuarios indexado por cuil
+        usu: reg_usuarios
 
         //definicion de subacciones
 
@@ -171,6 +182,6 @@ ACCION Nombre_Accion ES
                 FIN_SI
             FIN_SI
         FIN_MIENTRAS
-        ESCRIBIR("altas:",ctas_new,"% bajas:",ctas_baja/ctas_tot*100)
+        ESCRIBIR("Nuevas Cuentas:",ctas_new,"% bajas:",ctas_baja/ctas_tot*100)
 
 FIN_ACCION
