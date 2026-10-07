@@ -56,22 +56,22 @@ ACCION plantilla_carga_apilada() ES
             prox: puntero a nodo
         Fin_Registro
         //def de punteros
-        prim, p, q, a: puntero a nodo
+        prim, Q: puntero a nodo
         //variables
         valor: tipo_dato
         
     Proceso
-        //determinacion del valor a cargar
+        //Toma del valor a cargar
         LEER(valor)
         //inicializacion de prim
         prim := NIL
         MIENTRAS (valor <> "*") HACER //"*" es marca de fin de carga
             //generacion en memoria de nuevo nodo
-            NUEVO(p)
+            NUEVO(Q)
             //carga al inicio de lista
-            *p.dato := valor
-            *p.prox := prim
-            prim := p
+            *Q.dato := valor
+            *Q.prox := prim
+            prim := Q
             //toma de nuevo valor
             LEER(valor)
         FIN_MIENTRAS
