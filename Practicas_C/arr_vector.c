@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <time.h> //para usar time(NULL)
-#include <stdio.h> //para random?
+
 //definicion del arreglo
 int vector[20];
 int largo = sizeof(vector) / sizeof(vector[0]); //calcula cant elementos mediante cociente de los pesos.
