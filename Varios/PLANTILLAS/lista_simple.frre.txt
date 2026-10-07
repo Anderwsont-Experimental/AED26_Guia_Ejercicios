@@ -1,0 +1,114 @@
+/*PLANTILLA de funciones y procedimientos generales de listas simplemente enlazadas*/
+
+
+
+ACCION plantilla_lista_simple ES
+    Ambiente
+        //definicion de registro de nodo
+        nodo = Registro
+            dato: tipo_dato
+            prox: puntero a nodo
+        Fin_Registro
+        //def de punteros
+        prim, p, q, a: puntero a nodo
+        //variables
+        valor: tipo_dato
+        
+    Proceso
+
+FIN_ACCION
+
+ACCION plantilla_busqueda(prim: puntero a nodo) ES
+    Ambiente
+        //definicion de registro de nodo
+        nodo = Registro
+            dato: tipo_dato
+            prox: puntero a nodo
+        Fin_Registro
+        //def de punteros
+        p, q, a: puntero a nodo
+        //variables
+        valor: tipo_dato
+        
+    Proceso
+        //determinacion del valor buscado
+        LEER(valor)
+        //inicializacion del puntero de recorrido "p"
+        p:= prim
+        //recorrido de la lista
+        MIENTRAS (p <> NIL) Y (*p.dato <> valor) HACER
+            p = *p.prox
+        FIN_MIENTRAS
+        //evaluacion del resultado del recorrido
+        SI (p <> NIL) ENTONCES
+            ESCRIBIR("se encontro el elemento")
+            // "p" apunta al nodo que contiene el elemento buscado
+        SINO
+            ESCRIBIR("No se encontro el elemento")
+        FIN_SI
+FIN_ACCION
+
+ACCION plantilla_carga_apilada() ES
+    Ambiente
+        //definicion de registro de nodo
+        nodo = Registro
+            dato: tipo_dato
+            prox: puntero a nodo
+        Fin_Registro
+        //def de punteros
+        prim, p, q, a: puntero a nodo
+        //variables
+        valor: tipo_dato
+        
+    Proceso
+        //determinacion del valor a cargar
+        LEER(valor)
+        //inicializacion de prim
+        prim := NIL
+        MIENTRAS (valor <> "*") HACER //"*" es marca de fin de carga
+            //generacion en memoria de nuevo nodo
+            NUEVO(p)
+            //carga al inicio de lista
+            *p.dato := valor
+            *p.prox := prim
+            prim := p
+            //toma de nuevo valor
+            LEER(valor)
+        FIN_MIENTRAS
+FIN_ACCION
+
+ACCION plantilla_carga_encolada() ES
+    Ambiente
+        //definicion de registro de nodo
+        nodo = Registro
+            dato: tipo_dato
+            prox: puntero a nodo
+        Fin_Registro
+        //def de punteros
+        prim, p, q, a: puntero a nodo
+        //variables
+        valor: tipo_dato
+        
+    Proceso
+        //determinacion del valor a cargar
+        LEER(valor)
+        //inicializacion de prim
+        prim := NIL
+        MIENTRAS (valor <> "*") HACER //"*" es marca de fin de carga
+            //generacion en memoria de nuevo nodo
+            NUEVO(p)
+            //carga al final de lista
+            *p.dato := valor
+            *p.prox := nil
+            
+            SI (prim = nil) ENTONCES //lista vacia
+                prim = p
+            SINO //lista con elementos
+                *a.prox := p
+            FIN_SI
+            a := p // que es a?
+
+            //toma de nuevo valor
+            LEER(valor)
+        FIN_MIENTRAS
+FIN_ACCION
