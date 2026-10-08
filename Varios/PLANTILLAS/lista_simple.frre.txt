@@ -1,23 +1,5 @@
 /*PLANTILLA de funciones y procedimientos generales de listas simplemente enlazadas*/
 
-
-
-ACCION plantilla_lista_simple ES
-    Ambiente
-        //definicion de registro de nodo
-        nodo = Registro
-            dato: tipo_dato
-            prox: puntero a nodo
-        Fin_Registro
-        //def de punteros
-        prim, p, q, a: puntero a nodo
-        //variables
-        valor: tipo_dato
-        
-    Proceso
-
-FIN_ACCION
-
 ACCION plantilla_busqueda(prim: puntero a nodo) ES
     Ambiente
         //definicion de registro de nodo
@@ -26,29 +8,29 @@ ACCION plantilla_busqueda(prim: puntero a nodo) ES
             prox: puntero a nodo
         Fin_Registro
         //def de punteros
-        p, q, a: puntero a nodo
+        P: puntero a nodo
         //variables
         valor: tipo_dato
         
     Proceso
         //determinacion del valor buscado
         LEER(valor)
-        //inicializacion del puntero de recorrido "p"
-        p:= prim
+        //inicializacion del puntero de recorrido "P"
+        P:= prim
         //recorrido de la lista
-        MIENTRAS (p <> NIL) Y (*p.dato <> valor) HACER
-            p = *p.prox
+        MIENTRAS (P <> NIL) Y (*p.dato <> valor) HACER
+            P = *P.prox
         FIN_MIENTRAS
         //evaluacion del resultado del recorrido
-        SI (p <> NIL) ENTONCES
+        SI (P <> NIL) ENTONCES
             ESCRIBIR("se encontro el elemento")
-            // "p" apunta al nodo que contiene el elemento buscado
+            // "P" apunta al nodo que contiene el elemento buscado
         SINO
             ESCRIBIR("No se encontro el elemento")
         FIN_SI
 FIN_ACCION
 
-ACCION plantilla_carga_apilada() ES
+ACCION plantilla_CARGA_apilada() ES
     Ambiente
         //definicion de registro de nodo
         nodo = Registro
@@ -77,7 +59,7 @@ ACCION plantilla_carga_apilada() ES
         FIN_MIENTRAS
 FIN_ACCION
 
-ACCION plantilla_carga_encolada() ES
+ACCION plantilla_CARGA_encolada() ES
     Ambiente
         //definicion de registro de nodo
         nodo = Registro
@@ -85,10 +67,10 @@ ACCION plantilla_carga_encolada() ES
             prox: puntero a nodo
         Fin_Registro
         //def de punteros
-        prim, p, q, ant: puntero a nodo
+        prim, Q, AUX: puntero a nodo
         //variables
         valor: tipo_dato
-        
+
     Proceso
         //determinacion del valor a cargar
         LEER(valor)
@@ -101,16 +83,61 @@ ACCION plantilla_carga_encolada() ES
             //carga al final de lista
             *Q.dato := valor
             *Q.prox := nil
-            
+
             SI (prim = nil) ENTONCES //lista vacia
                 prim = Q
             SINO //lista con elementos
-                *ant.prox := Q
+                *AUX.prox := Q
             FIN_SI
 
             // Resguardo el puntero Q
-            ant := Q
+            AUX := Q
 
+            //toma de nuevo valor
+            LEER(valor)
+        FIN_MIENTRAS
+FIN_ACCION
+
+ACCION plantilla_CARGA_ordenada() ES //Desde vacio
+    Ambiente
+        //definicion de registro de nodo
+        nodo = Registro
+            dato: tipo_dato
+            prox: puntero a nodo
+        Fin_Registro
+        //def de punteros
+        prim, P, Q, AUX: puntero a nodo
+        //variables
+        valor: tipo_dato
+
+    Proceso
+        //determinacion del valor a cargar
+        LEER(valor)
+        //inicializacion de prim
+        prim := NIL
+
+        MIENTRAS (valor <> "*") HACER //"*" es marca de fin de carga
+            AUX := NIL
+            //creacin del nuevo nodo
+            NUEVO(Q)
+            *Q.dato := valor
+            P := prim
+            //Busqueda de posicion de insercion
+            MIENTRAS (P <> NIL) Y (*P.dato < valor) HACER
+                AUX := P
+                P := *P.prox
+            FIN_MIENTRAS
+            //evaluacion de la busqueda
+            SI (AUX = NIL) ENTONCES //caso 1 y 2
+                *Q.prox := prim
+                prim := Q
+                //puntero P queda apuntando al nodo posterior a Q
+            SINO //caso 3 y 4
+                *Q.prox := P
+                *AUX.prox := Q
+                //puntero AUX queda con dir de nodo previo a Q
+            FIN_SI
+            //puntero Q queda apuntando al nodo recien insertado.
             //toma de nuevo valor
             LEER(valor)
         FIN_MIENTRAS
