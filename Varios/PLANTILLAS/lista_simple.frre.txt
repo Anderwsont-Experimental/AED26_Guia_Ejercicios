@@ -142,3 +142,38 @@ ACCION plantilla_CARGA_ordenada() ES //Desde vacio
             LEER(valor)
         FIN_MIENTRAS
 FIN_ACCION
+
+ACCION plantilla_eliminacion(prim: puntero a nodo) ES
+    Ambiente
+        //definicion de registro de nodo
+        nodo = Registro
+            dato: tipo_dato
+            prox: puntero a nodo
+        Fin_Registro
+        //def de punteros
+        P, AUX: puntero a nodo
+        //variables
+        valor: tipo_dato
+    Proceso
+        //determinacion del valor a cargar
+        LEER(valor)
+        P := prim
+        //Busqueda de nodo a eliminar
+        MIENTRAS (P <> NIL) Y (*P.dato <> valor) HACER
+            AUX := P
+            P := *P.prox
+        FIN_MIENTRAS
+        //evaluacion de la busqueda
+        SI (P = nil) ENTONCES
+            ESCRIBIR("Error, no se encuentra el valor")
+        SINO
+            SI (AUX = nil) ENTONCES //caso 1 y 2
+                prim := *P.prox
+            SINO //caso 3 y 4
+                *AUX.prox := *P.prox
+                //puntero AUX queda con posicion previa a nodo a eliminar
+            FIN_SI
+            //eliminacion del nodo de la memoria.
+            DISPONER(P)
+        FIN_SI
+FIN_ACCION
