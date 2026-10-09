@@ -1,4 +1,8 @@
-/*PLANTILLA de funciones y procedimientos generales de listas simplemente enlazadas*/
+/*PLANTILLA de funciones y procedimientos generales de listas simplemente enlazadas
+P: puntero de recorrido
+Q: puntero de generacion de nodo
+AUX: puntero auxiliar, normalmente usado para guardar posicion anterior a P
+*/
 
 ACCION plantilla_busqueda(prim: puntero a nodo) ES
     Ambiente
@@ -11,26 +15,26 @@ ACCION plantilla_busqueda(prim: puntero a nodo) ES
         P: puntero a nodo
         //variables
         valor: tipo_dato
-        
+
     Proceso
         //determinacion del valor buscado
         LEER(valor)
         //inicializacion del puntero de recorrido "P"
         P:= prim
         //recorrido de la lista
-        MIENTRAS (P <> NIL) Y (*p.dato <> valor) HACER
-            P = *P.prox
+        MIENTRAS (P <> NIL) Y (*p.dato <> valor) HACER //2do parentesis debe ser reemplazado por condicion de consigna
+            P := *P.prox
         FIN_MIENTRAS
         //evaluacion del resultado del recorrido
-        SI (P <> NIL) ENTONCES
+        SI (P = NIL) ENTONCES
+            ESCRIBIR("No se encontro el elemento")
+        SINO
             ESCRIBIR("se encontro el elemento")
             // "P" apunta al nodo que contiene el elemento buscado
-        SINO
-            ESCRIBIR("No se encontro el elemento")
         FIN_SI
 FIN_ACCION
 
-ACCION plantilla_CARGA_apilada() ES
+ACCION plantilla_CARGA_apilada() ES //NO ES UNA PILA
     Ambiente
         //definicion de registro de nodo
         nodo = Registro
@@ -41,7 +45,7 @@ ACCION plantilla_CARGA_apilada() ES
         prim, Q: puntero a nodo
         //variables
         valor: tipo_dato
-        
+
     Proceso
         //Toma del valor a cargar
         LEER(valor)
@@ -59,7 +63,7 @@ ACCION plantilla_CARGA_apilada() ES
         FIN_MIENTRAS
 FIN_ACCION
 
-ACCION plantilla_CARGA_encolada() ES
+ACCION plantilla_CARGA_encolada() ES //NO ES UNA COLA
     Ambiente
         //definicion de registro de nodo
         nodo = Registro
@@ -76,23 +80,19 @@ ACCION plantilla_CARGA_encolada() ES
         LEER(valor)
         //inicializacion de prim
         prim := NIL
-
         MIENTRAS (valor <> "*") HACER //"*" es marca de fin de carga
             //generacion en memoria de nuevo nodo
             NUEVO(Q)
             //carga al final de lista
             *Q.dato := valor
             *Q.prox := nil
-
             SI (prim = nil) ENTONCES //lista vacia
-                prim = Q
+                prim := Q
             SINO //lista con elementos
                 *AUX.prox := Q
             FIN_SI
-
             // Resguardo el puntero Q
             AUX := Q
-
             //toma de nuevo valor
             LEER(valor)
         FIN_MIENTRAS
@@ -115,15 +115,14 @@ ACCION plantilla_CARGA_ordenada() ES //Desde vacio
         LEER(valor)
         //inicializacion de prim
         prim := NIL
-
         MIENTRAS (valor <> "*") HACER //"*" es marca de fin de carga
-            AUX := NIL
             //creacin del nuevo nodo
             NUEVO(Q)
             *Q.dato := valor
-            P := prim
             //Busqueda de posicion de insercion
-            MIENTRAS (P <> NIL) Y (*P.dato < valor) HACER
+            P := prim
+            AUX := NIL
+            MIENTRAS (P <> NIL) Y (*P.dato < valor) HACER //2do parentesis debe ser reemplazado por condicion de consigna
                 AUX := P
                 P := *P.prox
             FIN_MIENTRAS
@@ -135,6 +134,7 @@ ACCION plantilla_CARGA_ordenada() ES //Desde vacio
             SINO //caso 3 y 4
                 *Q.prox := P
                 *AUX.prox := Q
+                //puntero P queda con dir de nodo posterior a Q
                 //puntero AUX queda con dir de nodo previo a Q
             FIN_SI
             //puntero Q queda apuntando al nodo recien insertado.
@@ -157,9 +157,10 @@ ACCION plantilla_eliminacion(prim: puntero a nodo) ES
     Proceso
         //determinacion del valor a cargar
         LEER(valor)
-        P := prim
         //Busqueda de nodo a eliminar
-        MIENTRAS (P <> NIL) Y (*P.dato <> valor) HACER
+        P := prim
+        AUX := NIL
+        MIENTRAS (P <> NIL) Y (*P.dato <> valor) HACER //2do parentesis debe ser reemplazado por condicion de consigna
             AUX := P
             P := *P.prox
         FIN_MIENTRAS
@@ -173,7 +174,7 @@ ACCION plantilla_eliminacion(prim: puntero a nodo) ES
                 *AUX.prox := *P.prox
                 //puntero AUX queda con posicion previa a nodo a eliminar
             FIN_SI
-            //eliminacion del nodo de la memoria.
+            //Disponibilizacion de la memoria ocupada por nodo.
             DISPONER(P)
         FIN_SI
 FIN_ACCION
