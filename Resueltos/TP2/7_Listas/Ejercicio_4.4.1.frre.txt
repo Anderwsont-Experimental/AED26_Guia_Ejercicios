@@ -1,0 +1,110 @@
+/*Ejercicio 4.1
+    Diseñar un algoritmo para acceder, eliminar o insertar el k-ésimo elemento de una lista
+(siendo k una posición dada). Si la lista está vacía o si el valor de k esta fuera del
+rango del índice de la lista, invocar al procedimiento de ERROR. En cualquier otro caso,
+efectuar el procedimiento solicitado.
+*/
+
+ACCION kesimo_lista(PRIM: puntero a nodo) ES
+    Ambiente
+        menu_opcion: (0..3)
+        k, pos:entero //k: posicion buscada por usuario. || pos: posicion del puntero de busqueda en el arreglo
+        nodo = Registro
+            dato: alfanumerico
+            prox: puntero a nodo
+        Fin_Registro
+        P,AUX,Q: puntero a nodo
+
+        PROCEDIMIENTO acceder_k() ES
+            //recorrido arreglo
+            P := PRIM
+            pos := 1
+            MIENTRAS (P<>NIL) Y (pos<>k) HACER
+                P := P.prox
+                pos := pos+1
+            FIN_MIENTRAS
+            //evaluacion del recorrido
+            SI (P=NIL) ENTONCES
+                ERROR("La posicion buscada para acceder, excede la cantidad de elementos de la lista")
+            SINO
+                ESCRIBIR("Posicion k:",k,"encontrada. Dato:",*P.dato)
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO eliminar_k() ES
+            //recorrido arreglo
+            P := PRIM
+            AUX := NIL
+            pos := 1
+            MIENTRAS (P<>NIL) Y (pos<>k) HACER
+                AUX := P
+                P := *P.prox
+                pos := pos+1
+            FIN_MIENTRAS
+            //evaluacion del recorrido
+            SI (P=NIL) ENTONCES
+                ERROR("La posicion buscada para eliminar, excede la cantidad de elementos de la lista")
+            SINO
+                SI (AUX=NIL) ENTONCES //CASO 2
+                    PRIM := *P.prox
+                SINO //CASO 3 y 4
+                    *AUX.prox := *P.prox
+                FIN_SI
+                //disponibilizacion de la memoria ocupada por nodo.
+                DISPONER(P)
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO insertar_k() ES
+            //toma de valor
+            NUEVO(Q)
+            ESCRIBIR("Ingrese el dato a insertar en la posicion k:",k)
+            LEER(*Q.dato)
+            //recorrido arreglo
+            P := PRIM
+            AUX := NIL
+            pos := 1
+            MIENTRAS (P<>NIL) Y (pos<>k) HACER
+                AUX := P
+                P := *P.prox
+                pos := pos+1
+            FIN_MIENTRAS
+            //evaluacion del recorrido
+            SI (AUX=NIL) ENTONCES //CASO 2
+                *Q.prox := prim
+                prim := Q
+                ESCRIBIR("Nodo instertado al inicio de la lista, previo a ",*P.dato)
+            SINO //CASO 3 y 4
+                *Q.prox := P
+                *AUX.prox := Q
+                ESCRIBIR("Nodo insertado correctamente entre",*AUX.dato,"y",*P.dato)
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        PROCEDIMIENTO ERROR(txt: alfanumerico) ES
+            ESCRIBIR("Error:",txt)
+        FIN_PROCEDIMIENTO
+
+    Proceso
+        SI (PRIM = NIL) ENTONCES
+            ERROR("Lista vacía. Finalizando programa.")
+        SINO
+            //PRIM <> nill => nunca caso 1
+            REPETIR
+                ESCRIBIR("Seleccione una opcion sobre un elemento 'k': ['0' para salir]")
+                ESCRIBIR("Op 1: acceder","Op 2: eliminar","Op 3: insertar")
+                LEER(menu_opcion)
+                SI (menu_opcion>0) ENTONCES
+                    ESCRIBIR("Ingrese la posicion a operar:")
+                    LEER(k)
+                FIN_SI
+                SEGUN menu_opcion HACER
+                    0: ESCRIBIR("cerrando programa...")
+                    1: acceder_k(k)
+                    2: eliminar_k(k)
+                    3: insertar_k(k)
+                    otros : ESCRIBIR("error imposible de llegar")
+                FIN_SEGUN
+            HASTA QUE (menu_opcion <> 0)
+        FIN_SI
+FIN_ACCION
