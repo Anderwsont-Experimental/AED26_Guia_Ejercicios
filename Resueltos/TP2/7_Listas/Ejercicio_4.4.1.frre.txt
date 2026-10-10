@@ -70,14 +70,18 @@ ACCION kesimo_lista(PRIM: puntero a nodo) ES
                 pos := pos+1
             FIN_MIENTRAS
             //evaluacion del recorrido
-            SI (AUX=NIL) ENTONCES //CASO 2
-                *Q.prox := prim
-                prim := Q
-                ESCRIBIR("Nodo instertado al inicio de la lista, previo a ",*P.dato)
-            SINO //CASO 3 y 4
-                *Q.prox := P
-                *AUX.prox := Q
-                ESCRIBIR("Nodo insertado correctamente entre",*AUX.dato,"y",*P.dato)
+            SI (pos>k) ENTONCES
+                ERROR("La posicion buscada para insertar, excede la cantidad de elementos de la lista")
+            SINO
+                SI (AUX=NIL) ENTONCES //CASO 2
+                    *Q.prox := prim
+                    prim := Q
+                    ESCRIBIR("Nodo instertado al inicio de la lista, previo a ",*P.dato)
+                SINO //CASO 3 y 4
+                    *Q.prox := P
+                    *AUX.prox := Q
+                    ESCRIBIR("Nodo insertado correctamente entre",*AUX.dato,"y",*P.dato)
+                FIN_SI
             FIN_SI
         FIN_PROCEDIMIENTO
 
