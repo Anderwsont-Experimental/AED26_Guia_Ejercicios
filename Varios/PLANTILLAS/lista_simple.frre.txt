@@ -168,7 +168,7 @@ ACCION plantilla_eliminacion(prim: puntero a nodo) ES
         SI (P = nil) ENTONCES
             ESCRIBIR("Error, no se encuentra el valor")
         SINO
-            SI (AUX = nil) ENTONCES //caso 1 y 2
+            SI (prim = P) ENTONCES //caso 1 y 2. Cond. alternativa: (AUX = nil)
                 prim := *P.prox
             SINO //caso 3 y 4
                 *AUX.prox := *P.prox
