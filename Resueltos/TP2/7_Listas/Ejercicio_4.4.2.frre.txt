@@ -1,0 +1,42 @@
+/*Ejercicio 4.2
+Se dispone de una lista simplemente encadenada de números enteros, diseñar un algoritmo que
+a partir de ella genere otra lista conteniendo los nodos cuyos datos terminan en cero;
+dichos elementos, deberán ser eliminados de la lista original. Se asume que la lista está cargada,
+y que el algoritmo recibe como parámetro de entrada la dirección del primer elemento.*/
+
+ACCION terminado_cero(PRIM_ENT: puntero a nodo) ES
+    Ambiente
+        nodo = Registro
+            num : entero
+            prox : puntero a nodo
+        Fin_Registro
+        P,AUX,Q,PRIM_SAL : puntero a nodo
+
+    Proceso
+        PRIM_SAL := NIL //inicializacion en vacio de lista de salida
+        P := PRIM_ENT
+        REPETIR //cantidad de ejecuciones minimas: 1 (por consigna)
+            SI (P.num DIV 10 = 0) ENTONCES
+                //crear nodo en prim_sal, carga apilada.
+                NUEVO(Q)
+                *Q.num := *P.num
+                *Q.prox := PRIM_SAL
+                PRIM_SAL := Q
+                //eliminar nodo de prim_ent
+                //caso 1 imposible, por consigna.
+                SI (PRIM_ENT = P) ENTONCES //caso 2
+                    PRIM_ENT := *P.prox
+                    DISPONER(P)
+                    P := PRIM_ENT //P no puede quedar NIL, por condicion de fin
+                SINO
+                    *AUX.prox := *P.prox
+                    DISPONER(P) //pierdo posicion de P
+                    P:=*AUX.prox //repongo P con dir del siguiente nodo o nil
+                FIN_SI
+            SINO
+                //avanzo el puntero de recorrida y resguardo pos actual en AUX
+                AUX := P
+                P := P.prox
+            FIN_SI
+        HASTA QUE (P = NIL)
+FIN_ACCION
