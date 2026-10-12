@@ -1,0 +1,27 @@
+/*Ejercicio 4.3
+Dada una lista simplemente encadenada de números diseñar un algoritmo
+que calcule en forma independiente: La suma de los números impares,
+y la suma de los números pares.*/
+
+ACCION num_pareimpar(PRIM: puntero a nodo) ES
+    Ambiente
+        nodo = Registro
+            num: entero
+            prox: puntero a nodo
+        Fin_Registro
+        P: puntero a nodo
+        sum_imp,sum_par:entero
+    Proceso
+        sum_par:= 0
+        sum_imp:= 0
+        P:= PRIM
+        MIENTRAS (P<>NIL) HACER
+            SI (*P.num MOD 2 = 0) ENTONCES
+                sum_par:= sum_par + 1
+            SINO
+                sum_imp:= sum_imp + 1
+            FIN_SI
+            P:= *P.prox
+        FIN_MIENTRAS
+        ESCRIBIR("Total numeros PARES:",sum_par,"Total Numeros IMPARES:",sum_imp)
+FIN_ACCION
