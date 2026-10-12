@@ -1,0 +1,75 @@
+/*Ejercicio 4.5
+Dada una lista simplemente encadenada que contiene datos de todas las provincias
+de la República Argentina: nombre, capital, cantidad total de habitantes y
+cantidad de analfabetos, y está ordenada en forma decreciente por número de
+habitantes analfabetos, generar otras tres listas que contengan el nombre,
+la capital y el porcentaje de analfabetos de las Provincias que respondan a
+las siguientes restricciones.
+    L1: <= 10 % analfabetos
+    L2: 16 a 25 % analfabetos
+    L3: => 26 % analfabetos
+*/
+
+ACCION analfabetismo_argentina(PRIM: puntero a nodo_prov) ES
+    Ambiente
+        nodo_prov = Registro
+            nombre: alfanumerico
+            capital: alfanumerico
+            habitantes: entero
+            analfabetos: entero
+            prox: puntero a nodo_prov
+        Fin_Registro
+        P: puntero a nodo_prov
+        L1,L2,L3: puntero a nodo_prov //punteros de listas de salida
+
+        FUNCION selector_lista(hab: entero, analf: entero):puntero a nodo_prov ES
+            Ambiente
+                porc:real
+            Proceso
+                porc:= analf/hab
+                SI (porc <= 0,1) ENTONCES
+                    selector_lista:= L1
+                SINO
+                    SI (porc >= 16) Y (porc <= 25) ENTONCES
+                        selector_lista:= L2
+                    SINO
+                        SI (porc >= 26) ENTONCES
+                            selector_lista:= L3
+                        SINO
+                            selector_lista := NIL
+                        FIN_SI
+                    FIN_SI
+                FIN_SI
+        FIN_FUNCION
+
+        FUNCION evalua_lista(hab: entero, analf: entero):(0..3) ES
+            Ambiente
+                porc:real
+            Proceso
+                porc:= analf/hab
+                SI (porc <= 0,1) ENTONCES
+                    evalua_lista:= 1
+                SINO
+                    SI (porc >= 16) Y (porc <= 25) ENTONCES
+                        evalua_lista:= 2
+                    SINO
+                        SI (porc >= 26) ENTONCES
+                            evalua_lista:= 3
+                        SINO
+                            evalua_lista:= 0
+                        FIN_SI
+                    FIN_SI
+                FIN_SI
+        FIN_FUNCION
+
+    Proceso
+        L1:=NIL; L2:=NIL; L3:=NIL
+        P:=PRIM
+        MIENTRAS (P<>NIL) HACER
+            SEGUN evalua_lista(*P.habitantes,*P.analfabetos) HACER
+                0:
+                
+                otros : 
+            FIN_SEGUN
+        FIN_MIENTRAS
+FIN_ACCION
