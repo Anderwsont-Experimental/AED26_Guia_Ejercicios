@@ -50,12 +50,16 @@ ACCION Regalos_telefrre(CTE: puntero a clientes, REG: puntero a regalos) ES
                 //tomar el regalo en R, y cargarlo en lista salida
                 *Q.item:= *R.item
 
-                SI (*R.stock < 1) ENTONCES
+                SI (*R.stock = 1) ENTONCES //ASI EVITO LLEGAR A CERO
                     //eliminar regalo de lista
                     SI (*R.prox = R) ENTONCES //lista con 1 elemento
-                        REG:=
-                    SINO
-                        
+                        REG:=NIL
+                    SINO //lista con mas de un elemento
+                        SI (REG=R) ENTONCES
+                            
+                        SINO
+                            
+                        FIN_SI
                     FIN_SI
                     //dejar R en siguiente regalo
                 SINO
@@ -109,9 +113,6 @@ ACCION Regalos_telefrre(CTE: puntero a clientes, REG: puntero a regalos) ES
 
         FIN_MIENTRAS
 FIN_ACCION
-
-
-
 
 /*
 C:= CTE
