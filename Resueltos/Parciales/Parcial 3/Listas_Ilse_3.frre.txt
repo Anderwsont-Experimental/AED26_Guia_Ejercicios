@@ -1,0 +1,112 @@
+/*Se tiene una lista con los nombres de los clientes de una compañía de telefonía celular,
+los cuales pueden aparecer repetidos en la lista, si tienen registrado más de un número telefónico.
+La compañía para su próximo aniversario desea enviar un regalo a sus clientes, sin darle mas de
+un regalo a cada cliente. En una lista circular se almacenan los regalos disponibles.
+
+Escribir un algoritmo que genere una nueva lista encadenada ordenada con los nombres y
+los premios para cada uno (sin repetir los nombres).
+
+Una variante de este ejercicio sería agregar el control de stock de los regalos.
+Ésto significa que cada vez que se usa un regalo, se debe ir decrementando el stock,
+cuando llega a cero,  ya no deberá ser tenido en cuenta (pero no se elimina del almacén de preguntas).
+*/
+
+//lista cliente: simplemente enlazada.
+//lista regalos: simplemente enlazada, circular.
+//lista premios: simplemente enlazada.
+
+ACCION Regalos_telefrre(CTE: puntero a clientes) ES
+    Ambiente
+        //listas
+        clientes = Registro
+            nomcte: AN(51)
+            num: N(10)
+            prox: puntero a clientes
+        Fin_Registro
+        C,Caux: puntero a clientes
+
+        regalos = Registro
+            item: AN(100)
+            stock: N(3)
+            prox: puntero a regalos
+        Fin_Registro
+        REG, R,Raux: puntero a clientes
+
+        premios = Registro
+            nomcte: AN(51)
+            item: AN(100)
+            prox: puntero a premios
+        Fin_Registro
+        PREM, P,Paux,Q: puntero a premios
+
+        //funciones y procedimientos
+        PROCEDIMIENTO Selector_Regalo() ES
+            SI (REG<>NIL) ENTONCES
+                //tomar el 1er regalo, y cargarlo en lista salida
+                *Q.item:= *R.item
+
+                SI (*R.stock = 0) ENTONCES
+                    //eliminacion del regalo de lista circular
+
+                    //dejar puntero R en proximo regalo
+
+                SINO
+                    //avanzar R al siguiente regalo
+
+                FIN_SI
+            SINO
+                //lista de regalos vacia
+                //Escribir mensaje de agradecimiento por ser un buen cliente.
+                *P.item:="Gracias por ser nuestro cte, pero nos quedamos sin regalo..."
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+
+    Proceso
+        C:= CTE //lista entrada clientes
+        R:= REG //lista circ entrada regalos
+        PREM:= NIL //lista salida de premios
+        MIENTRAS (C <> NIL) HACER
+            //creacion nuevo nodo de premios
+            NUEVO(Q)
+            *Q.nomcte := *C.nomcte
+            
+            ///insercion ordenada de nuevo nodo en lista premios
+            //recorrido de premios
+            P:=PREM
+            Paux:= NIL
+            MIENTRAS (P<>NIL) Y (*Q.nomcte <= *P.nomcte) HACER
+                Paux:=P
+                P:=*P.prox
+            FIN_MIENTRAS
+            SI (*Q.nomcte = *P.nomcte) ENTONCES
+                //nombre repetido, se descarta nodo creado
+            SINO
+                //se asigna premio al cliente en Q.item
+                Selector_Regalo()
+                //determinacion de resultado de recorrido
+                SI (Paux=NIL) ENTONCES
+                    *Q.prox:= PREM
+                    PREM:= Q
+                SINO
+                    *Q.prox:= P
+                    *Paux.prox:= Q
+                FIN_SI
+            FIN_SI
+
+        FIN_MIENTRAS
+FIN_ACCION
+
+
+
+
+/*
+C:= CTE
+MIENTRAS (C <> NIL) HACER //RECORRIDO PRINCIPAL DE LISTA CTES
+    
+    //avance y barrido ctes repetidos
+    REPETIR
+        C:=C.prox
+    HASTA QUE (C.nomcte <> *(C.prox).nomcte)
+FIN_MIENTRAS
+*/
