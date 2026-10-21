@@ -15,7 +15,7 @@ cuando llega a cero,  ya no deberá ser tenido en cuenta (pero no se elimina del
 //lista regalos: simplemente enlazada, circular.
 //lista premios: simplemente enlazada.
 
-ACCION Regalos_telefrre(CTE: puntero a clientes) ES
+ACCION Regalos_telefrre(CTE: puntero a clientes, REG: puntero a regalos) ES
     Ambiente
         //listas
         clientes = Registro
@@ -30,7 +30,7 @@ ACCION Regalos_telefrre(CTE: puntero a clientes) ES
             stock: N(3)
             prox: puntero a regalos
         Fin_Registro
-        REG, R,Raux: puntero a clientes
+        R,Raux: puntero a clientes
 
         premios = Registro
             nomcte: AN(51)
@@ -40,19 +40,30 @@ ACCION Regalos_telefrre(CTE: puntero a clientes) ES
         PREM, P,Paux,Q: puntero a premios
 
         //funciones y procedimientos
+        PROCEDIMIENTO avanza_regalo() ES
+            Raux:= R
+            R:= *R.prox
+        FIN_PROCEDIMIENTO
+
         PROCEDIMIENTO Selector_Regalo() ES
             SI (REG<>NIL) ENTONCES
-                //tomar el 1er regalo, y cargarlo en lista salida
+                //tomar el regalo en R, y cargarlo en lista salida
                 *Q.item:= *R.item
 
-                SI (*R.stock = 0) ENTONCES
-                    //eliminacion del regalo de lista circular
-
-                    //dejar puntero R en proximo regalo
-
+                SI (*R.stock < 1) ENTONCES
+                    //eliminar regalo de lista
+                    SI (*R.prox = R) ENTONCES //lista con 1 elemento
+                        REG:=
+                    SINO
+                        
+                    FIN_SI
+                    //dejar R en siguiente regalo
                 SINO
-                    //avanzar R al siguiente regalo
-
+                    //reducir en 1 el stock
+                    *R.stock:= *R.stock - 1
+                    //dejo R en siguiente regalo
+                    R:=*R.prox
+                    avanza_regalo()
                 FIN_SI
             SINO
                 //lista de regalos vacia
@@ -66,10 +77,9 @@ ACCION Regalos_telefrre(CTE: puntero a clientes) ES
         C:= CTE //lista entrada clientes
         R:= REG //lista circ entrada regalos
         PREM:= NIL //lista salida de premios
+        avanza_regalo()
         MIENTRAS (C <> NIL) HACER
-            //creacion nuevo nodo de premios
-            NUEVO(Q)
-            *Q.nomcte := *C.nomcte
+
             
             ///insercion ordenada de nuevo nodo en lista premios
             //recorrido de premios
@@ -82,6 +92,9 @@ ACCION Regalos_telefrre(CTE: puntero a clientes) ES
             SI (*Q.nomcte = *P.nomcte) ENTONCES
                 //nombre repetido, se descarta nodo creado
             SINO
+                //creacion nuevo nodo de premios
+                NUEVO(Q)
+                *Q.nomcte := *C.nomcte
                 //se asigna premio al cliente en Q.item
                 Selector_Regalo()
                 //determinacion de resultado de recorrido
