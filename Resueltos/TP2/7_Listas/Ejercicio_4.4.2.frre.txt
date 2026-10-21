@@ -29,9 +29,9 @@ ACCION terminado_cero(PRIM_ENT: puntero a nodo) ES
                     DISPONER(P)
                     P := PRIM_ENT //P no puede quedar NIL, por condicion de fin
                 SINO
-                    *AUX.prox := *P.prox
+                    AUX := *P.prox
                     DISPONER(P) //pierdo posicion de P
-                    P:=*AUX.prox //repongo P con dir del siguiente nodo o nil
+                    P := AUX //repongo P con dir del siguiente nodo o nil
                 FIN_SI
             SINO
                 //avanzo el puntero de recorrida y resguardo pos actual en AUX
