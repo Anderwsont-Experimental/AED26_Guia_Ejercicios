@@ -1,88 +1,99 @@
 Acción LISTA_DOBLE es 
-AMBIENTE
-elto= Registro
-ant: punt; 
-valor: entero;
-sig: puntero a elto;
-Freg;
-PRIMERO: puntero a elto; 
-ULTIMO : puntero a elto; 
-DATO: entero;
-OP: 1 .. 5;
-P, T: puntero a elto;
+    AMBIENTE
+        elto= Registro
+            ant: punt; 
+            valor: entero;
+            sig: puntero a elto;
+        Freg;
+        PRIMERO: puntero a elto; 
+        ULTIMO : puntero a elto; 
+        P, T: puntero a elto;
+        DATO: entero;
+        OP: 1 .. 5;
 
-ALGORITMO
-PRIMERO := NIL; ULTIMO := NIL;
-Repetir
-Escribir ('* LISTA DOBLEMENTE ENCADENADA *');
-Escribir (' 1- BUSCAR '); 
-Escribir (' 2- INSERTAR'); 
-Escribir (' 3- ELIMINAR'); 
-Escribir (' 4- LISTAR '); 
-Escribir (' 5- TERMINAR'); 
-Escribir ('* INGRESE OPCION:');
-Repetir Leer (OP) Hasta que OP En [1 .. 5]; 
-Si OP En [1 .. 3]
-Ent. Escribir ('*** DATO ? '); 
-Leer (DATO);
-Fsi;
-Según OP
-1: Si PRIMERO = NIL
-Ent. Escribir ('ERROR, Lista Vacía') 
-Sino T := PRIMERO;
-Mientras (*T.SIG <> NIL) y (*T.VALOR <> DATO) hacer 
-T := *T.SIG;
-Fmientras;
-Si (*T.VALOR <> DATO)
-Ent. Escribir ('ERROR, ', DATO, ' no está en la Lista') 
-Sino Escribir ('HALLADO VALOR: ', *T.VALOR);
-Fsi;
-Fsi;
-2: NUEVO(P);
-*P.VALOR:=DATO; 
-Si PRIMERO = NIL
-Ent. *P.ANT:=NIL;
-*P.SIG:=NIL; 
-PRIMERO:=P; 
-ULTIMO :=P;
-Sino *ULTIMO.SIG:=P;
-*P.ANT := ULTIMO; 
-ULTIMO := P;
-*P.SIG := NIL;
-Fsi;
-3: Si PRIMERO = NIL
-Ent. Escribir ('ERROR, Lista Vacía') 
-Sino T := PRIMERO;
-Mientras (*T.SIG <> NIL) y (*T.VALOR <> DATO) hacer 
-T := *T.SIG;
-Fmientras;
-Si (*T.VALOR <> DATO)
-Ent. Escribir ('ERROR, ', DATO, ' no está en la Lista') 
-Sino Si PRIMERO = ULTIMO
-Ent. PRIMERO:=NIL; 
-ULTIMO :=NIL;
-Sino Si PRIMERO = T
-Ent. *(*T.SIG).ANT:=NIL; 
-PRIMERO:=*T.SIG;
-Sino Si ULTIMO = T
-Ent. *(*T.ANT).SIG:=NIL; 
-ULTIMO:=*T.ANT;
-Sino *(*T.ANT).SIG:=*T.SIG;
-
-*(*T.SIG).ANT:=*T.ANT;
-Fsi;
-Fsi;
-Fsi;
-DISPONER(T);
-Fsi;
-4: Si PRIMERO = NIL
-Ent. Escribir ('ERROR, Lista Vacía') 
-Sino T := PRIMERO;
-Mientras (T <> NIL) hacer 
-Escribir (*T.VALOR); 
-T := *T.SIG;
-Fmientras;
-Fsi; 
-Fsegún;
-Hasta que OP = 5; 
+    ALGORITMO
+        PRIMERO := NIL; ULTIMO := NIL;
+        Repetir
+            Escribir ('* LISTA DOBLEMENTE ENCADENADA *');
+            Escribir (' 1- BUSCAR '); 
+            Escribir (' 2- INSERTAR'); 
+            Escribir (' 3- ELIMINAR'); 
+            Escribir (' 4- LISTAR '); 
+            Escribir (' 5- TERMINAR'); 
+            Escribir ('* INGRESE OPCION:');
+            Repetir
+                Leer (OP)
+            Hasta que OP En [1 .. 5]; 
+            Si OP En [1 .. 3] Ent.
+                Escribir ('*** DATO ? '); 
+                Leer (DATO);
+            Fsi
+            Según OP
+                1:  Si PRIMERO = NIL Ent.
+                        Escribir ('ERROR, Lista Vacía') 
+                    Sino
+                        T := PRIMERO;
+                        Mientras (*T.SIG <> NIL) y (*T.VALOR <> DATO) hacer 
+                            T := *T.SIG;
+                        Fmientras;
+                        Si (*T.VALOR <> DATO) Ent.
+                            Escribir ('ERROR, ', DATO, ' no está en la Lista') 
+                        Sino
+                            Escribir ('HALLADO VALOR: ', *T.VALOR);
+                        Fsi;
+                    Fsi;
+                2:  NUEVO(P);
+                    *P.VALOR:=DATO; 
+                    Si PRIMERO = NIL Ent.
+                        *P.ANT:=NIL;
+                        *P.SIG:=NIL; 
+                        PRIMERO:=P; 
+                        ULTIMO :=P;
+                    Sino
+                        *ULTIMO.SIG:=P;
+                        *P.ANT := ULTIMO; 
+                        ULTIMO := P;
+                        *P.SIG := NIL;
+                    Fsi;
+                3:  Si PRIMERO = NIL Ent.
+                        Escribir ('ERROR, Lista Vacía') 
+                    Sino
+                        T := PRIMERO;
+                        Mientras (*T.SIG <> NIL) y (*T.VALOR <> DATO) hacer 
+                            T := *T.SIG;
+                        Fmientras;
+                        Si (*T.VALOR <> DATO) Ent.
+                            Escribir ('ERROR, ', DATO, ' no está en la Lista') 
+                        Sino
+                            Si PRIMERO = ULTIMO Ent.
+                                PRIMERO:=NIL; 
+                                ULTIMO :=NIL;
+                            Sino
+                                Si PRIMERO = T Ent.
+                                    *(*T.SIG).ANT:=NIL; 
+                                    PRIMERO:=*T.SIG;
+                                Sino
+                                    Si ULTIMO = T Ent.
+                                        *(*T.ANT).SIG:=NIL; 
+                                        ULTIMO:=*T.ANT;
+                                    Sino
+                                        *(*T.ANT).SIG:=*T.SIG;
+                                        *(*T.SIG).ANT:=*T.ANT;
+                                    Fsi;
+                                Fsi;
+                            Fsi;
+                            DISPONER(T);
+                        Fsi;
+                    Fsi;
+                4:  Si PRIMERO = NIL Ent.
+                        Escribir ('ERROR, Lista Vacía') 
+                    Sino
+                        T := PRIMERO;
+                        Mientras (T <> NIL) hacer 
+                            Escribir (*T.VALOR); 
+                            T := *T.SIG;
+                        Fmientras;
+                    Fsi; 
+            Fsegún;
+        Hasta que OP = 5; 
 Facción.
