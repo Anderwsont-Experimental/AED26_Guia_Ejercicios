@@ -1,0 +1,96 @@
+/*Plantilla de listas simples CIRCULARES
+Version de la catedra (apunte pdf)
+*/
+Acción LISTA_CIRCULAR es 
+    AMBIENTE
+        elto= Registro
+            valor: entero;
+            sig: puntero a elto;
+        Freg;
+        PRIMERO: puntero a elto; 
+        DATO: entero;
+        OP: 1 .. 5;
+        P, T : puntero a elto;
+
+    ALGORITMO 
+        PRIMERO := NIL;
+        Repetir
+            Escribir ('* LISTA CIRCULAR *'); 
+            Escribir (' 1- BUSCAR '); 
+            Escribir (' 2- INSERTAR'); 
+            Escribir (' 3- ELIMINAR'); 
+            Escribir (' 4- LISTAR '); 
+            Escribir (' 5- TERMINAR'); 
+            Escribir ('* INGRESE OPCION:');
+            Repetir
+                Leer (OP)
+            Hasta que OP En [1 .. 5]; 
+            Si OP En [1 .. 3] Ent.
+                Escribir ('*** DATO ? '); 
+                Leer (DATO);
+            Fsi;
+            Según OP
+                1:  Si PRIMERO = NIL Ent. // { Buscar }
+                        Escribir ('ERROR, Lista Vacía') 
+                    Sino
+                        T := PRIMERO;
+                        Mientras (*T.SIG <> PRIMERO) y (*T.VALOR <> DATO) hacer 
+                            T := *T.SIG;
+                        Fmientras;
+                        Si (*T.VALOR <> DATO) Ent.
+                            Escribir ('ERROR, ', DATO, ' no está en la Lista') 
+                        Sino
+                            Escribir ('HALLADO VALOR: ', *T.VALOR);
+                        Fsi;
+                    Fsi;
+                2:  NUEVO(P); // { Insertar }
+                    *P.VALOR:=DATO; 
+                    Si PRIMERO = NIL Ent. // { es el primer elemento de la lista }
+                        *P.SIG:=P; 
+                        PRIMERO:=P;
+                    Sino /*la lista ya contenía eltos., inserta en el 2º lugar, 
+                        para no modificar el puntero del último elto.*/
+                        *P.SIG := *PRIMERO.SIG;
+                        *PRIMERO.SIG := P;
+                    Fsi;
+                3:  Si PRIMERO = NIL Ent. // { Eliminar }
+                        Escribir ('ERROR, Lista Vacía') 
+                    Sino
+                        T := PRIMERO;
+                        Mientras (*T.SIG <> PRIMERO) y (*T.VALOR <> DATO) hacer 
+                            ANT := T;
+                            T := *T.SIG;
+                        Fmientras;
+                        Si (*T.VALOR <> DATO) Ent.
+                            Escribir ('ERROR, ', DATO, ' no está en la Lista') 
+                        Sino
+                            Si *T.SIG = T Ent. // { Es el único elemento de la lista }
+                                PRIMERO:=NIL
+                            Sino // { Lista con más de un elemento }
+                                Si PRIMERO = T Ent. //{ Hay que eliminar el primer elto. Ojo! 
+                                    P:= PRIMERO;    //Actualizar el puntero del último elto.} 
+                                    Mientras *P.SIG <> PRIMERO hacer
+                                        P := *P.SIG;
+                                    Fmientras;
+                                    *P.SIG:= *T.SIG;
+                                    PRIMERO:=*T.SIG;
+                                Sino
+                                    *ANT.SIG := *T.SIG;
+                                Fsi;
+                            Fsi;
+                            DISPONER(T);
+                        Fsi;
+                    Fsi;
+                4:  Si PRIMERO = NIL Ent.
+                        Escribir ('ERROR, Lista Vacía') 
+                    Sino
+                        T := PRIMERO;
+                        Mientras (*T.SIG <> PRIMERO) hacer 
+                            Escribir (*T.VALOR);
+                            T := *T.SIG;
+                        Fmientras;
+                        Escribir (*T.VALOR);
+                    Fsi; 
+            Fsegún;
+        Hasta que OP = 5; 
+Facción.
