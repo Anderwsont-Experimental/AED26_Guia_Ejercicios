@@ -111,4 +111,5 @@ ACCION vector() ES
 
     Proceso
         ESCRIBIR("Procesos para vectores disponibles.")
+
 FIN_ACCION
