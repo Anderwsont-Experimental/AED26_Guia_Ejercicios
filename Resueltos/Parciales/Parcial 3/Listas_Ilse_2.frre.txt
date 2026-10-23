@@ -1,0 +1,45 @@
+/* (se podría resolver usando arreglos o listas)
+
+La Dirección General de Tránsito de la Municipalidad nos ha encargado un
+algoritmo que permita tomar los tests de examen del carnet de conducir.
+Para ello nos ha proporcionado un archivo con un listado de preguntas y
+respuestas, para que a partir de ese listado podamos generar tanto los
+tests como las plantillas de corrección de los mismos.
+
+Las preguntas contenidas en el fichero indexado por numero de pregunta
+constarán de la siguiente información:
+    Numero_pregunta
+    Pregunta
+    Respuesta A
+    Respuesta B
+    Respuesta C
+    Respuesta Correcta
+    cantidad_usada
+
+Las restricciones establecidas a la hora de generar los tests:
+    > A partir del archivo de preguntas, podremos crear los tests de examen,
+    que serán un conjunto reducido de preguntas extraídas de allí. 
+    > El número (cantidad) de preguntas de cada uno las ingresará el usuario
+    solo al principio (el mismo es igual para todos los test).
+    > Para evitar la repetición excesiva de preguntas en diferentes exámenes,
+    las preguntas sólo podrán aparecer en un número determinado de tests.
+    Este número deberá ser indicado por el usuario al comienzo del programa.
+    Ésto significa que cuando una pregunta aparezca el número de veces
+    establecido en diferentes tests, la pregunta no deberá ser tenida en
+    cuenta para la generación de test (pero no se elimina del almacén de
+    preguntas).
+    > El método de selección de preguntas es aleatorio, utilizando la
+    función RANDOM que devuelve un valor entre 1 y 999. Una vez obtenido
+    el número se busca en el archivo la pregunta que tenga ese numero_pregunta.
+
+Cuando se haya generado un test, se mostrará por pantalla a la persona que
+debe rendirlo, una pregunta a la vez y avanzando cuando ingrese la respuesta
+a dicha pregunta, por finalizar se mostrara el resultado del test (APROBADO
+o DESAPROBADO) para aprobar se necesita de al menos el 70% de las respuestas
+correctas.
+
+Una vez evaluado a un usuario, el proceso se repite de nuevo desde la
+generación del test, y finalizara cuando el usuario Administrador asi
+lo decida.
+*/
+

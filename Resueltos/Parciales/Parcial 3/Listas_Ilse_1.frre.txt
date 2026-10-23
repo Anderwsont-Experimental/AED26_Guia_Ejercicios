@@ -1,0 +1,26 @@
+/*
+Se requiere un algoritmo para gestionar la torre de control de un Aeropuerto con 2 terminales.
+Se cuenta con una lista de vuelos que contiene por cada uno la siguiente información:
+    Código de vuelo [AN (8)]
+    Terminal [I – Internacional     C – Cabotaje]
+    Estado [A- Por aterrizar     D-Por despegar]
+    Horario estimado [Hora y Minutos N(4]
+
+Luego, el operador de la torre puede realizar dos acciones: reconocimiento y acción.
+
+    1) En la etapa de reconocimiento, se verifica si hay algún nuevo avión esperando para
+    aterrizar y/o despegar (considerar que esta esperando si la hora estimada esta dentro
+    de los 10 minutos de la hora actual), y de ser así desde la Torre se los asigna en la
+    fila correspondiente de acuerdo al horario estimado de aterrizaje o despegue.
+
+    2) En la etapa de acción, se autoriza la operación de aterrizar o despegar, al primero de
+    los aviones que esté esperando (los que esperan para aterrizar tienen prioridad).
+    Se quita ese avión de la fila y se informa el éxito de la operación.
+
+Escribir un algoritmo que inicialice la torre de control, y gestione las dos operaciones
+Reconocimiento y Acción, imprimiendo la operación tomada.
+
+Suponga que existe una función que recibe como parámetros de entrada 2 horas (hora y minutos,
+como un dato de tipo N(4)) y devuelve la diferencia entre ambas en minutos.
+*/
+
