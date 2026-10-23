@@ -1,0 +1,114 @@
+ACCION vector() ES
+    Ambiente
+        N=200 //largo vector
+
+        reg_nivel = Registro
+            sensor: 1..7
+            nro: 1..200
+            valor: N(2,3)
+        Fin_Registro
+        sensor: arreglo de [1..N] de reg_nivel
+        arch_datos: archivo de reg_nivel ordenado por sensor,nro
+        reg: reg_nivel
+
+        //variables globales:
+        max_valor,  min_valor, prom_valor: real
+        max_pos,    min_pos: 1..N
+        umbral_pos, racha_pos: 0..N
+        i,racha_act,pos: entero
+        hay_racha:logico
+
+
+        /*----CARGA----*/
+        //s: parametro de eleccion de sensor.
+        PROCEDIMIENTO vector_CARGA(s:1..7) ES
+            ABRIR E/(arch_datos); LEER(arch_datos,reg)
+            //carga de vector sensor:
+            MIENTRAS (NFDA(arch_datos)) HACER
+                SI (reg.sensor = s) ENTONCES
+                    sensor[reg.nro].valor:= reg.valor
+                FIN_SI
+                LEER(arch_datos,reg)
+            FIN_MIENTRAS
+            CERRAR(arch_datos)
+        FIN_PROCEDIMIENTO
+
+        /*----ESTADISTICA----*/
+        PROCEDIMIENTO vector_ESTADISTICA() ES
+            max_pos:= 1; min_pos:= 1; prom_valor:= 0
+            PARA i := 1 HASTA N HACER
+                //acumulacion de valores
+                prom_valor:= prom_valor + sensor[i].valor
+                //evaluacion de pos maxima y minima
+                SI (sensor[i].valor > sensor[max_pos].valor) ENTONCES
+                    max_pos:= i
+                SINO
+                    SI (sensor[i].valor < sensor[min_pos].valor) ENTONCES
+                        min_pos:= i
+                    FIN_SI
+                FIN_SI
+            FIN_PARA
+            //guardado valores max y minimos
+            max_valor:= sensor[max_pos].valor
+            min_valor:= sensor[min_pos].valor
+            //calculo promedio
+            prom_valor:= prom_valor/N
+        FIN_PROCEDIMIENTO
+
+        /*----BUSQUEDA UMBRAL----*/
+        //umb: parametro de entrada con el valor de umbral
+        PROCEDIMIENTO vector_POSUMBRAL(umb: real) ES //devuelve umbral_pos
+            umbral_pos:=1 //si no se encuentra, queda en cero la posicion
+            MIENTRAS (umbral_pos <= N) Y (sensor[umbral_pos].valor <= umb) HACER
+                umbral_pos:= umbral_pos+1
+            FIN_MIENTRAS
+            //muestra de resultados
+            SI (umbral_pos>N) ENTONCES
+                ESCRIBIR("Umbral:",umb,"Posicion: No se detecta")
+                umbral_pos:=0
+            SINO
+                ESCRIBIR("Umbral:",umb,"Posicion:",umbral_pos)
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+        /*----DETECCION RACHA----*/
+        //umbr: parametro de entrada con el valor de umbral.
+        //long: longitud minima para detectar racha que cumpla umbral.
+        PROCEDIMIENTO vector_DETRACHA(umbr: real,long: entero) ES //devuelve hay_racha y racha_pos
+            SI (long > N) ENTONCES
+                ESCRIBIR("ERROR: longitud excede el largo del arreglo")
+            SINO
+                //inicializacion de variables
+                racha_act := 0
+                hay_racha := FALSO
+                pos := 1
+                // recorrido vector y busqueda de elementos
+                MIENTRAS (pos <= N) Y (NO hay_racha) HACER
+                    SI (sensor[pos].valor > umbr) ENTONCES //posicion actual es mayor al umbral
+                        SI (racha_act = 0) ENTONCES
+                            racha_pos := pos // guardado de posicion tentativa de racha
+                        FIN_SI
+                        racha_act := racha_act + 1
+                        // evaluacion de longitud de racha en curso.
+                        SI (racha_act >= long) ENTONCES
+                            hay_racha := VERDADERO
+                        FIN_SI
+                    SINO //posicion actual no es mayor al umbral
+                        racha_act := 0
+                    FIN_SI
+                    pos := pos + 1
+                FIN_MIENTRAS
+                //muestra de resultados
+                SI (hay_racha) ENTONCES
+                    ESCRIBIR("Racha detectada en posicion:", racha_pos, "de longitud", long,"que supera umbral",umbr)
+                SINO
+                    racha_pos:=0 //aseguramos dejar en cero como bandera de que no hay rachas
+                    ESCRIBIR("No se detecta racha de largo", long, "para umbral", umbr)
+                FIN_SI
+                
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+    Proceso
+        ESCRIBIR("Procesos para vectores disponibles.")
+FIN_ACCION
