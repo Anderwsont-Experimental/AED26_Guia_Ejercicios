@@ -1,0 +1,85 @@
+ACCION matriz() ES
+    Ambiente
+        M=7     // cantidad de filas: Sensores
+        N=200   // cantidad columans: Mediciones
+
+        reg_nivel = Registro
+            sensor: 1..M
+            nro: 1..N
+            valor: N(2,3)
+        Fin_Registro
+        matrix: arreglo de [1..M,1..N] de reg_nivel
+        sensor: arreglo de [1..N] de reg_nivel
+        arch_datos: archivo de reg_nivel ordenado por sensor,nro
+        reg: reg_nivel
+
+        promedioPorSensor: arreglo [1..M] de real
+
+        umbral_ing: real
+        long_ing: entero
+        max_valor: real
+        max_pos: entero
+        i: entero
+
+        /*----CARGA MATRIZ----*/
+        PROCEDIMIENTO matriz_CARGA() ES
+            ABRIR E/(arch_datos); LEER(arch_datos,reg)
+            //carga de matriz:
+            MIENTRAS (NFDA(arch_datos)) HACER
+                matriz[reg.sensor, reg.nro].valor:= reg.valor
+                LEER(arch_datos,reg)
+            FIN_MIENTRAS
+            CERRAR(arch_datos)
+        FIN_PROCEDIMIENTO
+
+        /*----EXTRACCION FILA----*/
+        PROCEDIMIENTO matriz_EXTRACCION(fila: 1..M) ES
+            PARA i := 1 HASTA N HACER
+                sensor[i].valor:= matrix[fila, i].valor
+            FIN_PARA
+        FIN_PROCEDIMIENTO
+
+        /*----RECORRIDO SENSORES----*/
+        PROCEDIMIENTO matriz_RECORRIDO() ES
+            PARA i := 1 HASTA M HACER
+                matriz_EXTRACCION(i)
+                vector_ESTADISTICA()
+                ESCRIBIR("Ingrese umbral y largo para racha de sensor nº",i)
+                LEER(umbral_ing,long_ing)
+                vector_DETRACHA(umbral_ing,long_ing)
+            FIN_PARA
+        FIN_PROCEDIMIENTO
+
+        /*----PROMEDIO POR SENSOR----*/
+        PROCEDIMIENTO matriz_PROMEDIOS() ES
+            PARA i := 1 HASTA M HACER
+                matriz_EXTRACCION(i) //vector "sensor" cargado
+                vector_ESTADISTICA() //vector "sensor" procesado
+                promedioPorSensor[i]:= prom_valor //carga de promedio
+            FIN_PARA
+            //promedioPorSensor[] quedo cargado con los promedios por sensor.
+        FIN_PROCEDIMIENTO
+
+        /*----MAXIMO PROMEDIO----*/
+        PROCEDIMIENTO matriz_MAXPROM() ES
+            //carga de promedioPorSensor[] en sensor[] para utilizacion de procedimiento
+            //si N<=M
+            SI (M <= N) ENTONCES
+                PARA i := 1 HASTA M HACER //carga de sensor de los primeros elementos del arreglo promedioPorSensor[]
+                    sensor[i].valor := promedioPorSensor[i]
+                FIN_PARA
+                //puesta a cero de resto de elementos del arreglo sensor[]
+                PARA i := (M + 1) HASTA N HACER
+                    sensor[i].valor := 0
+                FIN_PARA
+                vector_ESTADISTICA()
+                ESCRIBIR("Maximo valor promedio de medicion:",max_valor,"del sensor nº:",max_pos)
+            SINO
+                ESCRIBIR("ERROR: no se puede ejecutar el procedimiento. N no puede ser mayor a M")
+            FIN_SI
+        FIN_PROCEDIMIENTO
+
+    Proceso
+        ESCRIBIR("Procesos para matrices disponibles.")
+
+FIN_ACCION
